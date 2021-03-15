@@ -20,6 +20,8 @@ const setpoints = require("./config/setpoints");
 const leaderboard = require("./staff_commands/leaderboard");
 const manualverify = require("./staff_commands/manualverify");
 
+const leaveguild = require("./config/leaveguild");
+
 CONSTANTS.bot.registerCommand("ping", function(msg, args) {
     return {
         embed: {
@@ -615,7 +617,7 @@ const helpCommand = CONSTANTS.bot.registerCommand("help", function(msg, args) {
 })
 
 
-CONSTANTS.bot.registerCommand("deleteguildconfig", deleteGuildConfig.deleteGuildConfig, {
+CONSTANTS.bot.registerCommand("leaveguild", leaveguild.leaveGuild, {
     requirements: {
         custom: function(msg) {
             return msg.author.id == "211959423847890945";
@@ -623,6 +625,7 @@ CONSTANTS.bot.registerCommand("deleteguildconfig", deleteGuildConfig.deleteGuild
     },
     argsRequired: true,
     hidden: true,
+    permissionMessage: false,
 })
 
 exports.guildCache = {};
