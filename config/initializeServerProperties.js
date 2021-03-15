@@ -162,5 +162,7 @@ exports.reconfig = async function(msg, args) {
         delete CONFIG.SystemConfig.servers[msg.guildID];
         initialize(msg, args);
     }
-    catch(e) {}
+    catch(e) {
+        console.log("Something happened in reconfig" + e);
+    }
 }
