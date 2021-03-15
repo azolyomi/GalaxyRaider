@@ -651,7 +651,7 @@ CONSTANTS.bot.on("ready", () => {
 CONSTANTS.bot.connect();
 
 setInterval(() => {
-    CONSTANTS.bot.guilds.forEach(guild => {
+    CONSTANTS.bot.guilds.forEach(async guild => {
         exports.guildCache[guild.id] = await guild.fetchMembers()
     })
 }, 1800000);
