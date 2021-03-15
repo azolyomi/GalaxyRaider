@@ -1,0 +1,187 @@
+const fs = require('fs');
+const path = require('path');
+const CONSTANTS = require("./constants");
+require('dotenv').config();
+var MongoClient = require("mongodb").MongoClient;
+
+exports.SystemConfig = { servers: {} };
+
+function getConfig() {
+  MongoClient.connect(process.env.DBURL, function(err, db) {
+    if (err) throw (err);
+    var dbo = db.db("GalaxyRaiderDB");
+    dbo.collection("ServerConfigs").find().forEach(function(entry) {
+      exports.SystemConfig.servers[entry._id] = entry;
+    })
+    db.close();
+  })  // exports.SystemConfig = JSON.parse(fs.readFileSync(path.resolve(__dirname, "./config.json")));
+}
+
+function updateConfig(guildID) {
+  try {
+    MongoClient.connect(process.env.DBURL, async function(err, db) {
+      if (err) throw (err);
+      var dbo = db.db("GalaxyRaiderDB");
+      var serverObject = {_id: guildID};
+      let hasFoundEntry = (await dbo.collection("ServerConfigs").findOne(serverObject));
+      if (!hasFoundEntry) {
+        dbo.collection("ServerConfigs").insertOne(exports.SystemConfig.servers[guildID]);
+        db.close();
+      }
+      else {
+        updateObject = {$set: exports.SystemConfig.servers[guildID]} // the object i'd like to update
+        dbo.collection("ServerConfigs").updateOne(serverObject, updateObject)
+        db.close();
+      }
+    })
+
+
+    // const jsonString = JSON.stringify(exports.SystemConfig, null, "\t");
+
+    // fs.writeFile(path.resolve(__dirname, "./config.json"), jsonString, err => {
+    //     if (err) console.log("Error writing to config.json: ", err);
+    //     else console.log("Successfully wrote to config.json");
+    // })
+  } catch(e) {
+    throw e;
+  }
+}
+
+exports.addGuildConfigEntry = function(guildID, guildName, suspendrole, staffroles, afkaccess, channels, logchannel) {
+  if (!exports.SystemConfig.servers[guildID]) {
+    let newEntry = {
+          "_id": guildID,
+          "guildName": guildName,
+          "suspendrole": suspendrole,
+          "staffroles": staffroles,
+          "modroles": [],
+          "securityroles": [],
+          "afkaccess": afkaccess,
+          "channels": channels,
+          "logchannel": logchannel,
+          "nonstaff": {
+            "memberaccess": [],
+            "vetaccess": [],
+            "boosteraccess": [],
+          },
+          "logItemPointValues": {
+            "keys": 10,
+            "vials": 10,
+            "runes": 10,
+          },
+          "defaultreqsheets": [
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809035674419230/CultVoid.png`, // high-reqs void
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809057706704933/Fullskip_Void.png`, //fullskip
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809035674419230/CultVoid.png`,//fullclear highreqs
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809035674419230/CultVoid.png`, //cult highreqs
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052036661258/Exaltations.png`, //shats highreqs
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052036661258/Exaltations.png`, //nest highreqs
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`,
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052036661258/Exaltations.png`, //fungal highreqs 
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809056330448936/O3.png`, 
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809056330448936/O3.png`,  // o3 highreqs
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`,
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052036661258/Exaltations.png` // misc highreqs
+          ]
+      }
+    exports.SystemConfig.servers[guildID] = newEntry;
+    updateConfig(guildID);
+  }
+  else {
+    console.log("No entry added, guild ID already exists in config database.")
+  }
+}
+
+exports.deleteGuildRole = function(guild, role) {
+  if (!exports.SystemConfig.servers[guild.id]) return;
+  else {
+    exports.SystemConfig.servers[guild.id].staffroles = exports.SystemConfig.servers[guild.id].staffroles.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].modroles = exports.SystemConfig.servers[guild.id].modroles.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].afkaccess.halls = exports.SystemConfig.servers[guild.id].afkaccess.halls.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].afkaccess.oryx = exports.SystemConfig.servers[guild.id].afkaccess.oryx.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].afkaccess.exaltation = exports.SystemConfig.servers[guild.id].afkaccess.exaltation.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].afkaccess.misc = exports.SystemConfig.servers[guild.id].afkaccess.misc.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].afkaccess.vethalls = exports.SystemConfig.servers[guild.id].afkaccess.vethalls.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].afkaccess.vetoryx = exports.SystemConfig.servers[guild.id].afkaccess.vetoryx.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].afkaccess.vetexaltation = exports.SystemConfig.servers[guild.id].afkaccess.vetexaltation.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].afkaccess.vetmisc = exports.SystemConfig.servers[guild.id].afkaccess.vetmisc.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].afkaccess.halls = exports.SystemConfig.servers[guild.id].afkaccess.halls.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].afkaccess.oryx = exports.SystemConfig.servers[guild.id].afkaccess.oryx.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].afkaccess.exaltation = exports.SystemConfig.servers[guild.id].afkaccess.exaltation.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].nonstaff.memberaccess = exports.SystemConfig.servers[guild.id].nonstaff.memberaccess.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].nonstaff.vetaccess = exports.SystemConfig.servers[guild.id].nonstaff.vetaccess.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].nonstaff.boosteraccess = exports.SystemConfig.servers[guild.id].nonstaff.boosteraccess.filter(roleID => roleID != role.id);
+    if (exports.SystemConfig.servers[guild.id].suspendrole == role.id) exports.SystemConfig.servers[guild.id].suspendrole = undefined;
+
+    CONSTANTS.bot.createMessage(exports.SystemConfig.servers[guild.id].logchannel, `The ${role.name} role was deleted, and as such it has been removed from all configurations.`).catch({});
+    updateConfig(guild.id);
+    return;
+  }
+}
+
+exports.deleteChannel = function(channel) {
+  if (!exports.SystemConfig.servers[channel.guild.id]) return;
+  else {
+    let channelWasInConfig = false;
+    if (channel.id == exports.SystemConfig.servers[channel.guild.id].logchannel) {
+      exports.SystemConfig.servers[channel.guild.id].logchannel = undefined;
+      channelWasInConfig = true;
+    }
+    if (Object.values(exports.SystemConfig.servers[channel.guild.id].channels.Main).includes(channel.id)) {
+      if (exports.SystemConfig.servers[channel.guild.id].channels.Main.RaidCategoryID == channel.id) exports.SystemConfig.servers[channel.guild.id].channels.Main.RaidCategoryID = undefined;
+      if (exports.SystemConfig.servers[channel.guild.id].channels.Main.RaidCommandsChannelID == channel.id) exports.SystemConfig.servers[channel.guild.id].channels.Main.RaidCommandsChannelID = undefined;
+      if (exports.SystemConfig.servers[channel.guild.id].channels.Main.RaidStatusChannelID == channel.id) exports.SystemConfig.servers[channel.guild.id].channels.Main.RaidStatusChannelID = undefined;
+      if (exports.SystemConfig.servers[channel.guild.id].channels.Main.ActiveRaidsChannelID == channel.id) exports.SystemConfig.servers[channel.guild.id].channels.Main.ActiveRaidsChannelID = undefined;
+      if (exports.SystemConfig.servers[channel.guild.id].channels.Main.LocationChannelID == channel.id) exports.SystemConfig.servers[channel.guild.id].channels.Main.LocationChannelID = undefined;
+      if (exports.SystemConfig.servers[channel.guild.id].channels.Main.EarlyReactionsLogChannelID == channel.id) exports.SystemConfig.servers[channel.guild.id].channels.Main.EarlyReactionsLogChannelID = undefined;
+      channelWasInConfig = true;
+    }
+    if (Object.values(exports.SystemConfig.servers[channel.guild.id].channels.Veteran).includes(channel.id)) {
+      if (exports.SystemConfig.servers[channel.guild.id].channels.Veteran.RaidCategoryID == channel.id) exports.SystemConfig.servers[channel.guild.id].channels.Veteran.RaidCategoryID = undefined;
+      if (exports.SystemConfig.servers[channel.guild.id].channels.Veteran.RaidCommandsChannelID == channel.id) exports.SystemConfig.servers[channel.guild.id].channels.Veteran.RaidCommandsChannelID = undefined;
+      if (exports.SystemConfig.servers[channel.guild.id].channels.Veteran.RaidStatusChannelID == channel.id) exports.SystemConfig.servers[channel.guild.id].channels.Veteran.RaidStatusChannelID = undefined;
+      if (exports.SystemConfig.servers[channel.guild.id].channels.Veteran.ActiveRaidsChannelID == channel.id) exports.SystemConfig.servers[channel.guild.id].channels.Veteran.ActiveRaidsChannelID = undefined;
+      if (exports.SystemConfig.servers[channel.guild.id].channels.Veteran.LocationChannelID == channel.id) exports.SystemConfig.servers[channel.guild.id].channels.Veteran.LocationChannelID = undefined;
+      if (exports.SystemConfig.servers[channel.guild.id].channels.Veteran.EarlyReactionsLogChannelID == channel.id) exports.SystemConfig.servers[channel.guild.id].channels.Veteran.EarlyReactionsLogChannelID = undefined;
+      channelWasInConfig = true;
+    }
+    if (channelWasInConfig) {
+      CONSTANTS.bot.createMessage(exports.SystemConfig.servers[channel.guild.id].logchannel, `The ${channel.name} channel was deleted, and as such it has been removed from all configurations.`).catch({});
+      updateConfig(channel.guild.id);
+    }
+    return;
+  }
+}
+
+getConfig();
+
+
+exports.getConfig = getConfig;
+exports.updateConfig = updateConfig;
+
+/**
+ "defaultreqsheets": [
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809035674419230/CultVoid.png`, // high-reqs void
+            `https://cdn.discordapp.com/attachments/762679138346860585/815661757754245190/Fullskip_Void.png`, //fullskip
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809035674419230/CultVoid.png`,//fullclear highreqs
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809035674419230/CultVoid.png`, //cult highreqs
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052036661258/Exaltations.png`, //shats highreqs
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052036661258/Exaltations.png`, //nest highreqs
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`,
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052036661258/Exaltations.png`, //fungal highreqs 
+            `https://cdn.discordapp.com/attachments/762062029107625987/778496626695733268/O3_Reqs.png`, 
+            `https://cdn.discordapp.com/attachments/762679138346860585/815661758680137728/O3.png`,  // o3 highreqs
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`,
+            `https://cdn.discordapp.com/attachments/820808926471651348/820809052036661258/Exaltations.png` // misc highreqs
+          ]
+ */

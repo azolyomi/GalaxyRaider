@@ -1,0 +1,21 @@
+{
+  "name": "general-raid-bot",
+  "version": "1.0.0",
+  "description": "Generalized raiding command structure for multi-guild use",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Theurul",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "eris": "^0.14.0",
+    "eris-reactions": "^0.1.3",
+    "mongodb": "^3.6.4",
+    "mysql": "^2.18.1",
+    "node-cron": "^3.0.0",
+    "pluris": "^0.3.3",
+    "valid-image-url": "^0.1.4"
+  }
+}

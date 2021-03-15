@@ -1,0 +1,295 @@
+const CONSTANTS = require("./constants");
+const CONFIG = require("./config");
+
+function addStaffAccess(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
+    else if (!(msg.roleMentions.length > 0)) return "You need to mention a role for that!";
+
+    let acceptableAccessTypes = ["moderator", "security", "halls", "oryx", "exaltation", "misc", "vethalls", "vetoryx", "vetexaltation", "vetmisc", "allreg", "allvet"]; // all different access types you can add (determined by config.json structure)
+    let accessTypes = []; // store dict for the inputted access types
+
+    acceptableAccessTypes.forEach((string, index) => {
+        if (args.includes(string)) accessTypes.push(string);
+    })
+    if (!(accessTypes.length > 0)) return `You must specify an access type, one of \`${acceptableAccessTypes.join(", ")}\``;
+    try {
+        msg.roleMentions.forEach((roleID, index) => {
+            if (!CONFIG.SystemConfig.servers[msg.guildID].staffroles.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].staffroles.push(roleID);
+            if ((accessTypes.includes("moderator")) && !CONFIG.SystemConfig.servers[msg.guildID].modroles.includes(roleID)) {
+                CONFIG.SystemConfig.servers[msg.guildID].modroles.push(roleID);
+                CONFIG.SystemConfig.servers[msg.guildID].securityroles.push(roleID);
+            }
+            if (accessTypes.includes("security") && !CONFIG.SystemConfig.servers[msg.guildID].securityroles.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].securityroles.push(roleID);
+            if ((accessTypes.includes("halls") || accessTypes.includes("allreg")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.halls.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.halls.push(roleID);
+            if ((accessTypes.includes("oryx") || accessTypes.includes("allreg")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.oryx.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.oryx.push(roleID);
+            if ((accessTypes.includes("exaltation") || accessTypes.includes("allreg")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.exaltation.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.exaltation.push(roleID);
+            if ((accessTypes.includes("misc") || accessTypes.includes("allreg")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.misc.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.misc.push(roleID);
+
+            if ((accessTypes.includes("vethalls") || accessTypes.includes("allvet")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vethalls.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vethalls.push(roleID);
+            if ((accessTypes.includes("vetoryx") || accessTypes.includes("allvet")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetoryx.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetoryx.push(roleID);
+            if ((accessTypes.includes("vetexaltation") || accessTypes.includes("allvet")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetexaltation.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetexaltation.push(roleID);
+            if ((accessTypes.includes("vetmisc") || accessTypes.includes("allvet")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetmisc.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetmisc.push(roleID);
+        })
+        CONFIG.updateConfig(msg.guildID);
+        return `Successfully added ${msg.roleMentions.map((roleID, index) => {
+            return `<@&${roleID}>`;
+        }).join(", ")} to the bot access for \`${(accessTypes.includes("allvet") && accessTypes.includes("allreg")?"all veteran + all regular":(accessTypes.includes("allreg")?"all regular":accessTypes.join(", ")))}\` permissions.`;
+    }
+    catch(e) {
+        throw e;
+    }
+}
+
+function accessMember(msg, args) {
+    return addNonstaffAccess(msg, args, "member");
+}
+function accessVet(msg, args) {
+    return addNonstaffAccess(msg, args, "vet");
+}
+function accessBooster(msg, args) {
+    return addNonstaffAccess(msg, args, "booster");
+}
+
+
+function addNonstaffAccess(msg, args, type) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
+    else if (!(msg.roleMentions.length > 0)) return "You need to mention a role for that!";
+
+    let acceptableNonstaffAccessTypes = ["member", "vet", "booster"];
+    if (!type || !acceptableNonstaffAccessTypes.includes(type)) return `Not a valid access type, must be one of \`${acceptableNonstaffAccessTypes.join(", ")}\``;
+
+    try {
+        if (type === "member") {
+            msg.roleMentions.forEach((roleID, index) => {
+                if (!CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.push(roleID);
+            })
+        }
+        else if (type === "vet") {
+            msg.roleMentions.forEach((roleID, index) => {
+                if (!CONFIG.SystemConfig.servers[msg.guildID].nonstaff.vetaccess.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].nonstaff.vetaccess.push(roleID);
+            })
+        }
+        else if (type === "booster") {
+            msg.roleMentions.forEach((roleID, index) => {
+                if (!CONFIG.SystemConfig.servers[msg.guildID].nonstaff.boosteraccess.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].nonstaff.boosteraccess.push(roleID);
+            })
+        }
+        
+        CONFIG.updateConfig(msg.guildID);
+        return `Successfully added ${msg.roleMentions.map((roleID, index) => {
+            return `<@&${roleID}>`;
+        }).join(", ")} to the bot access as a ${type} role.`;
+    }
+    catch(e) {
+        throw e;
+    }
+}
+
+exports.accessStaff = addStaffAccess;
+exports.accessMember = accessMember;
+exports.accessVet = accessVet;
+exports.accessBooster = accessBooster;
+
+
+// REMOVING ACCESS FUNCTIONS:
+
+function removeStaffAccess(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
+    else if (!(msg.roleMentions.length > 0)) return "You need to mention a role for that!";
+
+    let acceptableAccessTypes = ["moderator", "security", "halls", "oryx", "exaltation", "misc", "vethalls", "vetoryx", "vetexaltation", "vetmisc", "allreg", "allvet", "all"]; // all different access types you can add (determined by config.json structure)
+    let accessTypes = []; // store dict for the inputted access types
+
+    acceptableAccessTypes.forEach((string, index) => {
+        if (args.includes(string)) accessTypes.push(string);
+    })
+    if (!(accessTypes.length > 0)) return `You must specify an access type, one of \`${acceptableAccessTypes.join(", ")}\``;
+    try {
+        msg.roleMentions.forEach((roleID, index) => {
+            if ((accessTypes.includes("moderator")) && CONFIG.SystemConfig.servers[msg.guildID].modroles.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].modroles = CONFIG.SystemConfig.servers[msg.guildID].modroles.filter(id => id != roleID);
+            if ((accessTypes.includes("security")) && CONFIG.SystemConfig.servers[msg.guildID].securityroles.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].securityroles = CONFIG.SystemConfig.servers[msg.guildID].securityroles.filter(id => id != roleID);
+            if ((accessTypes.includes("halls") || accessTypes.includes("allreg") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.halls = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.halls.filter(id => id != roleID);
+            if ((accessTypes.includes("oryx") || accessTypes.includes("allreg") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.oryx = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.oryx.filter(id => id != roleID);
+            if ((accessTypes.includes("exaltation") || accessTypes.includes("allreg") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.exaltation = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.exaltation.filter(id => id != roleID);
+            if ((accessTypes.includes("misc") || accessTypes.includes("allreg") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.misc = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.misc.filter(id => id != roleID);
+
+            if ((accessTypes.includes("vethalls") || accessTypes.includes("allvet") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vethalls = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vethalls.filter(id => id != roleID);
+            if ((accessTypes.includes("vetoryx") || accessTypes.includes("allvet") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetoryx = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetoryx.filter(id => id != roleID);
+            if ((accessTypes.includes("vetexaltation") || accessTypes.includes("allvet") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetexaltation = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetexaltation.filter(id => id != roleID);
+            if ((accessTypes.includes("vetmisc") || accessTypes.includes("allvet") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetmisc = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetmisc.filter(id => id != roleID);
+
+            if ((!CONFIG.SystemConfig.servers[msg.guildID].modroles.includes(roleID)) &&
+                (!CONFIG.SystemConfig.servers[msg.guildID].securityroles.includes(roleID)) &&
+                (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.halls.includes(roleID)) && 
+                (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.oryx.includes(roleID)) &&
+                (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.exaltation.includes(roleID)) &&
+                (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.misc.includes(roleID)) &&
+                (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vethalls.includes(roleID)) &&
+                (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetoryx.includes(roleID)) &&
+                (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetexaltation.includes(roleID)) &&
+                (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetmisc.includes(roleID))) CONFIG.SystemConfig.servers[msg.guildID].staffroles = CONFIG.SystemConfig.servers[msg.guildID].staffroles.filter(id => id != roleID);
+        })
+        CONFIG.updateConfig(msg.guildID);
+        return `Successfully removed ${msg.roleMentions.map((roleID, index) => {
+            return `<@&${roleID}>`;
+        }).join(", ")} from the bot access for \`${accessTypes.join(", ")}\` permissions.`;
+    }
+    catch(e) {
+        throw e;
+    }
+}
+
+function removeAccessMember(msg, args) {
+    return removeNonstaffAccess(msg, args, "member");
+}
+function removeAccessVet(msg, args) {
+    return removeNonstaffAccess(msg, args, "vet");
+}
+function removeAccessBooster(msg, args) {
+    return removeNonstaffAccess(msg, args, "booster");
+}
+
+
+function removeNonstaffAccess(msg, args, type) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
+    else if (!(msg.roleMentions.length > 0)) return "You need to mention a role for that!";
+
+    let acceptableNonstaffAccessTypes = ["member", "vet", "booster"];
+    if (!type || !acceptableNonstaffAccessTypes.includes(type)) return `Not a valid access type, must be one of \`${acceptableNonstaffAccessTypes.join(", ")}\``;
+
+    try {
+        if (type === "member") {
+            msg.roleMentions.forEach((roleID, index) => {
+                if (CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess = CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.filter(id => id != roleID);
+            })
+        }
+        else if (type === "vet") {
+            msg.roleMentions.forEach((roleID, index) => {
+                if (CONFIG.SystemConfig.servers[msg.guildID].nonstaff.vetaccess.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].nonstaff.vetaccess = CONFIG.SystemConfig.servers[msg.guildID].nonstaff.vetaccess.filter(id => id != roleID);
+            })
+        }
+        else if (type === "booster") {
+            msg.roleMentions.forEach((roleID, index) => {
+                if (CONFIG.SystemConfig.servers[msg.guildID].nonstaff.boosteraccess.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].nonstaff.boosteraccess = CONFIG.SystemConfig.servers[msg.guildID].nonstaff.boosteraccess.filter(id => id != roleID);
+            })
+        }
+        
+        CONFIG.updateConfig(msg.guildID);
+        return `Successfully removed ${msg.roleMentions.map((roleID, index) => {
+            return `<@&${roleID}>`;
+        }).join(", ")} from the bot access as a \`${type}\` role.`;
+    }
+    catch(e) {
+        throw e;
+    }
+}
+
+exports.removeAccessStaff = removeStaffAccess;
+exports.removeAccessMember = removeAccessMember;
+exports.removeAccessVet = removeAccessVet;
+exports.removeAccessBooster = removeAccessBooster;
+
+
+function setSuspendRole(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
+    else if (!(msg.roleMentions.length > 0)) return "You need to mention a role for that!";
+
+    let roleID = msg.roleMentions[0];
+    if (CONFIG.SystemConfig.servers[msg.guildID].suspendrole != roleID ) CONFIG.SystemConfig.servers[msg.guildID].suspendrole = roleID;
+
+    CONFIG.updateConfig(msg.guildID);
+    return `Successfully set the Suspended role to <@&${roleID}>`;
+}
+
+exports.setSuspendRole = setSuspendRole;
+
+
+/**
+ * HELP COMMANDS
+ * Staff Access
+ * Remove Staff Access
+ * Member Access
+ * Remove Member Access
+ * Vet access
+ * Remove vet access
+ * Booster access
+ * Remove booster access
+ */
+
+exports.accessHelp = 
+`Access Role Command. \`Requires Administrator\`
+Registers a role with the bot to have certain privileges. The default command registers a staff role, while subcommands register other roles.
+Note: By default, only the bot-generated roles have access to the AFK check system. You can unregister these at your leisure, but be sure to re-register other roles to avoid losing functionality.
+
+**Usage**: ${CONSTANTS.botPrefix}accessRole <@roles> <privileges>
+
+**<@roles>**: a list of space-separated mentioned roles. To mention a role, type @<rolename> and click the correct role, or type <@&roleID>.
+
+**<privileges>**: a list of space-separated bot access privileges. Available privileges: \`${["security", "halls", "oryx", "exaltation", "misc", "vethalls", "vetoryx", "vetexaltation", "vetmisc", "allreg", "allvet"].join(", ")}\`.
+These privileges denote access to the corresponding bot commands. For example, \`halls\` access allows that role to start halls afk checks.
+
+**Examples**: \`${CONSTANTS.botPrefix}accessRole <@&ID> allvet\` -> gives the given role permissions to use all veteran afk checks (halls, oryx, exaltation, misc)
+`;
+
+exports.removeAccessHelp = 
+`Remove Access From Role Command. \`Requires Administrator\`
+Unregisters a role with the bot, deleting its bot privileges. The default command unregisters a staff role, while subcommands unregister other roles.
+Note: By default, only the bot-generated roles have access to the AFK check system. You can unregister these at your leisure, but be sure to re-register other roles to avoid losing functionality.
+
+**Usage**: ${CONSTANTS.botPrefix}removeAccessRole <@roles> <privileges>
+
+**<@roles>**: a list of space-separated mentioned roles. To mention a role, type @<rolename> and click the correct role, or type <@&roleID>.
+
+**<privileges>**: a list of space-separated bot access privileges. Available privileges: \`${["security", "halls", "oryx", "exaltation", "misc", "vethalls", "vetoryx", "vetexaltation", "vetmisc", "allreg", "allvet", "all"].join(", ")}\`.
+These privileges denote access to the corresponding bot commands. For example, removing \`halls\` access will deny that role the ability to start halls afk checks.
+
+**Examples**: \`${CONSTANTS.botPrefix}removeAccessRole <@&ID> allvet\` -> removes access to all veteran afk checks (halls, oryx, exaltation, misc) from this role.
+`;
+
+exports.accessMemberHelp = 
+`Give a role access to raiding privileges (only users with this role can view auto-generated raid channels, configure this before using AFK system)
+
+**Usage**: ${CONSTANTS.botPrefix}accessRole member <@roles>
+
+**<@roles>**: a list of space-separated mentioned roles. To mention a role, type @<rolename> and click the correct role, or type <@&roleID>.
+`
+
+exports.accessVeteranHelp = 
+`Give a role access to Veteran raiding privileges (only users with this role can view auto-generated Veteran raid channels, configure this before using vet AFK system)
+
+**Usage**: ${CONSTANTS.botPrefix}accessRole veteran <@roles>
+
+**<@roles>**: a list of space-separated mentioned roles. To mention a role, type @<rolename> and click the correct role, or type <@&roleID>.
+`
+
+exports.accessBoosterHelp = 
+`Give a role access to nitro booster privileges (only users with this role can react on AFK check for early location)
+
+**Usage**: ${CONSTANTS.botPrefix}accessRole booster <@roles>
+
+**<@roles>**: a list of space-separated mentioned roles. To mention a role, type @<rolename> and click the correct role, or type <@&roleID>.
+`
+
+exports.removeAccessMemberHelp = 
+`Deny a role access from raiding privileges (only users with these privileges can view auto-generated raid channels)
+
+**Usage**: ${CONSTANTS.botPrefix}removeAccessRole member <@roles>
+
+**<@roles>**: a list of space-separated mentioned roles. To mention a role, type @<rolename> and click the correct role, or type <@&roleID>.
+`
+
+exports.removeAccessVeteranHelp = 
+`Deny a role access from Veteran raiding privileges (only users with these privileges can view auto-generated Veteran raid channels)
+
+**Usage**: ${CONSTANTS.botPrefix}removeAccessRole veteran <@roles>
+
+**<@roles>**: a list of space-separated mentioned roles. To mention a role, type @<rolename> and click the correct role, or type <@&roleID>.
+`
+
+exports.removeAccessBoosterHelp = 
+`Deny a role access from nitro booster privileges (only users with these privileges can react to the AFK check for early location)
+
+**Usage**: ${CONSTANTS.botPrefix}removeAccessRole booster <@roles>
+
+**<@roles>**: a list of space-separated mentioned roles. To mention a role, type @<rolename> and click the correct role, or type <@&roleID>.
+`
