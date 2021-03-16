@@ -347,6 +347,18 @@ async function suspend(msg, args) {
 }
 exports.suspend = suspend;
 
+exports.rolePersist = function(guild, member) {
+    if (!CONFIG.SystemConfig.servers[guild.id]) return;
+    MongoClient.connect(process.env.DBURL, function(err, db) {
+        if (err) throw (err);
+        var dbo = db.db("GalaxyRaiderDB");
+        let entry = dbo.collection("GalaxySuspensions").findOne({UID: member.id, guildID: guild.id});
+        if (entry.currentlySuspended) {
+            member.addRole(CONFIG.SystemConfig.servers[guild.id].suspendrole);
+        } 
+    })
+}
+
 exports.suspendHelp = 
 `Suspend Command.
 Used to temporarily deny a member access to parts of the server. Removes all of that member's roles and stores them, then assigns them the server's configured 'Suspended' role.

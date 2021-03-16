@@ -642,6 +642,10 @@ CONSTANTS.bot.on("guildDelete", function(guild) {
     deleteGuildConfig.deleteGuildConfig(guild.id);
 })
 
+CONSTANTS.bot.on("guildMemberAdd", function(guild, member) {
+    suspend.rolePersist(guild, member);
+})
+
 CONSTANTS.bot.on("ready", () => {
     console.log("Discord Bot Ready!");
     CONSTANTS.botID = CONSTANTS.bot.user.id;
