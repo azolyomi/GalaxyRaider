@@ -50,7 +50,7 @@ async function headcount(message, args, CHANNELOBJECT) {
         if (message.channel.id !== CHANNELOBJECT.RaidCommandsChannelID) return CONSTANTS.bot.createMessage(message.channel.id, "That command can only be used in designated raid bot commands channels.");
         else if (args.length < 2) return CONSTANTS.bot.createMessage(message.channel.id, "You have to specify a \`DungeonType\` and a \`Location\`!");
 
-        if (Object.values(CHANNELOBJECT).some((channelid) => !channelid || CONSTANTS.bot.getChannel(channelid))) {
+        if (Object.values(CHANNELOBJECT).some((channelid) => !channelid || !CONSTANTS.bot.getChannel(channelid))) {
             return `One of your channels is not properly configured. Do \`.showconfig channels\` for more information.`;
         }
 

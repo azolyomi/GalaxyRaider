@@ -19,6 +19,10 @@ const getinfo = require("./staff_commands/getinfo");
 const setpoints = require("./config/setpoints");
 const leaderboard = require("./staff_commands/leaderboard");
 const manualverify = require("./staff_commands/manualverify");
+const setrunpoints = require("./config/setrunpoints");
+const logrun = require("./staff_commands/logrun");
+const staffstats = require("./staff_commands/staffstats");
+const quota = require("./raiding_functions/quota");
 
 const leaveguild = require("./config/leaveguild");
 
@@ -189,6 +193,17 @@ showconfigcommand.registerSubcommand("boosterroles", showconfig.showConfigBooste
     aliases: ["booster"],
 })
 
+showconfigcommand.registerSubcommand("quotaenabledroles", showconfig.showConfigQuotaEnabledRoles, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    }, 
+    caseInsensitive: true,
+    fullDescription: "Print current Quota-Enabled roles configurated in bot server.",
+    aliases: ["quota"],
+})
+
 showconfigcommand.registerSubcommand("afkaccess", showconfig.showConfigAFKAccess, {
     requirements: {
         permissions: {
@@ -219,7 +234,18 @@ showconfigcommand.registerSubcommand("points", showconfig.showConfigLogItemPoint
     }, 
     caseInsensitive: true,
     fullDescription: "Print current Point Values configurated in bot server (for item logging purposes)",
-    aliases: ["pts", "dotlog"],
+    aliases: ["pts"],
+})
+
+showconfigcommand.registerSubcommand("runpoints", showconfig.showConfigRunPointValues, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    }, 
+    caseInsensitive: true,
+    fullDescription: "Print current Run Point Values configurated in bot server (for run logging purposes)",
+    aliases: ["runpts"],
 })
 
 CONSTANTS.bot.registerCommand("changereqsheet", changereqsheet.changereqsheet, {
@@ -245,6 +271,65 @@ CONSTANTS.bot.registerCommand("setpoints", setpoints.setPoints, {
     aliases: ["setpts"],
     argsRequired: true
 })
+
+CONSTANTS.bot.registerCommand("setrunpoints", setrunpoints.setRunPoints, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    }, 
+    caseInsensitive: true,
+    fullDescription: setrunpoints.helpMessage,
+    aliases: ["setrunpts", "srp"],
+    argsRequired: true
+})
+
+CONSTANTS.bot.registerCommand("setquotavalue", quota.setQuotaValue, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    }, 
+    caseInsensitive: true,
+    fullDescription: quota.setQuotaHelpCommand,
+    aliases: ["setquota"],
+    argsRequired: true
+})
+
+CONSTANTS.bot.registerCommand("addquotarole", quota.addQuotaRole, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    }, 
+    caseInsensitive: true,
+    fullDescription: quota.addQuotaRoleHelpCommand,
+    aliases: ["aqr", "quotarole"],
+    argsRequired: true
+})
+
+CONSTANTS.bot.registerCommand("removequotarole", quota.removeQuotaRole, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    }, 
+    caseInsensitive: true,
+    fullDescription: quota.removeQuotaRoleHelpCommand,
+    aliases: ["rqr"],
+    argsRequired: true
+})
+
+// CONSTANTS.bot.registerCommand("executeQuota", quota.executeQuotaFromDiscordCommand, {
+//     requirements: {
+//         permissions: {
+//             "administrator": true,
+//         }
+//     }, 
+//     caseInsensitive: true,
+//     //fullDescription: quota.removeQuotaRoleHelpCommand,
+//     aliases: ["doquota", "dq"]
+// })
 
 
 
@@ -496,6 +581,21 @@ CONSTANTS.bot.registerCommand("log", log.logitem, {
     argsRequired: true
 });
 
+CONSTANTS.bot.registerCommand("logrun", logrun.logrun, {
+    caseInsensitive: true,
+    fullDescription: logrun.helpMessage,
+    aliases: ["lr"],
+    argsRequired: true
+});
+
+CONSTANTS.bot.registerCommand("staffstats", staffstats.fetchStaffStats, {
+    caseInsensitive: true,
+    fullDescription: "Fetch staff stats for either yourself or a mentioned user.",
+    aliases: ["ss"],
+    argsRequired: false
+});
+
+
 CONSTANTS.bot.registerCommand("getinfo", getinfo.getInfo, {
     caseInsensitive: true,
     fullDescription: getinfo.helpMessage,
@@ -523,6 +623,44 @@ CONSTANTS.bot.registerCommand("mv", manualverify.manualVerify, {
     fullDescription: manualverify.helpMessage,
     aliases: ["manualverify"],
     argsRequired: true
+})
+
+CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
+    return {embed: {
+        title: "Configuration Commands",
+        description: 
+        `**${CONSTANTS.botPrefix}config // ${CONSTANTS.botPrefix}reconfig** – Initial configuration / reconfiguration of server in database. Use reconfiguration carefully
+        **${CONSTANTS.botPrefix}showconfig** – Show the current server configuration
+
+        **${CONSTANTS.botPrefix}accessrole** – Add bot privileges to roles
+        **${CONSTANTS.botPrefix}removeaccessrole** – Remove bot privileges from roles
+
+        **${CONSTANTS.botPrefix}changechannel** – Change a default text channel 
+        **${CONSTANTS.botPrefix}changereqsheet** – Change the default req sheet posted for a given AFK check
+        **${CONSTANTS.botPrefix}setsuspendrole** – Change the 'suspended' role for bot use
+        **${CONSTANTS.botPrefix}setlogchannel** – Change the log channel for bot use.
+
+        **${CONSTANTS.botPrefix}setpoints** – Set the default point values associated with logging keys/vials/runes
+        **${CONSTANTS.botPrefix}setrunpoints** – Set the default point values associated with logging runs.
+
+        **${CONSTANTS.botPrefix}setquota** – Set the weekly quota value.
+        **${CONSTANTS.botPrefix}addquotarole** – Add a role to be impacted by quota.
+        **${CONSTANTS.botPrefix}removequotarole** – Remove a role from being impacted by quota.
+        **${CONSTANTS.botPrefix}enablequota** – Coming soon!
+
+        
+        Do ${CONSTANTS.botPrefix}help <command> for more information on that command.`,
+        color: 3145463,
+    }
+}}, {
+    caseInsensitive: true,
+    aliases: ["helpconfig"],
+    argsRequired: false,
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    }
 })
 
 
@@ -577,16 +715,7 @@ const helpCommand = CONSTANTS.bot.registerCommand("help", function(msg, args) {
                     description: 
                     `__**Setup Commands:**__ (Administrator Only)
                     **${CONSTANTS.botPrefix}instructions** – Detailed instructions for bot setup
-                    **${CONSTANTS.botPrefix}config // ${CONSTANTS.botPrefix}reconfig** – Initial configuration / reconfiguration of server in database. Use reconfiguration carefully
-                    **${CONSTANTS.botPrefix}showconfig** – Show the current server configuration
-
-                    **${CONSTANTS.botPrefix}accessrole** – Add bot privileges to roles
-                    **${CONSTANTS.botPrefix}removeaccessrole** – Remove bot privileges from roles
-                    **${CONSTANTS.botPrefix}changechannel** – Change a default text channel 
-                    **${CONSTANTS.botPrefix}changereqsheet** – Change the default req sheet posted for a given AFK check
-                    **${CONSTANTS.botPrefix}setsuspendrole** – Change the 'suspended' role for bot use
-                    **${CONSTANTS.botPrefix}setlogchannel** – Change the log channel for bot use.
-                    **${CONSTANTS.botPrefix}setpoints** – Set the default point values associated with keys/vials/runes
+                    **${CONSTANTS.botPrefix}confighelp** – Shows all config-related commands.
 
                     __**System Commands:**__
                     **${CONSTANTS.botPrefix}ping** – Check if the bot is online
@@ -605,6 +734,8 @@ const helpCommand = CONSTANTS.bot.registerCommand("help", function(msg, args) {
                     **${CONSTANTS.botPrefix}afk** – Start an AFK check
                     **${CONSTANTS.botPrefix}makevc** – Create a voice channel
                     **${CONSTANTS.botPrefix}log** – Log a key/vial/rune for a user
+                    **${CONSTANTS.botPrefix}logrun** – Log a run for yourself
+                    **${CONSTANTS.botPrefix}staffstats** – Print your stats (runs/points logged)
                     
                     **${CONSTANTS.botPrefix}vethc** – Start a **Veteran** headcount 
                     **${CONSTANTS.botPrefix}vetafk** – Start a **Veteran** AFK check
@@ -650,7 +781,7 @@ CONSTANTS.bot.on("ready", () => {
     console.log("Discord Bot Ready!");
     CONSTANTS.botID = CONSTANTS.bot.user.id;
     CONSTANTS.bot.editStatus("online", {
-        name: ".instructions for setup!"
+        name: ".instructions | d.gg/STD"
     });
 })
 
@@ -664,6 +795,5 @@ setInterval(() => {
 }, 1800000);
 
 // TODO
-// MONGO DB ->
-// add specific permissions for suspend 
+// MONGO DB
 

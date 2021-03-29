@@ -69,24 +69,37 @@ exports.addGuildConfigEntry = function(guildID, guildName, suspendrole, staffrol
             "vials": 10,
             "runes": 10,
           },
+          "runpoints": {
+            "void" : 8,
+            "cult" : 8,
+            "fullskip" : 8,
+            "shatters" : 5,
+            "nest" : 3,
+            "fungal" : 5,
+            "o3" : 20,
+            "misc" : 2
+          },
+          "quotaEnabled": false,
+          "quotaValue": 40,
+          "quotaEnabledRoles": [],     
           "defaultreqsheets": [
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809035674419230/CultVoid.png`, // high-reqs void
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809057706704933/Fullskip_Void.png`, //fullskip
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809035674419230/CultVoid.png`,//fullclear highreqs
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809035674419230/CultVoid.png`, //cult highreqs
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052036661258/Exaltations.png`, //shats highreqs
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052036661258/Exaltations.png`, //nest highreqs
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`,
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052036661258/Exaltations.png`, //fungal highreqs 
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809056330448936/O3.png`, 
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809056330448936/O3.png`,  // o3 highreqs
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`,
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052036661258/Exaltations.png` // misc highreqs
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194516922073118/CultVoid.png`, // high-reqs void
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194540309905408/Fullskip_Void.png`, //fullskip
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194516922073118/CultVoid.png`,//fullclear highreqs
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194516922073118/CultVoid.png`, //cult highreqs
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194535188135936/Exaltations.png`, //shats highreqs
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194535188135936/Exaltations.png`, //nest highreqs
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`,
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194535188135936/Exaltations.png`, //fungal highreqs 
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194539169579038/O3.png`, 
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194539169579038/O3.png`,  // o3 highreqs
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`,
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194535188135936/Exaltations.png` // misc highreqs
           ]
       }
     exports.SystemConfig.servers[guildID] = newEntry;
@@ -166,22 +179,22 @@ exports.updateConfig = updateConfig;
 
 /**
  "defaultreqsheets": [
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809035674419230/CultVoid.png`, // high-reqs void
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194516922073118/CultVoid.png`, // high-reqs void
             `https://cdn.discordapp.com/attachments/762679138346860585/815661757754245190/Fullskip_Void.png`, //fullskip
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809035674419230/CultVoid.png`,//fullclear highreqs
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809035674419230/CultVoid.png`, //cult highreqs
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052036661258/Exaltations.png`, //shats highreqs
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`, 
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052036661258/Exaltations.png`, //nest highreqs
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`,
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052036661258/Exaltations.png`, //fungal highreqs 
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194516922073118/CultVoid.png`,//fullclear highreqs
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194516922073118/CultVoid.png`, //cult highreqs
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194535188135936/Exaltations.png`, //shats highreqs
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`, 
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194535188135936/Exaltations.png`, //nest highreqs
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`,
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194535188135936/Exaltations.png`, //fungal highreqs 
             `https://cdn.discordapp.com/attachments/762062029107625987/778496626695733268/O3_Reqs.png`, 
             `https://cdn.discordapp.com/attachments/762679138346860585/815661758680137728/O3.png`,  // o3 highreqs
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052484534343/Useful_Swapouts.png`,
-            `https://cdn.discordapp.com/attachments/820808926471651348/820809052036661258/Exaltations.png` // misc highreqs
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`,
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194535188135936/Exaltations.png` // misc highreqs
           ]
  */

@@ -73,7 +73,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
         if (message.channel.id !== CHANNELOBJECT.RaidCommandsChannelID) return `That command can only be used in <#${CHANNELOBJECT.RaidCommandsChannelID}>`;
         else if (args.length < 2) return "You have to specify a \`DungeonType\` and a \`Location\`!";
 
-        if (Object.values(CHANNELOBJECT).some((channelid) => !channelid || CONSTANTS.bot.getChannel(channelid))) {
+        if (Object.values(CHANNELOBJECT).some((channelid) => !channelid || !CONSTANTS.bot.getChannel(channelid))) {
             return `One of your channels is not properly configured. Do \`.showconfig channels\` for more information.`;
         }
 

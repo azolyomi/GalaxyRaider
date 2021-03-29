@@ -14,13 +14,20 @@ function showConfigDefault(msg, args) {
             **Suspended Role**: <@&${CONFIG.SystemConfig.servers[msg.guildID].suspendrole}>
             **Staff Roles**: [${server.staffroles.length} entries...] (do \`.showconfig staffroles\` for more)
             **Mod Roles**" [${server.modroles.length} entries...] (do \`.showconfig modroles\` for more)
-            **Security Roles**" [${server.securityroles.length} entries...] (do \`.showconfig securityroles\` for more)
+            **Security Roles**: [${server.securityroles.length} entries...] (do \`.showconfig securityroles\` for more)
             **AFK Access**: (do \`.showconfig afkaccess\` for more)
-            **Member Roles**" [${server.nonstaff.memberaccess.length} entries...] (do \`.showconfig memberroles\` for more)
-            **Veteran Roles**" [${server.nonstaff.vetaccess.length} entries...] (do \`.showconfig vetroles\` for more)
-            **Booster Roles**" [${server.nonstaff.boosteraccess.length} entries...] (do \`.showconfig boosterroles\` for more)
+
+            **Run Logging Points**: (do \`.showconfig runpoints\` for more)
+            **Weekly Quota Enabled**: \`${server.quotaEnabled}\`
+            **Quota Value**: \`${server.quotaValue}\`
+            **Quota Enabled Roles**: (do \`.showconfig quotaenabledroles\` for more)
+
+
+            **Member Roles**: [${server.nonstaff.memberaccess.length} entries...] (do \`.showconfig memberroles\` for more)
+            **Veteran Roles**: [${server.nonstaff.vetaccess.length} entries...] (do \`.showconfig vetroles\` for more)
+            **Booster Roles**: [${server.nonstaff.boosteraccess.length} entries...] (do \`.showconfig boosterroles\` for more)
             **Configurated Channels**: (do \`.showconfig channels\` for more)
-            **Points**: (do \`.showconfig points\` for more)
+            **Item Logging Points**: (do \`.showconfig points\` for more)
             `,
             color: 3145463
         }
@@ -223,7 +230,7 @@ function showConfigLogItemPointValues(msg, args) {
         embed: {
             title: "Server Configuration",
             description:
-            `**Current Point Values** (for item logging purposes)
+            `**Current Item Point Values** (for item logging purposes)
             **Keys**: \`${CONFIG.SystemConfig.servers[msg.guildID].logItemPointValues.keys} points\`
             **Vials**: \`${CONFIG.SystemConfig.servers[msg.guildID].logItemPointValues.vials} points\`
             **Runes**: \`${CONFIG.SystemConfig.servers[msg.guildID].logItemPointValues.runes} points\``,
@@ -233,3 +240,45 @@ function showConfigLogItemPointValues(msg, args) {
 }
 
 exports.showConfigLogItemPointValues = showConfigLogItemPointValues;
+
+function showConfigRunPointValues(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "There is no config entry for this server in the database. Type \`.config\` and try again.";
+    return {
+        embed: {
+            title: "Server Configuration",
+            description:
+            `**Current Run Point Values** (for run logging purposes)
+            **Void**: \`${CONFIG.SystemConfig.servers[msg.guildID].runpoints.void} points\`
+            **Cult**: \`${CONFIG.SystemConfig.servers[msg.guildID].runpoints.cult} points\`
+            **Fullskip**: \`${CONFIG.SystemConfig.servers[msg.guildID].runpoints.fullskip} points\`
+            **Shatters**: \`${CONFIG.SystemConfig.servers[msg.guildID].runpoints.shatters} points\`
+            **Nest**: \`${CONFIG.SystemConfig.servers[msg.guildID].runpoints.nest} points\`
+            **Fungal**: \`${CONFIG.SystemConfig.servers[msg.guildID].runpoints.fungal} points\`
+            **O3**: \`${CONFIG.SystemConfig.servers[msg.guildID].runpoints.o3} points\`
+            **Misc**: \`${CONFIG.SystemConfig.servers[msg.guildID].runpoints.misc} points\`
+            `,
+            color: 3145463
+        }
+    }
+}
+
+exports.showConfigRunPointValues = showConfigRunPointValues;
+
+
+function showConfigQuotaEnabledRoles(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "There is no config entry for this server in the database. Type \`.config\` and try again.";
+    let server = CONFIG.SystemConfig.servers[msg.guildID];
+    return {
+        embed: {
+            title: "Server Configuration",
+            description: 
+            `**List of Quota-Enabled Roles**:
+            [${server.quotaEnabledRoles.map((roleid, index) => {
+                return `<@&${roleid}>`
+            }).join(", ")}]
+            `,
+            color: 3145463
+        }
+    }
+}
+exports.showConfigQuotaEnabledRoles = showConfigQuotaEnabledRoles;

@@ -348,7 +348,7 @@ async function suspend(msg, args) {
 exports.suspend = suspend;
 
 exports.rolePersist = function(guild, member) {
-    if (!CONFIG.SystemConfig.servers[guild.id]) return;
+    if (!CONFIG.SystemConfig.servers[guild.id] || !CONFIG.SystemConfig.servers[guild.id].suspendrole) return;
     MongoClient.connect(process.env.DBURL, function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
