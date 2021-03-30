@@ -173,7 +173,12 @@ async function startAfk(message, args, CHANNELOBJECT) {
         let endAFKEventHasOccurred = false;
 
         let activeChannelPermissions = [];
-
+        activeChannelPermissions.push({
+            id: CONFIG.SystemConfig.servers[message.guildID].suspendrole,
+            type: 0,
+            allow: 0,
+            deny: 32507648,
+        })
         if (CHANNELOBJECT == CONFIG.SystemConfig.servers[message.guildID].channels.Veteran) {
             CONFIG.SystemConfig.servers[message.guildID].nonstaff.memberaccess.forEach(item => {
                 activeChannelPermissions.push({
