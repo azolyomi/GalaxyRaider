@@ -13,7 +13,7 @@ function changereqsheet(msg, args) {
     if (!isImageURL(url)) return "Image URL must be a valid image and a valid URL. To use a discord image, right click it and hit 'Copy Link'.";
     if (dungeon == "all") {
         CONFIG.SystemConfig.servers[msg.guildID].defaultreqsheets.forEach(slot => {
-            slot = url
+            slot = url;
         })
         CONFIG.updateConfig(msg.guildID);
         return ("All requirement sheets updated.");
