@@ -130,11 +130,6 @@ async function executeQuotaInChannel(guildID, quotaChannelID) {
         );
         db.close();
     })
-    
-//TODO:
-//4. Add rollover (uses previousCycle)
-//5. Custom-configurable rollover
-//6. Quota statistics (leaderboard)
 }
 exports.executeQuotaFromDiscordCommand = async function(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return `Server hasn't been configurated yet. Type \`.config\` to configure.`;
