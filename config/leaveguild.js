@@ -6,6 +6,7 @@ require('dotenv').config();
 function leaveGuild(msg, args) {
     let guildid = args[0];
     if (!CONSTANTS.bot.guilds.map(guild => {return guild.id}).includes(guildid)) return "That's not a guild the bot is in.";
+    else if (!CONFIG.SystemConfig.servers[guildid]) return "That guild ID does not exist in the database.";
     else {
         MongoClient.connect(process.env.DBURL, function(err, db) {
             if (err) throw (err);
@@ -14,7 +15,7 @@ function leaveGuild(msg, args) {
             dbo.collection("GalaxySuspensions").deleteMany({guildID: guildid});
             dbo.collection("GalaxyItemLogs").deleteMany({guildID: guildid});
             CONSTANTS.bot.leaveGuild(guildid);
-
+            CONFIG.getConfig();
             db.close();
         })
     }
