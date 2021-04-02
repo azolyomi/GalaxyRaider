@@ -7,6 +7,7 @@ const cron = require("node-cron");
 const GENERAL = require("../app");
 require('dotenv').config();
 var MongoClient = require("mongodb").MongoClient;
+const { type } = require("os");
 
 // var task = cron.schedule("0 0 * * SUN", () => {
 //     var guildIDs = CONSTANTS.bot.guilds.map(guild => guild.id).filter(id => CONFIG.SystemConfig.servers[id].quotaEnabled);
@@ -36,45 +37,73 @@ exports.setQuotaHelpCommand =
 
 **<value>**: An integer number of points.`;
 
-function addQuotaRole(msg, args) {
+function editQuotaRole(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) {
         return "Server is not configurated yet. Type \`.config\` to configurate it.";
     }
     else if (!(msg.roleMentions.length > 0)) return "You must mention at least one role.";
-    msg.roleMentions.forEach(id => {
-        CONFIG.SystemConfig.servers[msg.guildID].quotaEnabledRoles.push(id);
-    })
-    CONFIG.updateConfig(msg.guildID);
-
-    CONSTANTS.bot.createMessage(msg.channel.id, `Successfully added roles ${msg.roleMentions.map(id => `<@&${id}>`).join(", ")} to the quota.`);
+    let acceptabletypes = ["enable", "override", "disable", "nooverride"];
+    let type = args[0];
+    if (!acceptabletypes.includes(type)) return `You must input an acceptable type to edit. Valid types are \`[${acceptabletypes.join(", ")}]\``
+    if (type === "enable") {
+        msg.roleMentions.forEach(id => {
+            if (!CONFIG.SystemConfig.servers[msg.guildID].quotaEnabledRoles.includes(id)) CONFIG.SystemConfig.servers[msg.guildID].quotaEnabledRoles.push(id);
+        })
+        CONFIG.updateConfig(msg.guildID);
+        return `Successfully enabled quota for the roles ${msg.roleMentions.map(id => `<@&${id}>`).join(", ")}.`;
+    }
+    else if (type === "override") {
+        msg.roleMentions.forEach(id => {
+            if (!CONFIG.SystemConfig.servers[msg.guildID].quotaOverrideRoles.includes(id)) CONFIG.SystemConfig.servers[msg.guildID].quotaOverrideRoles.push(id);
+        })
+        CONFIG.updateConfig(msg.guildID);
+        return `Successfully added quota override to the roles ${msg.roleMentions.map(id => `<@&${id}>`).join(", ")}.`;
+    }
+    else if (type === "disable") {
+        CONFIG.SystemConfig.servers[msg.guildID].quotaEnabledRoles = CONFIG.SystemConfig.servers[msg.guildID].quotaEnabledRoles.filter(id => !(msg.roleMentions.includes(id)));
+        CONFIG.updateConfig(msg.guildID);
+        return `Successfully disabled quota for the roles ${msg.roleMentions.map(id => `<@&${id}>`).join(", ")}.`;
+    }
+    else if (type === "nooverride") {
+        CONFIG.SystemConfig.servers[msg.guildID].quotaOverrideRoles = CONFIG.SystemConfig.servers[msg.guildID].quotaOverrideRoles.filter(id => !(msg.roleMentions.includes(id)));
+        CONFIG.updateConfig(msg.guildID);
+        return `Successfully disabled quota override for the roles ${msg.roleMentions.map(id => `<@&${id}>`).join(", ")}.`;
+    }
+    
 }
 
-exports.addQuotaRole = addQuotaRole;
-exports.addQuotaRoleHelpCommand =
+exports.editQuotaRole = editQuotaRole;
+exports.editQuotaRoleHelpCommand =
 `AddQuotaRole Command
 
-**Usage**: .addquotarole <@roles>
+**Usage**: .quotarole <type> <@roles>
+
+**<type>**: One of \`[enable, disable, override, nooverride]\`. Specifies what to do with the mentioned quota roles.
+\`enable\`: enables quota for these roles.
+\`disable\`: disables quota for these roles.
+\`override\`: allows this role to override quota.
+\`nooverride\`: disallows this role to override quota.
 
 **<@roles>**: A list of mentioned roles.`;
 
-function removeQuotaRole(msg, args) {
-    if (!CONFIG.SystemConfig.servers[msg.guildID]) {
-        return "Server is not configurated yet. Type \`.config\` to configurate it.";
-    }
-    else if (!(msg.roleMentions.length > 0)) return "You must mention at least one role.";
-    CONFIG.SystemConfig.servers[msg.guildID].quotaEnabledRoles = CONFIG.SystemConfig.servers[msg.guildID].quotaEnabledRoles.filter(id => !(msg.roleMentions.includes(id)));
-    CONFIG.updateConfig(msg.guildID);
+// function removeQuotaRole(msg, args) {
+//     if (!CONFIG.SystemConfig.servers[msg.guildID]) {
+//         return "Server is not configurated yet. Type \`.config\` to configurate it.";
+//     }
+//     else if (!(msg.roleMentions.length > 0)) return "You must mention at least one role.";
+//     CONFIG.SystemConfig.servers[msg.guildID].quotaEnabledRoles = CONFIG.SystemConfig.servers[msg.guildID].quotaEnabledRoles.filter(id => !(msg.roleMentions.includes(id)));
+//     CONFIG.updateConfig(msg.guildID);
 
-    CONSTANTS.bot.createMessage(msg.channel.id, `Successfully removed roles ${msg.roleMentions.map(id => `<@&${id}>`).join(", ")} from the quota.`);
-}
+//     CONSTANTS.bot.createMessage(msg.channel.id, `Successfully removed roles ${msg.roleMentions.map(id => `<@&${id}>`).join(", ")} from the quota.`);
+// }
 
-exports.removeQuotaRole = removeQuotaRole;
-exports.removeQuotaRoleHelpCommand =
-`RemoveQuotaRole Command
+// exports.removeQuotaRole = removeQuotaRole;
+// exports.removeQuotaRoleHelpCommand =
+// `RemoveQuotaRole Command
 
-**Usage**: .removequotarole <@roles>
+// **Usage**: .removequotarole <@roles>
 
-**<@roles>**: A list of mentioned roles.`;
+// **<@roles>**: A list of mentioned roles.`;
 
 async function executeQuotaInChannel(guildID, quotaChannelID) {
     let guildMembers = await (await CONSTANTS.bot.getRESTGuild(guildID)).fetchMembers();
@@ -95,8 +124,9 @@ async function executeQuotaInChannel(guildID, quotaChannelID) {
                         points: foundEntry.currentCycle
                     });
             }
-            count++;
-            if (count === membersWhoHaveQuota.length) {
+            if (++count === membersWhoHaveQuota.length) {
+                membersWhoFailedToMeetQuota = membersWhoFailedToMeetQuota.filter(object => !(object.member.roles.some(roleID => CONFIG.SystemConfig.servers[guildID].quotaOverrideRoles.includes(roleID))))
+                membersWithoutDBEntry = membersWithoutDBEntry.filter(object => !(object.member.roles.some(roleID => CONFIG.SystemConfig.servers[guildID].quotaOverrideRoles.includes(roleID))))
                 membersWhoFailedToMeetQuota.forEach(object => {
                     CONSTANTS.bot.createMessage(quotaChannelID, {
                         embed: {

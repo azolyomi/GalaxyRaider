@@ -18,6 +18,7 @@ function addStaffAccess(msg, args) {
             if ((accessTypes.includes("moderator")) && !CONFIG.SystemConfig.servers[msg.guildID].modroles.includes(roleID)) {
                 CONFIG.SystemConfig.servers[msg.guildID].modroles.push(roleID);
                 CONFIG.SystemConfig.servers[msg.guildID].securityroles.push(roleID);
+                CONFIG.SystemConfig.servers[msg.guildID].quotaOverrideRoles.push(roleID);
             }
             if (accessTypes.includes("security") && !CONFIG.SystemConfig.servers[msg.guildID].securityroles.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].securityroles.push(roleID);
             if ((accessTypes.includes("halls") || accessTypes.includes("allreg")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.halls.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.halls.push(roleID);
@@ -106,7 +107,11 @@ function removeStaffAccess(msg, args) {
     if (!(accessTypes.length > 0)) return `You must specify an access type, one of \`${acceptableAccessTypes.join(", ")}\``;
     try {
         msg.roleMentions.forEach((roleID, index) => {
-            if ((accessTypes.includes("moderator")) && CONFIG.SystemConfig.servers[msg.guildID].modroles.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].modroles = CONFIG.SystemConfig.servers[msg.guildID].modroles.filter(id => id != roleID);
+            if ((accessTypes.includes("moderator")) && CONFIG.SystemConfig.servers[msg.guildID].modroles.includes(roleID)) {
+                CONFIG.SystemConfig.servers[msg.guildID].modroles = CONFIG.SystemConfig.servers[msg.guildID].modroles.filter(id => id != roleID);
+                CONFIG.SystemConfig.servers[msg.guildID].securityroles = CONFIG.SystemConfig.servers[msg.guildID].securityroles.filter(id => id != roleID);
+                CONFIG.SystemConfig.servers[msg.guildID].quotaOverrideRoles = CONFIG.SystemConfig.servers[msg.guildID].quotaOverrideRoles.filter(id => id != roleID);
+            }
             if ((accessTypes.includes("security")) && CONFIG.SystemConfig.servers[msg.guildID].securityroles.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].securityroles = CONFIG.SystemConfig.servers[msg.guildID].securityroles.filter(id => id != roleID);
             if ((accessTypes.includes("halls") || accessTypes.includes("allreg") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.halls = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.halls.filter(id => id != roleID);
             if ((accessTypes.includes("oryx") || accessTypes.includes("allreg") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.oryx = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.oryx.filter(id => id != roleID);

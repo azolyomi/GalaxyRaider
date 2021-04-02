@@ -201,7 +201,18 @@ showconfigcommand.registerSubcommand("quotaenabledroles", showconfig.showConfigQ
     }, 
     caseInsensitive: true,
     fullDescription: "Print current Quota-Enabled roles configurated in bot server.",
-    aliases: ["quota"],
+    aliases: ["quotaenabled"],
+})
+
+showconfigcommand.registerSubcommand("quotaoverrideroles", showconfig.showConfigQuotaOverrideRoles, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    }, 
+    caseInsensitive: true,
+    fullDescription: "Print current Quota-Override roles configurated in bot server.",
+    aliases: ["quotaoverride"],
 })
 
 showconfigcommand.registerSubcommand("afkaccess", showconfig.showConfigAFKAccess, {
@@ -296,29 +307,29 @@ CONSTANTS.bot.registerCommand("setquotavalue", quota.setQuotaValue, {
     argsRequired: true
 })
 
-CONSTANTS.bot.registerCommand("addquotarole", quota.addQuotaRole, {
+CONSTANTS.bot.registerCommand("quotarole", quota.editQuotaRole, {
     requirements: {
         permissions: {
             "administrator": true,
         }
     }, 
     caseInsensitive: true,
-    fullDescription: quota.addQuotaRoleHelpCommand,
-    aliases: ["aqr", "quotarole"],
+    fullDescription: quota.editQuotaRoleHelpCommand,
+    aliases: ["qr", "quotaadd"],
     argsRequired: true
 })
 
-CONSTANTS.bot.registerCommand("removequotarole", quota.removeQuotaRole, {
-    requirements: {
-        permissions: {
-            "administrator": true,
-        }
-    }, 
-    caseInsensitive: true,
-    fullDescription: quota.removeQuotaRoleHelpCommand,
-    aliases: ["rqr"],
-    argsRequired: true
-})
+// CONSTANTS.bot.registerCommand("removequotarole", quota.removeQuotaRole, {
+//     requirements: {
+//         permissions: {
+//             "administrator": true,
+//         }
+//     }, 
+//     caseInsensitive: true,
+//     fullDescription: quota.removeQuotaRoleHelpCommand,
+//     aliases: ["rqr"],
+//     argsRequired: true
+// })
 
 // CONSTANTS.bot.registerCommand("executeQuota", quota.executeQuotaFromDiscordCommand, {
 //     requirements: {

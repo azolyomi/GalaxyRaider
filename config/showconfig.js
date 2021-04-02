@@ -21,6 +21,7 @@ function showConfigDefault(msg, args) {
             **Weekly Quota Enabled**: \`${server.quotaEnabled}\`
             **Quota Value**: \`${server.quotaValue}\`
             **Quota Enabled Roles**: (do \`.showconfig quotaenabledroles\` for more)
+            **Quota Override Roles**: (do \`.showconfig quotaenabledroles\` for more)
 
 
             **Member Roles**: [${server.nonstaff.memberaccess.length} entries...] (do \`.showconfig memberroles\` for more)
@@ -282,3 +283,21 @@ function showConfigQuotaEnabledRoles(msg, args) {
     }
 }
 exports.showConfigQuotaEnabledRoles = showConfigQuotaEnabledRoles;
+
+function showConfigQuotaOverrideRoles(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "There is no config entry for this server in the database. Type \`.config\` and try again.";
+    let server = CONFIG.SystemConfig.servers[msg.guildID];
+    return {
+        embed: {
+            title: "Server Configuration",
+            description: 
+            `**List of Quota-Override Roles**:
+            [${server.quotaOverrideRoles.map((roleid, index) => {
+                return `<@&${roleid}>`
+            }).join(", ")}]
+            `,
+            color: 3145463
+        }
+    }
+}
+exports.showConfigQuotaOverrideRoles = showConfigQuotaOverrideRoles;

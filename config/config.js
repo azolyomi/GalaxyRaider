@@ -81,7 +81,8 @@ exports.addGuildConfigEntry = function(guildID, guildName, suspendrole, staffrol
           },
           "quotaEnabled": false,
           "quotaValue": 40,
-          "quotaEnabledRoles": [],     
+          "quotaEnabledRoles": [],
+          "quotaOverrideRoles": [],     
           "defaultreqsheets": [
             `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`, 
             `https://cdn.discordapp.com/attachments/826194483992461383/826194516922073118/CultVoid.png`, // high-reqs void
@@ -130,6 +131,9 @@ exports.deleteGuildRole = function(guild, role) {
     exports.SystemConfig.servers[guild.id].nonstaff.vetaccess = exports.SystemConfig.servers[guild.id].nonstaff.vetaccess.filter(roleID => roleID != role.id);
     exports.SystemConfig.servers[guild.id].nonstaff.boosteraccess = exports.SystemConfig.servers[guild.id].nonstaff.boosteraccess.filter(roleID => roleID != role.id);
     if (exports.SystemConfig.servers[guild.id].suspendrole == role.id) exports.SystemConfig.servers[guild.id].suspendrole = undefined;
+
+    exports.SystemConfig.servers[guild.id].quotaEnabledRoles = exports.SystemConfig.servers[guild.id].quotaEnabledRoles.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].quotaOverrideRoles = exports.SystemConfig.servers[guild.id].quotaOverrideRoles.filter(roleID => roleID != role.id);
 
     CONSTANTS.bot.createMessage(exports.SystemConfig.servers[guild.id].logchannel, `The ${role.name} role was deleted, and as such it has been removed from all configurations.`).catch({});
     updateConfig(guild.id);
