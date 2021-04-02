@@ -35,6 +35,8 @@ async function fetchStaffStats(msg, args) {
                     Miscellaneous Led: \`${foundEntry.misc}\`
 
                     **Total Points:** \`${foundEntry.runpoints}\`
+                    **This Week's Points:** \`${foundEntry.currentCycle}\`
+                    **Last Week's Points:** \`${foundEntry.previousCycle}\`
                     `,
                     color: 3145463
             }

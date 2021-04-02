@@ -126,7 +126,7 @@ async function executeQuotaInChannel(guildID, quotaChannelID) {
             }
             if (++count === membersWhoHaveQuota.length) {
                 membersWhoFailedToMeetQuota = membersWhoFailedToMeetQuota.filter(object => !(object.member.roles.some(roleID => CONFIG.SystemConfig.servers[guildID].quotaOverrideRoles.includes(roleID))))
-                membersWithoutDBEntry = membersWithoutDBEntry.filter(object => !(object.member.roles.some(roleID => CONFIG.SystemConfig.servers[guildID].quotaOverrideRoles.includes(roleID))))
+                membersWithoutDBEntry = membersWithoutDBEntry.filter(member => !(member.roles.some(roleID => CONFIG.SystemConfig.servers[guildID].quotaOverrideRoles.includes(roleID))))
                 membersWhoFailedToMeetQuota.forEach(object => {
                     CONSTANTS.bot.createMessage(quotaChannelID, {
                         embed: {
@@ -137,28 +137,29 @@ async function executeQuotaInChannel(guildID, quotaChannelID) {
                             color: 3145463,
                         }
                     });
-                    membersWithoutDBEntry.forEach(member => {
-                        CONSTANTS.bot.createMessage(quotaChannelID, {
-                            embed: {
-                                title: "User Hasn't Led Runs",
-                                description: 
-                                `The user <@${member.id}> has a role which is configured for quota, but has not led any runs this week.`,
-                                color: 3145463,
-                            }
-                        });
-                    })
                 })
+                membersWithoutDBEntry.forEach(member => {
+                    CONSTANTS.bot.createMessage(quotaChannelID, {
+                        embed: {
+                            title: "User Hasn't Led Runs",
+                            description: 
+                            `The user <@${member.id}> has a role which is configured for quota, but has not led any runs this week.`,
+                            color: 3145463,
+                        }
+                    });
+                })
+                dbo.collection("GalaxyRunLogs").updateMany({guildID: guildID},
+                    [
+                        {'$set': {
+                            'previousCycle': '$currentCycle',
+                            'currentCycle': 0}
+                        }
+                    ]
+                );
+                db.close();
             }
         })
-        dbo.collection("GalaxyRunLogs").updateMany({guildID: guildID},
-            [
-                {'$set': {
-                    'previousCycle': '$currentCycle',
-                    'currentCycle': 0}
-                }
-            ]
-        );
-        db.close();
+        
     })
 }
 exports.executeQuotaFromDiscordCommand = async function(msg, args) {
