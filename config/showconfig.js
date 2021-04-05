@@ -21,7 +21,7 @@ function showConfigDefault(msg, args) {
             **Weekly Quota Enabled**: \`${server.quotaEnabled}\`
             **Quota Value**: \`${server.quotaValue}\`
             **Quota Enabled Roles**: (do \`.showconfig quotaenabledroles\` for more)
-            **Quota Override Roles**: (do \`.showconfig quotaenabledroles\` for more)
+            **Quota Override Roles**: (do \`.showconfig quotaoverrideroles\` for more)
 
 
             **Member Roles**: [${server.nonstaff.memberaccess.length} entries...] (do \`.showconfig memberroles\` for more)
