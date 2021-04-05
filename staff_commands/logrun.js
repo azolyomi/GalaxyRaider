@@ -46,24 +46,24 @@ async function logrun(msg, args) {
 
             dbo.collection("GalaxyRunLogs").insertOne(queryObject);
 
-                CONSTANTS.bot.createMessage(msg.channel.id, {
-                    embed: {
-                        title: "Run Log",
-                        description: 
-                        `Successfully logged ${numruns} ${runtype}s for ${msg.member.mention}`,
-                        color: 3145463
-                    }
-                })
+            CONSTANTS.bot.createMessage(msg.channel.id, {
+                embed: {
+                    title: "Run Log",
+                    description: 
+                    `Successfully logged ${numruns} ${runtype}s for ${msg.member.mention}`,
+                    color: 3145463
+                }
+            })
 
-                CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
-                    embed: {
-                        title: "Run Log",
-                        description: 
-                        `User ${msg.member.mention} successfully logged ${numruns} ${runtype}s`,
-                        color: 3145463
-                    }
-                })
-                db.close();
+            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                embed: {
+                    title: "Run Log",
+                    description: 
+                    `User ${msg.member.mention} successfully logged ${numruns} ${runtype}s`,
+                    color: 3145463
+                }
+            })
+            db.close();
         }
         else {
             let queryObject = await foundEntry;

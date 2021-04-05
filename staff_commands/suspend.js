@@ -16,52 +16,52 @@ function updateSuspensions() {
         var dbo = db.db("GalaxyRaiderDB");
         await dbo.collection("GalaxySuspensions").updateMany({duration: {$gt: 0}, currentlySuspended: true}, {$inc: {duration: -1}}); // update all suspensions with positive duration in the collection, decrement by *1* minute;
         await dbo.collection("GalaxySuspensions").find({duration: {$lte: 0}, currentlySuspended: true}).forEach(async function(suspensionObject) {
-            let guildID = suspensionObject.guildID;
-            let guildName = suspensionObject.guildName;
-            readdroles(suspensionObject.UID, guildID, suspensionObject.previousRoleIDs);
-            suspensionObject.currentlySuspended = false;
-            suspensionObject.duration = 0;
-            suspensionObject.previousRoleIDs = [];
-            suspensionObject.history.push({
-                reason: suspensionObject.reason,
-                suspenderID: suspensionObject.suspenderID,
-                date: suspensionObject.date
-            });
-            suspensionObject.reason = "";
-            suspensionObject.suspenderID = "";
-            suspensionObject.date = "";
+        let guildID = suspensionObject.guildID;
+        let guildName = suspensionObject.guildName;
+        readdroles(suspensionObject.UID, guildID, suspensionObject.previousRoleIDs);
+        suspensionObject.currentlySuspended = false;
+        suspensionObject.duration = 0;
+        suspensionObject.previousRoleIDs = [];
+        suspensionObject.history.push({
+            reason: suspensionObject.reason,
+            suspenderID: suspensionObject.suspenderID,
+            date: suspensionObject.date
+        });
+        suspensionObject.reason = "";
+        suspensionObject.suspenderID = "";
+        suspensionObject.date = "";
 
-            dbo.collection("GalaxySuspensions").updateOne({UID: suspensionObject.UID, guildID: suspensionObject.guildID}, {$set: suspensionObject});
+        dbo.collection("GalaxySuspensions").updateOne({UID: suspensionObject.UID, guildID: suspensionObject.guildID}, {$set: suspensionObject});
 
-            if (CONSTANTS.bot.getChannel(CONFIG.SystemConfig.servers[suspensionObject.guildID].logchannel))
-             CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[suspensionObject.guildID].logchannel, {
-                embed: {
-                    title: `User Unsuspended`,
-                    description: 
-                    `Successfully unsuspended user <@${suspensionObject.UID}>.
-                    
-                    **Unsuspender:** Automatic (Galaxy Raider)
-                    **Reason:** Time has been served!
-                    **Date of unsuspension:** ${new Date().toUTCString()}
-                    `,
-                    color: 0x2ECC71,
-                }
-            });
+        if (CONSTANTS.bot.getChannel(CONFIG.SystemConfig.servers[suspensionObject.guildID].logchannel))
+            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[suspensionObject.guildID].logchannel, {
+            embed: {
+                title: `User Unsuspended`,
+                description: 
+                `Successfully unsuspended user <@${suspensionObject.UID}>.
+                
+                **Unsuspender:** Automatic (Galaxy Raider)
+                **Reason:** Time has been served!
+                **Date of unsuspension:** ${new Date().toUTCString()}
+                `,
+                color: 0x2ECC71,
+            }
+        });
 
-            let dmChannel = await CONSTANTS.bot.getDMChannel(suspensionObject.UID);
-            dmChannel.createMessage({
-                embed: {
-                    title: `User Unsuspended`,
-                    description: 
-                    `You have been unsuspended in **${guildName}**.
-                    
-                    **Unsuspender:** Automatic (Galaxy Raider)
-                    **Reason:** Time has been served!
-                    **Date of unsuspension:** ${new Date().toUTCString()}
-                    `,
-                    color: 0x2ECC71,
-                }
-            })
+        let dmChannel = await CONSTANTS.bot.getDMChannel(suspensionObject.UID);
+        dmChannel.createMessage({
+            embed: {
+                title: `User Unsuspended`,
+                description: 
+                `You have been unsuspended in **${guildName}**.
+                
+                **Unsuspender:** Automatic (Galaxy Raider)
+                **Reason:** Time has been served!
+                **Date of unsuspension:** ${new Date().toUTCString()}
+                `,
+                color: 0x2ECC71,
+            }
+        })
 
 
         })
@@ -355,7 +355,8 @@ exports.rolePersist = function(guild, member) {
         let entry = dbo.collection("GalaxySuspensions").findOne({UID: member.id, guildID: guild.id});
         if (entry.currentlySuspended) {
             member.addRole(CONFIG.SystemConfig.servers[guild.id].suspendrole);
-        } 
+        }
+        db.close();
     })
 }
 

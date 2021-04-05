@@ -25,7 +25,6 @@ function suspendList(msg, args) {
                 inline: true,
             })
         })
-        db.close();
 
         while (fields.length > 4) {
             let messageFields = fields.splice(0, 4);
@@ -46,6 +45,8 @@ function suspendList(msg, args) {
                 color: 3145463
             }
         })
+
+        db.close();
     })  
 }
 

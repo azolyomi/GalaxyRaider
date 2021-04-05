@@ -124,7 +124,7 @@ async function executeQuotaInChannel(guildID, quotaChannelID) {
                         points: foundEntry.currentCycle
                     });
             }
-            if (++count === membersWhoHaveQuota.length) {
+            if (++count >= membersWhoHaveQuota.length) {
                 membersWhoFailedToMeetQuota = membersWhoFailedToMeetQuota.filter(object => !(object.member.roles.some(roleID => CONFIG.SystemConfig.servers[guildID].quotaOverrideRoles.includes(roleID))))
                 membersWithoutDBEntry = membersWithoutDBEntry.filter(member => !(member.roles.some(roleID => CONFIG.SystemConfig.servers[guildID].quotaOverrideRoles.includes(roleID))))
                 membersWhoFailedToMeetQuota.forEach(object => {
