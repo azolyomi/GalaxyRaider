@@ -74,7 +74,7 @@ function editQuotaRole(msg, args) {
 
 exports.editQuotaRole = editQuotaRole;
 exports.editQuotaRoleHelpCommand =
-`AddQuotaRole Command
+`EditQuotaRole Command
 
 **Usage**: .quotarole <type> <@roles>
 

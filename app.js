@@ -315,7 +315,7 @@ CONSTANTS.bot.registerCommand("quotarole", quota.editQuotaRole, {
     }, 
     caseInsensitive: true,
     fullDescription: quota.editQuotaRoleHelpCommand,
-    aliases: ["qr", "quotaadd"],
+    aliases: ["qr", "editquota"],
     argsRequired: true
 })
 
@@ -655,8 +655,7 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
         **${CONSTANTS.botPrefix}setrunpoints** – Set the default point values associated with logging runs.
 
         **${CONSTANTS.botPrefix}setquota** – Set the weekly quota value.
-        **${CONSTANTS.botPrefix}addquotarole** – Add a role to be impacted by quota.
-        **${CONSTANTS.botPrefix}removequotarole** – Remove a role from being impacted by quota.
+        **${CONSTANTS.botPrefix}quotarole** – Edit quota roles.
         **${CONSTANTS.botPrefix}enablequota** – Coming soon!
 
         
