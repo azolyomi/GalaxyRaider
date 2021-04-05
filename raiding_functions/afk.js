@@ -22,6 +22,7 @@ exports.COMMAND_AFKCheckFullDescription = `AFK Check Command.
         _- To set VC Cap, use the flag \`-cap:<channelcap>\` where \`<channelcap>\` is an integer between 0 and 99 Default cap = 65 or 35._
         _- To set VC Time Limit, use the flag \`-time:<limit>\` where \`<limit>\` is an integer number of hours from 1 to 8._
         _- To set AFK Check Image (req sheet), use the flag \`-image:<url>\` where \`<url>\` is a valid image url. To get the image url of one of our discord req sheets, right click the image and click "Copy link"._
+        _– To start the AFK check in a prespecified voice channel, use the flag \`-vcid:<id>\` where \`<id>\` is the id of the voice channel you'd like to use._
 
 Examples: 
         \`${CONSTANTS.botPrefix}afk o3 ussw ogre\` default AFK check without flags. 
@@ -121,10 +122,24 @@ async function startAfk(message, args, CHANNELOBJECT) {
                 }
             }
         }
+
+        let voicechannel;
+        for (argument of args) {
+            if (argument.startsWith("-vcid:")) {
+                let parseVc = argument.substring(6);
+                if (!message.guild.channels.some(channel => (channel.id == parseVc && channel.type == 2))) return `Error: either \`${parseVc}\` is not a valid channel id, or the specified channel is not a voice channel.`;
+                else {   
+                    voicechannel = CONSTANTS.bot.getChannel(parseVc);
+                    let index = args.indexOf(argument);
+                    args.splice(index, 1);
+                    break;
+                }
+            }
+        }
         // handle non-valid flags
         for (argument of args) {
-            if (argument.startsWith("-") && !argument.startsWith("-timelimit:") && !argument.startsWith("-cap:")) {
-                return `Unknown flag: \`${argument}\`. Proper flags include: \`-cap:#, -timelimit:#\``;
+            if (argument.startsWith("-")) {
+                return `Unknown flag: \`${argument}\`. Proper flags include: \`-cap:#, -time:#, -image:url, -vcid:#\``;
             }
         }
 
@@ -173,39 +188,26 @@ async function startAfk(message, args, CHANNELOBJECT) {
         let endAFKEventHasOccurred = false;
 
         let activeChannelPermissions = [];
-        activeChannelPermissions.push({
-            id: CONFIG.SystemConfig.servers[message.guildID].suspendrole,
-            type: 0,
-            allow: 0,
-            deny: 32507648,
-        })
-        if (CHANNELOBJECT == CONFIG.SystemConfig.servers[message.guildID].channels.Veteran) {
-            CONFIG.SystemConfig.servers[message.guildID].nonstaff.memberaccess.forEach(item => {
-                activeChannelPermissions.push({
-                    id: item,
-                    type: 0,
-                    allow: 0,
-                    deny: 32507648,
-                })
-            })
-            CONFIG.SystemConfig.servers[message.guildID].nonstaff.vetaccess.forEach(item => {
-                activeChannelPermissions.push({
-                    id: item,
-                    type: 0,
-                    allow: 1049600,
-                    deny: 31458048,
-                })
-            })
-            
+        let activeChannel;
+
+        if (voicechannel) {
+            activeChannel = voicechannel;
         }
-        else { // highreqs main or regular main
-            if (dungeonType.includes("highreqs")) {
+        else {
+
+            activeChannelPermissions.push({
+                id: CONFIG.SystemConfig.servers[message.guildID].suspendrole,
+                type: 0,
+                allow: 0,
+                deny: 32507648,
+            })
+            if (CHANNELOBJECT == CONFIG.SystemConfig.servers[message.guildID].channels.Veteran) {
                 CONFIG.SystemConfig.servers[message.guildID].nonstaff.memberaccess.forEach(item => {
                     activeChannelPermissions.push({
                         id: item,
                         type: 0,
-                        allow: 1024,
-                        deny: 32506624,
+                        allow: 0,
+                        deny: 32507648,
                     })
                 })
                 CONFIG.SystemConfig.servers[message.guildID].nonstaff.vetaccess.forEach(item => {
@@ -216,53 +218,76 @@ async function startAfk(message, args, CHANNELOBJECT) {
                         deny: 31458048,
                     })
                 })
+                
             }
-            else { // not highreqs
-                CONFIG.SystemConfig.servers[message.guildID].nonstaff.memberaccess.forEach(item => {
+            else { // highreqs main or regular main
+                if (dungeonType.includes("highreqs")) {
+                    CONFIG.SystemConfig.servers[message.guildID].nonstaff.memberaccess.forEach(item => {
+                        activeChannelPermissions.push({
+                            id: item,
+                            type: 0,
+                            allow: 1024,
+                            deny: 32506624,
+                        })
+                    })
+                    CONFIG.SystemConfig.servers[message.guildID].nonstaff.vetaccess.forEach(item => {
+                        activeChannelPermissions.push({
+                            id: item,
+                            type: 0,
+                            allow: 1049600,
+                            deny: 31458048,
+                        })
+                    })
+                }
+                else { // not highreqs
+                    CONFIG.SystemConfig.servers[message.guildID].nonstaff.memberaccess.forEach(item => {
+                        activeChannelPermissions.push({
+                            id: item,
+                            type: 0,
+                            allow: 1049600,
+                            deny: 31458048
+                        })
+                    })
+                }
+                
+        
+                // Assign staff role permissions:
+        
+                CONFIG.SystemConfig.servers[message.guildID].staffroles.forEach(item => {
                     activeChannelPermissions.push({
                         id: item,
                         type: 0,
-                        allow: 1049600,
-                        deny: 31458048
+                        allow: 66070272,
+                        deny: 0,
                     })
                 })
+                CONFIG.SystemConfig.servers[message.guildID].modroles.forEach(item => {
+                    activeChannelPermissions.push({
+                        id: item,
+                        type: 0,
+                        allow: 1610360830,
+                        deny: 0,
+                    })
+                })
+        
+                activeChannelPermissions.push({
+                    id: message.author.id,
+                    type: 1,
+                    allow: 16,
+                    deny: 0
+                })
             }
+
+            activeChannel = await CONSTANTS.bot.createChannel(message.guildID, `${RAIDCONSTANTS.runTypeTitleText[index]} | ${message.member.nick?message.member.nick:message.member.username}`, 2, {
+                parentID: CHANNELOBJECT.RaidCategoryID,
+                userLimit: userlimit?userlimit:RAIDCONSTANTS.runTypeChannelCap[index],
+                permissionOverwrites: activeChannelPermissions
+            });
+            while (!CONSTANTS.bot.getChannel(activeChannel.id)) await sleep(100);
+            await activeChannel.editPosition(1);
         }
 
-        // Assign staff role permissions:
-
-        CONFIG.SystemConfig.servers[message.guildID].staffroles.forEach(item => {
-            activeChannelPermissions.push({
-                id: item,
-                type: 0,
-                allow: 66070272,
-                deny: 0,
-            })
-        })
-        CONFIG.SystemConfig.servers[message.guildID].modroles.forEach(item => {
-            activeChannelPermissions.push({
-                id: item,
-                type: 0,
-                allow: 1610360830,
-                deny: 0,
-            })
-        })
-
-        activeChannelPermissions.push({
-            id: message.author.id,
-            type: 1,
-            allow: 16,
-            deny: 0
-        })
-
-
-        let activeChannel = await CONSTANTS.bot.createChannel(message.guildID, `${RAIDCONSTANTS.runTypeTitleText[index]} | ${message.member.nick?message.member.nick:message.member.username}`, 2, {
-            parentID: CHANNELOBJECT.RaidCategoryID,
-            userLimit: userlimit?userlimit:RAIDCONSTANTS.runTypeChannelCap[index],
-            permissionOverwrites: activeChannelPermissions
-        });
-        while (!CONSTANTS.bot.getChannel(activeChannel.id)) await sleep(100);
-        await activeChannel.editPosition(1);
+        
         
         let raidStatusMessage = await CONSTANTS.bot.createMessage(CHANNELOBJECT.RaidStatusChannelID, "@here"); 
         CONSTANTS.bot.editMessage(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id, {
@@ -289,6 +314,8 @@ async function startAfk(message, args, CHANNELOBJECT) {
 
         CONSTANTS.bot.createMessage(CHANNELOBJECT.LocationChannelID, `Location for ${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run: \`${location.join(" ")}\``)
         message.addReaction(RAIDCONSTANTS.checkReaction);
+
+        let allEarlyReactedUserIDs = [];
 
         // This will continuously listen for 200 incoming reactions over the course of 10 minutes
         let reactionListener = new ReactionHandler.continuousReactionStream(
@@ -351,7 +378,8 @@ async function startAfk(message, args, CHANNELOBJECT) {
                         }
 
                         if (hasConfirmed) {
-                            let member = await CONSTANTS.bot.getRESTGuildMember(message.guildID, subevent.userID.id); 
+                            let member = await CONSTANTS.bot.getRESTGuildMember(message.guildID, subevent.userID.id);
+                            allEarlyReactedUserIDs.push(member.id);
                             CONSTANTS.bot.createMessage(CHANNELOBJECT.EarlyReactionsLogChannelID, {
                                 embed: {
                                     title: `Confirmed Reaction for ${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run`,
@@ -386,7 +414,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                     }
                     });
                     if (CONSTANTS.bot.getMessage(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id)) await CONSTANTS.bot.removeMessageReactions(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id);
-                    if (CONSTANTS.bot.getChannel(activeChannel.id)) {
+                    if (CONSTANTS.bot.getChannel(activeChannel.id) && !voicechannel) {
                         CONFIG.SystemConfig.servers[message.guildID].nonstaff.memberaccess.forEach(id => {
                             activeChannel.editPermission(id, "1024", "1048576", "role", "closed channel");
                         })
@@ -404,26 +432,96 @@ async function startAfk(message, args, CHANNELOBJECT) {
                     name: `${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run`,
                     icon_url: message.author.avatarURL,
                 },
-                description: "Click " + RAIDCONSTANTS.redXEmoji + " to terminate raid. Only do this after the run has been completed, it will delete the voice channel.", 
+                description: 
+                `Click ${RAIDCONSTANTS.redXEmoji} to terminate raid. Only do this after the run has been completed, it will delete the voice channel.
+                Click ${RAIDCONSTANTS.pencil} to change the location for the raid.`, 
                 color: RAIDCONSTANTS.runTypeColor[index],
                 timestamp: new Date().toISOString()
             }
         })
 
         await activeRaidMessage.addReaction(RAIDCONSTANTS.redXReaction);
+        await activeRaidMessage.addReaction(RAIDCONSTANTS.pencil);
 
         let endRaidListener = new ReactionHandler.continuousReactionStream(
             activeRaidMessage, 
             (userID) => userID.id == message.author.id || (CONFIG.SystemConfig.servers[message.guildID].modroles.some(item => userID.roles.includes(item)) && !userID.bot), 
             false, 
-            { maxMatches: 1, time: timelimit?timelimit:RAIDCONSTANTS.endRaidTimeoutLength}
+            { maxMatches: 20, time: timelimit?timelimit:RAIDCONSTANTS.endRaidTimeoutLength}
         );
 
         endRaidListener.on('reacted', async (endevent) => {
-            if (endevent.emoji.name === "redX") {
+            if (endevent.emoji.name === "📝") {
+                try {
+                    CONSTANTS.bot.removeMessageReaction(CHANNELOBJECT.ActiveRaidsChannelID, activeRaidMessage.id, endevent.emoji.name, endevent.userID.id);
+                    let ActiveRaidsChannel = CONSTANTS.bot.getChannel(CHANNELOBJECT.ActiveRaidsChannelID);
+                    let collector = new Eris.MessageCollector(ActiveRaidsChannel, {
+                        timeout: 60000,
+                        count: 1,
+                        filter: function(msg) {
+                            return (msg.author.id == message.author.id || msg.member.roles.some(id => CONFIG.SystemConfig.servers[message.guildID].modroles.includes(id)));
+                        }
+                    })
+                    collector.run();
+
+                    let changelocmsg = await CONSTANTS.bot.createMessage(CHANNELOBJECT.ActiveRaidsChannelID, {
+                            embed: {
+                                title: "Location Change",
+                                description: `Please enter the new location to forward to all early-reacted users.`,
+                                color: 3145463
+                            }
+                    });
+
+                    let hasChangedLoc = false;
+
+                    collector.on("collect", (msg) => {
+                        hasChangedLoc = true;
+                        location = msg.content.split(" ");
+                        CONSTANTS.bot.createMessage(CHANNELOBJECT.LocationChannelID, `Changed Location for ${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run:   \`${location.join(" ")}\``);
+
+                        allEarlyReactedUserIDs.forEach(async id => {
+                            let newlocDmChannel = await CONSTANTS.bot.getDMChannel(id);
+                            CONSTANTS.bot.createMessage(newlocDmChannel.id, `The location for ${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run has changed to:   \`${location.join(" ")}\``);
+                        })
+
+                        if (CONSTANTS.bot.getMessage(CHANNELOBJECT.ActiveRaidsChannelID, changelocmsg.id)) CONSTANTS.bot.deleteMessage(CHANNELOBJECT.ActiveRaidsChannelID, changelocmsg.id);
+                        if (CONSTANTS.bot.getMessage(CHANNELOBJECT.ActiveRaidsChannelID, msg.id)) CONSTANTS.bot.deleteMessage(CHANNELOBJECT.ActiveRaidsChannelID, msg.id);
+
+                        CONSTANTS.bot.editMessage(CHANNELOBJECT.ActiveRaidsChannelID, activeRaidMessage.id, {
+                            embed: {
+                                author: {
+                                    name: `${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run`,
+                                    icon_url: message.author.avatarURL,
+                                },
+                                description: 
+                                `Click ${RAIDCONSTANTS.redXEmoji} to terminate raid. Only do this after the run has been completed, it will delete the voice channel.
+                                Click ${RAIDCONSTANTS.pencil} to change the location for the raid.
+                                
+                                Location has been set to: \`${location.join(" ")}\``, 
+                                color: RAIDCONSTANTS.runTypeColor[index],
+                                timestamp: new Date().toISOString()
+                            }
+                        })
+                        collector.stop();
+                    })
+
+                    setTimeout(() => {
+                        if (!hasChangedLoc) CONSTANTS.bot.createMessage(CHANNELOBJECT.ActiveRaidsChannelID, `Error: timed out. Please re-react with the pencil to change location.`);
+                    }, 60000);
+                }
+                catch(e) {
+                    CONSTANTS.bot.createMessage(CHANNELOBJECT.ActiveRaidsChannelID, `Sorry! Something went wrong with that.`);
+                    console.log(e);
+                }
+            }
+
+
+
+
+            else if (endevent.emoji.name === "redX") {
                 endRaidEventHasOccurred = true;
                 endAFKEventHasOccurred = true;
-                if (CONSTANTS.bot.getChannel(activeChannel.id)) CONSTANTS.bot.deleteChannel(activeChannel.id);
+                if (CONSTANTS.bot.getChannel(activeChannel.id) && !voicechannel) CONSTANTS.bot.deleteChannel(activeChannel.id);
                 CONSTANTS.bot.editMessage(CHANNELOBJECT.ActiveRaidsChannelID, activeRaidMessage.id, {
                     embed: {
                         title: `${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run`,
@@ -455,7 +553,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
         setTimeout( async() => {
             if (endRaidEventHasOccurred) return console.log(`End Raid Timeout Not Activated for ${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]}: Raid Already Ended.`);
             else {
-                if (CONSTANTS.bot.getChannel(activeChannel.id)) CONSTANTS.bot.deleteChannel(activeChannel.id);
+                if (CONSTANTS.bot.getChannel(activeChannel.id) && !voicechannel) CONSTANTS.bot.deleteChannel(activeChannel.id);
                 CONSTANTS.bot.editMessage(CHANNELOBJECT.ActiveRaidsChannelID, activeRaidMessage.id, {
                     embed: {
                         title: `${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run`,
@@ -507,7 +605,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                     }
                 });
                 if (await CONSTANTS.bot.getMessage(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id)) await CONSTANTS.bot.removeMessageReactions(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id);
-                if (CONSTANTS.bot.getChannel(activeChannel.id)) {
+                if (CONSTANTS.bot.getChannel(activeChannel.id) && !voicechannel) {
                     CONFIG.SystemConfig.servers[message.guildID].nonstaff.memberaccess.forEach(id => {
                         activeChannel.editPermission(id, "1024", "1048576", "role", "closed channel");
                     })

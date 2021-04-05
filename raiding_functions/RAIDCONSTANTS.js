@@ -73,6 +73,8 @@ let boosterReaction = `booster:820007339460657162`;
 let aetherEmoji = `<:aether:820007323972010024>`;
 let aetherReaction = `aether:820007323972010024`;
 
+exports.pencil = `📝`;
+
 exports.boosterReaction = boosterReaction;
 exports.checkReaction = checkReaction;
 exports.redXReaction = redXReaction;
