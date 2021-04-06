@@ -14,8 +14,14 @@ let tricksterEmoji = `<:trickster:820007707041857556>`;
 let tricksterReaction = `trickster:820007707041857556`;
 let swordruneEmoji = `<:swordrune:820007695548416031>`;
 let swordruneReaction = `swordrune:820007695548416031`;
-let switchEmoji = `<:switch:820007681624375356>`;
-let switchReaction = `switch:820007681624375356`;
+
+let switchOneEmoji = `<:switch1:829055690441621515>`;
+let switchOneReaction = `switch1:829055690441621515`;
+let switchTwoEmoji = `<:switch2:829055710012244020>`;
+let switchTwoReaction = `switch2:829055710012244020`;
+let secretEmoji = `<:secret:829055669901590559>`;
+let secretReaction = `secret:829055669901590559`;
+
 let slowEmoji = `<:slow:820007668907376720>`;
 let slowReaction = `slow:820007668907376720`;
 let shieldruneEmoji = `<:shieldrune:820007656190115840>`;
@@ -241,8 +247,8 @@ exports.MainReactionListForRunTypes = [
     [losthallsReaction, lhkeyReaction, vialReaction, mushroomspellReaction, wizardReaction, boosterReaction, redXReaction], // fullclear highreqs
     [losthallsReaction, lhkeyReaction, warriorReaction, paladinReaction, knightReaction, rusherReaction, boosterReaction, redXReaction],
     [losthallsReaction, lhkeyReaction, warriorReaction, paladinReaction, knightReaction, rusherReaction, boosterReaction, redXReaction], // cult highreqs
-    [shatterportalReaction, shatterskeyReaction, warriorReaction, paladinReaction, knightReaction, rusherReaction, switchReaction, tricksterReaction, boosterReaction, redXReaction],
-    [shatterportalReaction, shatterskeyReaction, warriorReaction, paladinReaction, knightReaction, rusherReaction, switchReaction, tricksterReaction, boosterReaction, redXReaction], // shatts highreqs
+    [shatterportalReaction, shatterskeyReaction, warriorReaction, paladinReaction, knightReaction, switchOneReaction, switchTwoReaction, secretReaction, boosterReaction, redXReaction],
+    [shatterportalReaction, shatterskeyReaction, warriorReaction, paladinReaction, knightReaction, switchOneReaction, switchTwoReaction, secretReaction, boosterReaction, redXReaction], // shatts highreqs
     [nestportalReaction, nestkeyReaction, warriorReaction, paladinReaction, knightReaction, slowReaction, aetherReaction, dazeReaction, ogmurReaction, boosterReaction, redXReaction],
     [nestportalReaction, nestkeyReaction, warriorReaction, paladinReaction, knightReaction, slowReaction, aetherReaction, dazeReaction, ogmurReaction, boosterReaction, redXReaction], // nest highreqs
     [fungalportalReaction, fungalkeyReaction, warriorReaction, paladinReaction, knightReaction, slowReaction, mysticReaction, boosterReaction, redXReaction],
@@ -261,8 +267,8 @@ exports.EarlyReactionlistForRunTypes = [
     [lhkeyReaction, vialReaction, mushroomspellReaction, boosterReaction], // fullclear highreqs
     [lhkeyReaction, rusherReaction, boosterReaction],
     [lhkeyReaction, rusherReaction, boosterReaction], // cult highreqs
-    [shatterskeyReaction, rusherReaction, switchReaction, tricksterReaction, boosterReaction],
-    [shatterskeyReaction, rusherReaction, switchReaction, tricksterReaction, boosterReaction], // shatters highreqs
+    [shatterskeyReaction, switchOneReaction, switchTwoReaction, secretReaction, boosterReaction],
+    [shatterskeyReaction, switchOneReaction, switchTwoReaction, secretReaction, boosterReaction], // shatters highreqs
     [nestkeyReaction, slowReaction, aetherReaction, dazeReaction, ogmurReaction, boosterReaction],
     [nestkeyReaction, slowReaction, aetherReaction, dazeReaction, ogmurReaction, boosterReaction], // nest highreqs
     [fungalkeyReaction, slowReaction, mysticReaction, boosterReaction],
@@ -281,8 +287,8 @@ exports.AFKCheckDescriptionsForRunTypes = [
     `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // fullclear highreqs
     `React with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji}  if you're willing to rush.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
     `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji}  if you're willing to rush.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, //cult highreqs
-    `React with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji} if you can rush 1st switch.\nReact with ${switchEmoji} if you can rush 2nd switch.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
-    `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji} if you can rush 1st switch.\nReact with ${switchEmoji} if you can rush 2nd switch.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // shatts highreqs
+    `React with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with ${switchOneEmoji} if you can rush 1st switch.\nReact with ${switchTwoEmoji} if you can rush 2nd switch.\nReact with ${secretEmoji} if you can rush secret.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
+    `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with ${switchOneEmoji} if you can rush 1st switch.\nReact with ${switchTwoEmoji} if you can rush 2nd switch.\nReact with ${secretEmoji} if you can rush secret.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // shatts highreqs
     `React with the ${nestkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${aetherEmoji}  if you're bringing an aether orb\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
     `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${nestkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${aetherEmoji}  if you're bringing an aether orb\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // nest highreqs
     `React with the ${fungalkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you're bringing a slow.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
@@ -301,8 +307,8 @@ exports.HCReactionlistForRunTypes = [
     [losthallsReaction, lhkeyReaction, vialReaction, mushroomspellReaction], // fullclear highreqs
     [losthallsReaction, lhkeyReaction, rusherReaction],
     [losthallsReaction, lhkeyReaction, rusherReaction], // cult highreqs
-    [shatterportalReaction, shatterskeyReaction, rusherReaction, switchReaction, tricksterReaction],
-    [shatterportalReaction, shatterskeyReaction, rusherReaction, switchReaction, tricksterReaction], // shatts highreqs
+    [shatterportalReaction, shatterskeyReaction, switchOneReaction, switchTwoReaction, secretReaction],
+    [shatterportalReaction, shatterskeyReaction, switchOneReaction, switchTwoReaction, secretReaction], // shatts highreqs
     [nestportalReaction, nestkeyReaction, slowReaction, aetherReaction, dazeReaction, ogmurReaction],
     [nestportalReaction, nestkeyReaction, slowReaction, aetherReaction, dazeReaction, ogmurReaction], // nest highreqs
     [fungalportalReaction, fungalkeyReaction, slowReaction, mysticReaction],
@@ -321,8 +327,8 @@ exports.HCDescriptionsForRunTypes = [
     `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard`, // Fullclear Highreqs
     `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with ${brainEmoji}  if you're willing to rush.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Cult
     `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with ${brainEmoji}  if you're willing to rush.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Cult Highreqs
-    `React with the ${shatterportalEmoji} if you're planning to join the run.\nReact with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji} if you can rush 1st switch.\nReact with ${switchEmoji} if you can rush 2nd switch.`, // Shatters
-    `React with the ${shatterportalEmoji} if you're planning to join the run.\nReact with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji} if you can rush 1st switch.\nReact with ${switchEmoji} if you can rush 2nd switch.`, // Shatters Highreq
+    `React with the ${shatterportalEmoji} if you're planning to join the run.\nReact with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with ${switchOneEmoji} if you can rush 1st switch.\nReact with ${switchTwoEmoji} if you can rush 2nd switch.\nReact with ${secretEmoji} if you can rush secret.`, // Shatters
+    `React with the ${shatterportalEmoji} if you're planning to join the run.\nReact with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with ${switchOneEmoji} if you can rush 1st switch.\nReact with ${switchTwoEmoji} if you can rush 2nd switch.\nReact with ${secretEmoji} if you can rush secret.`, // Shatters Highreq
     `React with the ${nestportalEmoji} if you're planning to join the run.\nReact with the ${nestkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${aetherEmoji}  if you're bringing an aether orb\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Nest
     `React with the ${nestportalEmoji} if you're planning to join the run.\nReact with the ${nestkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${aetherEmoji}  if you're bringing an aether orb\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Nest Highreqs
     `React with the ${fungalportalEmoji} if you're planning to join the run.\nReact with the ${fungalkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you're bringing a slow.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Fungal
@@ -340,8 +346,8 @@ exports.EarlyReactionNumberForRunTypes = [
     [2, 3, 4, 5], // Fullclear Highreq
     [2, 4, 5],
     [2, 4, 5], // Cult Highreqs
-    [2, 1, 1, 2, 5],
-    [2, 1, 1, 2, 5], // Shatts highreqs
+    [2, 1, 1, 1, 5],
+    [2, 1, 1, 1, 5], // Shatts highreqs
     [2, 2, 2, 1, 1, 5], 
     [2, 2, 2, 1, 1, 5], //Nest Highreqs
     [2, 2, 1, 5],
@@ -360,8 +366,8 @@ exports.HeadcountReactionNumberForRunTypes = [
     [null, 2, 3, 4], // Fullclear Highreqs
     [null, 2, 4],
     [null, 2, 4], // Cult Highreqs
-    [null, 2, 1, 1, 2],
-    [null, 2, 1, 1, 2], // Shatts highreqs
+    [null, 2, 1, 1, 1],
+    [null, 2, 1, 1, 1], // Shatts highreqs
     [null, 2, 2, 2, 1, 1], 
     [null, 2, 2, 2, 1, 1], //Nest highreqs
     [null, 2, 2, 1],

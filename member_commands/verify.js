@@ -160,8 +160,6 @@ in your realmeye description.
                         return;
                     }
 
-                    console.log(body);
-
                     try {
                         CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.forEach(id => {
                             msg.member.addRole(id);
