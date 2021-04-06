@@ -25,7 +25,8 @@ function updateSuspensions() {
         suspensionObject.history.push({
             reason: suspensionObject.reason,
             suspenderID: suspensionObject.suspenderID,
-            date: suspensionObject.date
+            date: suspensionObject.date,
+            duration: suspensionObject.duration
         });
         suspensionObject.reason = "";
         suspensionObject.suspenderID = "";
