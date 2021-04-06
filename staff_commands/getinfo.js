@@ -40,7 +40,7 @@ function getInfo(msg, args) {
                     name: `Suspension #${count++}`,
                     value: 
                     `Date: ${item.date}
-                    Duration: ${item.duration} minute(s)
+                    Remaining Duration: ${item.duration} minute(s)
                     Reason: ${item.reason}
                     Suspender: <@${item.suspenderID}>`,
                     inline: true
