@@ -23,6 +23,8 @@ const setrunpoints = require("./config/setrunpoints");
 const logrun = require("./staff_commands/logrun");
 const staffstats = require("./staff_commands/staffstats");
 const quota = require("./raiding_functions/quota");
+const verify = require("./member_commands/verify");
+const setverification = require("./config/setverification");
 
 const leaveguild = require("./config/leaveguild");
 
@@ -48,8 +50,112 @@ CONSTANTS.bot.registerCommand("instructions", instructions.showInstructions, {
             "administrator": true,
         }
     }
-    
 })
+
+CONSTANTS.bot.registerCommand("verify", verify.verify, {
+    argsRequired: false,
+    caseInsensitive: true,
+    deleteCommand: true,
+    permissionMessage: "",
+    requirements: {
+        custom: function(msg) {
+            if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
+            else if (!CONFIG.SystemConfig.servers[msg.guildID].verification.enabled) return false;
+            else {
+                return (
+                    !(CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.every(id => 
+                        (msg.member.roles.includes(id))))
+                );
+            }
+        }
+    }
+});
+
+let verifycommand = CONSTANTS.bot.registerCommand("verification", setverification.verification, {
+    caseInsensitive: true,
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    fullDescription:
+    `Verification Config Command.
+    
+    Shows the current verification config.`
+})
+
+verifycommand.registerSubcommand("enable", setverification.enableVerification, {
+    caseInsensitive: true,
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    fullDescription: 
+    `Enable Verification Command
+    
+    Enables non-members to use the '.verify' command.`
+});
+
+verifycommand.registerSubcommand("disable", setverification.disableVerification, {
+    caseInsensitive: true,
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    fullDescription: 
+    `Disable Verification Command
+    
+    Disables non-members from using the '.verify' command.`
+});
+
+verifycommand.registerSubcommand("enableHiddenLoc", setverification.requirehiddenLoc, {
+    caseInsensitive: true,
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    fullDescription: 
+    `Enable Hidden Location for Verification Command
+    
+    Requires the verifier to have their realmeye location privated for run security.`
+});
+
+verifycommand.registerSubcommand("disableHiddenLoc", setverification.norequirehiddenLoc, {
+    caseInsensitive: true,
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    fullDescription: 
+    `Disable Hidden Location for Verification Command
+    
+    Disalbes requirement for the verifier to have their realmeye location privated for run security.`
+});
+
+verifycommand.registerSubcommand("requirement", setverification.setMinStars, {
+    aliases: ["starRequirement", "ssr"],
+    caseInsensitive: true,
+    argsRequired: true,
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    fullDescription: 
+    `Set Star Requirement for Verification Command
+    
+    Sets the star requirement for the verifier to an integer >= 0.
+    
+    **Usage*: \`${CONSTANTS.botPrefix}verification requirement <minStars>\`
+    
+    **<minStars>**: The minimum number of stars to accept for verification. Minimum 0. No max (Do not exceed current ROTMG White Star Requirement)
+    
+    _Example_: \`${CONSTANTS.botPrefix}verification requirement 40\` –> Sets the star verification requirement for the server to 40.`
+});
 
 
 
@@ -640,26 +746,34 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
     return {embed: {
         title: "Configuration Commands",
         description: 
-        `**${CONSTANTS.botPrefix}config // ${CONSTANTS.botPrefix}reconfig** – Initial configuration / reconfiguration of server in database. Use reconfiguration carefully
+        `**${CONSTANTS.botPrefix}config // ${CONSTANTS.botPrefix}reconfig** – Initial configuration / reconfiguration of server in database. Use reconfiguration carefully.
+        
+        __**Roles/Channels/Logging**__
+
         **${CONSTANTS.botPrefix}showconfig** – Show the current server configuration
 
         **${CONSTANTS.botPrefix}accessrole** – Add bot privileges to roles
         **${CONSTANTS.botPrefix}removeaccessrole** – Remove bot privileges from roles
+        **${CONSTANTS.botPrefix}setsuspendrole** – Change the 'suspended' role for bot use
 
         **${CONSTANTS.botPrefix}changechannel** – Change a default text channel 
+        **${CONSTANTS.botPrefix}setlogchannel** – Change the log channel for bot use
+
         **${CONSTANTS.botPrefix}changereqsheet** – Change the default req sheet posted for a given AFK check
-        **${CONSTANTS.botPrefix}setsuspendrole** – Change the 'suspended' role for bot use
-        **${CONSTANTS.botPrefix}setlogchannel** – Change the log channel for bot use.
+        **${CONSTANTS.botPrefix}setpoints** – Set the point values associated with logging keys/vials/runes
+        **${CONSTANTS.botPrefix}setrunpoints** – Set the point values associated with logging runs (for Raid Leaders)
 
-        **${CONSTANTS.botPrefix}setpoints** – Set the default point values associated with logging keys/vials/runes
-        **${CONSTANTS.botPrefix}setrunpoints** – Set the default point values associated with logging runs.
+        __**Quota**__:
 
-        **${CONSTANTS.botPrefix}setquota** – Set the weekly quota value.
-        **${CONSTANTS.botPrefix}quotarole** – Edit quota roles.
-        **${CONSTANTS.botPrefix}enablequota** – Coming soon!
+        **${CONSTANTS.botPrefix}setquota** – Set the weekly quota value
+        **${CONSTANTS.botPrefix}quotarole** – Edit quota roles
+        **${CONSTANTS.botPrefix}enablequota** – Coming soon
 
+        __**Verification**__:
+
+        **${CONSTANTS.botPrefix}verification**: Prints out verification configuration and commands
         
-        Do ${CONSTANTS.botPrefix}help <command> for more information on that command.`,
+        Do ${CONSTANTS.botPrefix}help <command> for more information on that command`,
         color: 3145463,
     }
 }}, {

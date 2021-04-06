@@ -55,7 +55,7 @@ async function headcount(message, args, CHANNELOBJECT) {
         }
 
         let dungeonType = args.shift();
-        if (!RAIDCONSTANTS.acceptableRunTypes.includes(dungeonType)) return CONSTANTS.bot.createMessage(message.channel.id, "Acceptable Run Types: "+ RAIDCONSTANTS.acceptableRunTypes.toString());
+        if (!RAIDCONSTANTS.acceptableRunTypes.includes(dungeonType)) return CONSTANTS.bot.createMessage(message.channel.id, `Acceptable Run Types: \`${RAIDCONSTANTS.acceptableRunTypes.join(", ")}\``);
 
 
         if (!message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].modroles.includes(item))) {

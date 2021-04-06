@@ -16,6 +16,7 @@
     "mysql": "^2.18.1",
     "node-cron": "^3.0.0",
     "pluris": "^0.3.3",
+    "request": "^2.88.2",
     "valid-image-url": "^0.1.4"
   }
 }

@@ -79,6 +79,11 @@ exports.addGuildConfigEntry = function(guildID, guildName, suspendrole, staffrol
             "o3" : 20,
             "misc" : 2
           },
+          "verification" : {
+            "enabled" : false,
+            "minrank" : 0,
+            "hiddenloc" : true
+          },
           "quotaEnabled": false,
           "quotaValue": 40,
           "quotaEnabledRoles": [],

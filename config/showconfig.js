@@ -17,12 +17,15 @@ function showConfigDefault(msg, args) {
             **Security Roles**: [${server.securityroles.length} entries...] (do \`.showconfig securityroles\` for more)
             **AFK Access**: (do \`.showconfig afkaccess\` for more)
 
-            **Run Logging Points**: (do \`.showconfig runpoints\` for more)
-            **Weekly Quota Enabled**: \`${server.quotaEnabled}\`
+            **Raid Leader Run Logging Points**: (do \`.showconfig runpoints\` for more)
+            **Weekly Quota Enabled?**: \`${server.quotaEnabled}\`
             **Quota Value**: \`${server.quotaValue}\`
             **Quota Enabled Roles**: (do \`.showconfig quotaenabledroles\` for more)
             **Quota Override Roles**: (do \`.showconfig quotaoverrideroles\` for more)
 
+            **Verification Enabled**: \`${server.verification.enabled}\`
+            **Verification Star Requirement**: \`${server.verification.minrank}\`
+            **Verification Hidden Loc Required?**: \`${server.verification.hiddenloc}\`
 
             **Member Roles**: [${server.nonstaff.memberaccess.length} entries...] (do \`.showconfig memberroles\` for more)
             **Veteran Roles**: [${server.nonstaff.vetaccess.length} entries...] (do \`.showconfig vetroles\` for more)

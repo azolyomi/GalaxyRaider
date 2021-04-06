@@ -151,7 +151,7 @@ async function executeQuotaInChannel(guildID, quotaChannelID) {
                 dbo.collection("GalaxyRunLogs").updateMany({guildID: guildID},
                     [
                         {'$set': {
-                            'previousCycle': '$currentCycle',
+                            'previousCycle': `$currentCycle`,
                             'currentCycle': 0}
                         }
                     ]

@@ -117,6 +117,24 @@ async function initialize(msg, args) {
         permissionOverwrites: overwritesLimitedChannels
     })
 
+    let verifychannel = await CONSTANTS.bot.createChannel(msg.guildID, "verify", 0, {
+        permissionOverwrites: overwritesLimitedChannels
+    })
+    CONSTANTS.bot.createMessage(verifychannel.id, {
+        embed: {
+            title: `Verification Instructions`,
+            description:
+            `Type \`${CONSTANTS.botPrefix}verify\` to get started.
+            
+            Administrators can configure the basic verification requirements. 
+            Verification, if completed successfully, will assign you all member roles configured in the server. If you don't receive any roles on successful verification, ask your friendly administrator to configurate them with the bot!
+            Note: You cannot use this command if you already have all member roles.
+            
+            **Have fun, and happy raiding!**`,
+            color: 0x5b1c80
+        }
+    })
+
     let channels = {
         "Main": {
             "RaidCategoryID": RaidCategory.id,

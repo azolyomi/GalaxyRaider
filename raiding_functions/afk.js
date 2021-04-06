@@ -194,12 +194,17 @@ async function startAfk(message, args, CHANNELOBJECT) {
             activeChannel = voicechannel;
         }
         else {
-
             activeChannelPermissions.push({
                 id: CONFIG.SystemConfig.servers[message.guildID].suspendrole,
                 type: 0,
                 allow: 0,
                 deny: 32507648,
+            })
+            activeChannelPermissions.push({
+                id: message.guildID,
+                type: 0,
+                allow: 0,
+                deny: 1049600,
             })
             if (CHANNELOBJECT == CONFIG.SystemConfig.servers[message.guildID].channels.Veteran) {
                 CONFIG.SystemConfig.servers[message.guildID].nonstaff.memberaccess.forEach(item => {
@@ -434,7 +439,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                 },
                 description: 
                 `Click ${RAIDCONSTANTS.redXEmoji} to terminate raid. Only do this after the run has been completed, it will delete the voice channel.
-                Click ${RAIDCONSTANTS.pencil} to change the location for the raid.`, 
+                Click ${RAIDCONSTANTS.pencil} to change the location for the raid. This will DM all early reactions the new location.`, 
                 color: RAIDCONSTANTS.runTypeColor[index],
                 timestamp: new Date().toISOString()
             }
