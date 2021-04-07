@@ -61,12 +61,11 @@ CONSTANTS.bot.registerCommand("verify", verify.verify, {
         custom: function(msg) {
             if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
             else if (!CONFIG.SystemConfig.servers[msg.guildID].verification.enabled) return false;
-            else {
-                return (
+            else if (msg.member.roles.includes(CONFIG.SystemConfig.servers[msg.guildID].suspendrole)) return false;
+            else return (
                     !(CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.every(id => 
                         (msg.member.roles.includes(id))))
                 );
-            }
         }
     }
 });
