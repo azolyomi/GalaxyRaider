@@ -36,10 +36,10 @@ function norequirehiddenLoc(msg, args) {
 function setMinStars(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Server is not configurated yet. Type \`.config\` to configurate it.";
     let minstars = parseInt(args[0])
-    if (isNaN(minstars) || minstars < 0) return `Star requirement must be an integer greater than or equal to 0`;
+    if (isNaN(minstars) || minstars < 0 || minstars > 85) return `Star requirement must be an integer between 0 and 85 inclusive.`;
     CONFIG.SystemConfig.servers[msg.guildID].verification.minrank = minstars;
     CONFIG.updateConfig(msg.guildID);
-    return `Star Requirement set to ${minstars}`;
+    return `Star requirement set to ${minstars}`;
 }
 
 exports.disableVerification = disableVerification;
