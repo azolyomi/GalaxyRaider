@@ -19,6 +19,17 @@ async function verify(message, args) {
         if ((await entry) && (await entry).currentlySuspended) {
             try {
                 msg.member.addRole(CONFIG.SystemConfig.servers[msg.guildID].suspendrole);
+                let pmChannel = await CONSTANTS.bot.getDMChannel(msg.author.id);
+                CONSTANTS.bot.createMessage(pmChannel.id, {
+                    embed: {
+                        title: "Failure",
+                        description: 
+                        `You tried to re-verify while you were still suspended.
+                                
+                        Please wait until you are unsuspended to re-verify.`,
+                        color: 0xff0000
+                    }
+                });
                 return;
             }
             catch (e) {}
