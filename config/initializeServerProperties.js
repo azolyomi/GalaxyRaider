@@ -124,13 +124,24 @@ async function initialize(msg, args) {
         embed: {
             title: `Verification Instructions`,
             description:
-            `Type \`${CONSTANTS.botPrefix}verify\` to get started.
+            `Welcome to \`${msg.guild.name}\`! In order to access the server, you will have to first link your ROTMG and Discord accounts.
+
+            In order to be verified, you must meet the following requirements:
+            \`\`\`diff
+            + Public RealmEye profile
+            + Public RealmEye history
+            + Any other requirements that the bot DMs you.
+            \`\`\`
             
-            Administrators can configure the basic verification requirements. 
-            Verification, if completed successfully, will assign you all member roles configured in the server. If you don't receive any roles on successful verification, ask your friendly administrator to configurate them with the bot!
-            Note: You cannot use this command if you already have all member roles.
+            Type \`${CONSTANTS.botPrefix}verify\` in a channel to get started.
             
-            **Have fun, and happy raiding!**`,
+            _Verification, if completed successfully, will assign you all member roles configured in the server. 
+            If you don't receive a message from the bot after trying to verify, **you were probably suspended and tried to reverify!**_
+            
+            __**Have fun, and happy raiding!**__`,
+            footer: {
+                text: `Server Verification | Courtesy of d.gg/STD`
+            },
             color: 0x5b1c80
         }
     })

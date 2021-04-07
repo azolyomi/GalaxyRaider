@@ -671,6 +671,36 @@ saycommand.registerSubcommand("-e", say.dashe, {
     argsRequired: true,
 })
 
+saycommand.registerSubcommand("-verifyembed", function(msg, args) {
+    return {
+        embed: {
+            title: `Verification Instructions`,
+            description:
+            `Welcome to \`${msg.guild.name}\`! In order to access the server, you will have to first link your ROTMG and Discord accounts.
+
+            In order to be verified, you must meet the following requirements:
+            \`\`\`diff
+            + Public RealmEye profile
+            + Public RealmEye history
+            + Any other requirements that the bot DMs you.
+            \`\`\`
+            
+            Type \`${CONSTANTS.botPrefix}verify\` in a channel to get started.
+            
+            _Verification, if completed successfully, will assign you all member roles configured in the server. 
+            If you don't receive a message from the bot after trying to verify, **you were probably suspended and tried to reverify!**_
+            
+            __**Have fun, and happy raiding!**__`,
+            footer: {
+                text: `Server Verification | Courtesy of d.gg/STD`
+            },
+            color: 0x5b1c80
+        }
+    }
+}, {
+    argsRequired: false
+})
+
 CONSTANTS.bot.registerCommand("suspend", suspend.suspend, {
     caseInsensitive: true,
     fullDescription: suspend.suspendHelp,
