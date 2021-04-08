@@ -691,7 +691,8 @@ In order to be verified, you must meet the following requirements:
             
             __**Have fun, and happy raiding!**__`,
             footer: {
-                text: `Server Verification | Courtesy of d.gg/STD`
+                text: `Server Verification | Courtesy of d.gg/STD`,
+                icon_url: msg.guild.iconURL
             },
             color: 0x5b1c80
         }
