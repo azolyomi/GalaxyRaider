@@ -677,12 +677,12 @@ saycommand.registerSubcommand("-verifyembed", function(msg, args) {
             description:
             `Welcome to \`${msg.guild.name}\`! In order to access the server, you will have to first link your ROTMG and Discord accounts.
 
-            In order to be verified, you must meet the following requirements:
-            \`\`\`diff
-            + Public RealmEye profile
-            + Public RealmEye history
-            + Any other requirements that the bot DMs you.
-            \`\`\`
+In order to be verified, you must meet the following requirements:
+\`\`\`diff
++ Public RealmEye profile
++ Public RealmEye name history
++ Any other requirements that the bot DMs you.
+\`\`\`
             
             Type \`${CONSTANTS.botPrefix}verify\` in a channel to get started.
             
