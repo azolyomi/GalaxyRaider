@@ -130,6 +130,7 @@ In order to be verified, you must meet the following requirements:
 \`\`\`diff
 + Public RealmEye profile
 + Public RealmEye name history
++ Discord direct messages set so anyone can message you
 + Any other requirements that the bot DMs you.
 \`\`\`
             
