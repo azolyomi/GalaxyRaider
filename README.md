@@ -5,7 +5,7 @@
 
 **(1)** Run the command `.config`. This will compile all the resources that the bot needs, generate the necessary files and create your local server configuration.
 This command will also generate default roles and channels.
-**If you delete auto-generated channels** you must re-registering the bot to different channels before usage (explained below).
+**If you delete auto-generated channels** you must re-register the bot to different channels before usage (explained below).
 
 Now, the bot has generated you four roles, one for each category of AFK check it performs. If you would prefer to have your own roles integrate with the bot, at this point you can register those with this command!
 
@@ -33,16 +33,27 @@ Use the command `.accessrole security @roles` to do this.
 ### Extra ###
 
 Guess what? You're finished with the basic setup!
+
+If you want to setup the bot's **auto-verification**, follow the following steps:
+- Open a "verify" channel where all users can type. (I advise you to use slowmode on this channel and moderate it well)
+- Type `.say -verifyembed` in that channel to print out the verification instructions message
+- Ensure that you have at least **one** member role configured with the bot
+- Type `.verification enable` –> Allows users to run the `.verify` command and be automatically verified by bot.
+- Type `.verification enablehiddenloc` -> Requires users to have their location private on the RealmEye API before verifying.
+- Type `.verification requirement <#>` -> Requires users to meet the minimum star requirement specified (must be <85)
+- To view current verification settings, type `.verification`. All set!
+
 If you want to **unregister** the default bot-created roles (or any other roles, from any category) simply type `.removeAccessRole <types> @roles`.
 For example, unregistering the role "abc" from all permissions would look like this: `.removeAccessRole all @abc` (assuming you properly ping the role).
 *Note: Deleting roles will automatically unregister them from the bot*.
 
 If you want to **register different channels** from the default bot-created channels simply type `.help changechannel` for more information.
 
-How do I reconfigurate the server you might ask? 
+How do I reconfigurate the server?
 There is a command! The `.reconfig` command will **wipe the bot's database entry** for your guild and **delete all bot-generated channels** within your guild. 
-If you ever accidentally delete one of the auto-generated text channels, you must re-register it with `.changechannel` or reconfigurate the server!
-*Note: This will not delete auto-generated roles, so make sure you do that to avoid role clutter!*
+*Note: This will not delete auto-generated roles to avoid messing up your role system, so make sure you do that to avoid role clutter!*
+
+If you ever accidentally delete one of the auto-generated text channels, you must re-register it with the command `.changechannel`.
 
 Lastly, if you want to see the server's current configuration, type `.showconfig`!
 
