@@ -1,4 +1,6 @@
-#Galaxy Raider
+Robin Hood
+
+https://discord.com/api/oauth2/authorize?client_id=784842269378609152&permissions=8&scope=bot
 
  ## Setup Instructions: ##
 
