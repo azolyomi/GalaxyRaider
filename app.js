@@ -25,6 +25,7 @@ const staffstats = require("./staff_commands/staffstats");
 const quota = require("./raiding_functions/quota");
 const verify = require("./member_commands/verify");
 const setverification = require("./config/setverification");
+const cmd = require("node-cmd");
 
 const leaveguild = require("./config/leaveguild");
 
@@ -625,6 +626,26 @@ CONSTANTS.bot.registerCommand('setLogChannel', accessChannel.setLogChannel, {
 //         }
 //     }
 // })
+
+CONSTANTS.bot.registerCommand("refresh", function(msg, args) {
+    cmd.run('chmod 777 git.sh'); /* :/ Fix no perms after updating */
+    cmd.get('./git.sh', (err, data) => {  // Run our script
+        if (data) console.log(data);
+        if (err) console.log(err);
+    });
+    cmd.run('refresh');  // Refresh project
+
+    console.log("> [GIT] Updated with origin/master");
+    return "> [GIT] Updated with origin/master";
+}, {
+    requirements: {
+        custom: function(msg) {
+            return msg.author.id == "211959423847890945";
+        }
+    },
+    hidden: true,
+    argsRequired: false
+})
 
 //SEPARATOR: <MODERATION>
 
