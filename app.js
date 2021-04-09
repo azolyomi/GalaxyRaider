@@ -94,7 +94,7 @@ verifycommand.registerSubcommand("enable", setverification.enableVerification, {
     fullDescription: 
     `Enable Verification Command
     
-    Enables non-members to use the '.verify' command.`
+    Allows non-members to use the '.verify' command.`
 });
 
 verifycommand.registerSubcommand("disable", setverification.disableVerification, {

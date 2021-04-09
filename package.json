@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "eris": "^0.14.0",
+    "eris": "^0.14.1",
     "eris-reactions": "^0.1.3",
     "mongodb": "^3.6.4",
     "mysql": "^2.18.1",
