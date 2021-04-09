@@ -2,7 +2,7 @@
 [Add Robin Hood to your Discord Server!](https://discord.com/api/oauth2/authorize?client_id=784842269378609152&permissions=8&scope=bot)
 
 [Support my Patreon!](https://patreon.com/Theurul)
-  
+  x
 # Setup Instructions: #
  
  > Pre-Tip: At any point, you can view the current server configuration with `.showconfig`
