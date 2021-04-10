@@ -1,5 +1,6 @@
 const CONSTANTS = require("./constants");
 const CONFIG = require("./config");
+const RAIDCONSTANTS = require("../raiding_functions/RAIDCONSTANTS");
 
 function showConfigDefault(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "There is no config entry for this server in the database. Type \`.config\` and try again.";
@@ -8,8 +9,10 @@ function showConfigDefault(msg, args) {
         embed: {
             title: "Server Configuration",
             description: 
-            `**Guild Name**: ${server.guildName}
-            **Guild ID**: ${server._id}
+            `**Guild Name**: \`${server.guildName}\`
+            **Guild ID**: \`${server._id}\`
+            **Premium**: ${server.premium?(server.premium == true?RAIDCONSTANTS.checkEmoji:RAIDCONSTANTS.redXEmoji):RAIDCONSTANTS.redXEmoji}
+
             **Log Channel**: <#${CONFIG.SystemConfig.servers[msg.guildID].logchannel}>
             **Suspended Role**: <@&${CONFIG.SystemConfig.servers[msg.guildID].suspendrole}>
             **Staff Roles**: [${server.staffroles.length} entries...] (do \`.showconfig staffroles\` for more)

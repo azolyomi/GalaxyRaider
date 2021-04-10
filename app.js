@@ -26,6 +26,9 @@ const quota = require("./raiding_functions/quota");
 const verify = require("./member_commands/verify");
 const setverification = require("./config/setverification");
 const cmd = require("node-cmd");
+const parse = require("./staff_commands/parse");
+const registerpremiumguild = require("./config/registerpremiumguild");
+const RAIDCONSTANTS = require("./raiding_functions/RAIDCONSTANTS");
 
 const leaveguild = require("./config/leaveguild");
 
@@ -157,7 +160,26 @@ verifycommand.registerSubcommand("requirement", setverification.setMinStars, {
     _Example_: \`${CONSTANTS.botPrefix}verification requirement 40\` –> Sets the star verification requirement for the server to 40.`
 });
 
+CONSTANTS.bot.registerCommand("parse", parse.parseImageURL, {
+    argsRequired: true,
+    aliases: ["parseurl"]
+})
 
+CONSTANTS.bot.registerCommand("registerpremiumguild", registerpremiumguild.registerPremiumGuildCommand, {
+    requirements: {
+        custom: function(msg) {
+            return (msg.author.id == "211959423847890945");
+        }
+    }
+})
+
+CONSTANTS.bot.registerCommand("unregisterpremiumguild", registerpremiumguild.unregisterPremiumGuildCommand, {
+    requirements: {
+        custom: function(msg) {
+            return (msg.author.id == "211959423847890945");
+        }
+    }
+})
 
 //SEPARATOR: <LEADING>
 
@@ -915,6 +937,9 @@ const helpCommand = CONSTANTS.bot.registerCommand("help", function(msg, args) {
                     
                     **${CONSTANTS.botPrefix}vethc** – Start a **Veteran** headcount 
                     **${CONSTANTS.botPrefix}vetafk** – Start a **Veteran** AFK check
+
+                    ${RAIDCONSTANTS.checkEmoji}__**Premium Commands:**__
+                    **${CONSTANTS.botPrefix}parse** – Parse a /who for players not in your voice channel.
         
                     Do ${CONSTANTS.botPrefix}help <command> for more information on that command.
                     `,
