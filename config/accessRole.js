@@ -195,6 +195,45 @@ exports.removeAccessVet = removeAccessVet;
 exports.removeAccessBooster = removeAccessBooster;
 
 
+function clearAccessMember(msg, args) {
+    return clearNonstaffAccess(msg, args, "member");
+}
+function clearAccessVet(msg, args) {
+    return clearNonstaffAccess(msg, args, "vet");
+}
+function clearAccessBooster(msg, args) {
+    return clearNonstaffAccess(msg, args, "booster");
+}
+
+function clearNonstaffAccess(msg, args, type) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
+
+    let acceptableNonstaffAccessTypes = ["member", "vet", "booster"];
+    if (!type || !acceptableNonstaffAccessTypes.includes(type)) return `Not a valid access type, must be one of \`${acceptableNonstaffAccessTypes.join(", ")}\``;
+
+    try {
+        if (type === "member") {
+            CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess = [];
+        }
+        else if (type === "vet") {
+            CONFIG.SystemConfig.servers[msg.guildID].nonstaff.vetaccess = [];
+        }
+        else if (type === "booster") {
+            CONFIG.SystemConfig.servers[msg.guildID].nonstaff.boosteraccess = [];
+        }
+        
+        CONFIG.updateConfig(msg.guildID);
+        return `Successfully removed all \`${type}\` roles from the bot access.`;
+    }
+    catch(e) {
+        throw e;
+    }
+}
+
+exports.clearAccessMember = clearAccessMember;
+exports.clearAccessVet = clearAccessVet;
+exports.clearAccessBooster = clearAccessBooster;
+
 function setSuspendRole(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
     else if (!(msg.roleMentions.length > 0)) return "You need to mention a role for that!";
@@ -298,3 +337,14 @@ exports.removeAccessBoosterHelp =
 
 **<@roles>**: a list of space-separated mentioned roles. To mention a role, type @<rolename> and click the correct role, or type <@&roleID>.
 `
+
+exports.clearAccessMemberHelp = 
+`Clear (remove all roles from) bot member access list.`
+
+exports.clearAccessVeteranHelp = 
+`Clear (remove all roles from) bot veteran access list.`
+
+exports.clearAccessBoosterHelp = 
+`Clear (remove all roles from) bot booster access list.`
+
+

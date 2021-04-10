@@ -19,6 +19,7 @@ const getinfo = require("./staff_commands/getinfo");
 const setpoints = require("./config/setpoints");
 const leaderboard = require("./staff_commands/leaderboard");
 const manualverify = require("./staff_commands/manualverify");
+const manualverifyvet = require("./staff_commands/manualverifyvet");
 const setrunpoints = require("./config/setrunpoints");
 const logrun = require("./staff_commands/logrun");
 const staffstats = require("./staff_commands/staffstats");
@@ -56,109 +57,7 @@ CONSTANTS.bot.registerCommand("instructions", instructions.showInstructions, {
     }
 })
 
-CONSTANTS.bot.registerCommand("verify", verify.verify, {
-    argsRequired: false,
-    caseInsensitive: true,
-    deleteCommand: true,
-    permissionMessage: "",
-    requirements: {
-        custom: function(msg) {
-            if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
-            else if (!CONFIG.SystemConfig.servers[msg.guildID].verification.enabled) return false;
-            else if (msg.member.roles.includes(CONFIG.SystemConfig.servers[msg.guildID].suspendrole)) return false;
-            else return (
-                    !(CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.every(id => 
-                        (msg.member.roles.includes(id))))
-                );
-        }
-    }
-});
 
-let verifycommand = CONSTANTS.bot.registerCommand("verification", setverification.verification, {
-    caseInsensitive: true,
-    requirements: {
-        permissions: {
-            "administrator": true,
-        }
-    },
-    fullDescription:
-    `Verification Config Command.
-    
-    Shows the current verification config.`
-})
-
-verifycommand.registerSubcommand("enable", setverification.enableVerification, {
-    caseInsensitive: true,
-    requirements: {
-        permissions: {
-            "administrator": true,
-        }
-    },
-    fullDescription: 
-    `Enable Verification Command
-    
-    Allows non-members to use the '.verify' command.`
-});
-
-verifycommand.registerSubcommand("disable", setverification.disableVerification, {
-    caseInsensitive: true,
-    requirements: {
-        permissions: {
-            "administrator": true,
-        }
-    },
-    fullDescription: 
-    `Disable Verification Command
-    
-    Disables non-members from using the '.verify' command.`
-});
-
-verifycommand.registerSubcommand("enableHiddenLoc", setverification.requirehiddenLoc, {
-    caseInsensitive: true,
-    requirements: {
-        permissions: {
-            "administrator": true,
-        }
-    },
-    fullDescription: 
-    `Enable Hidden Location for Verification Command
-    
-    Requires the verifier to have their realmeye location privated for run security.`
-});
-
-verifycommand.registerSubcommand("disableHiddenLoc", setverification.norequirehiddenLoc, {
-    caseInsensitive: true,
-    requirements: {
-        permissions: {
-            "administrator": true,
-        }
-    },
-    fullDescription: 
-    `Disable Hidden Location for Verification Command
-    
-    Disalbes requirement for the verifier to have their realmeye location privated for run security.`
-});
-
-verifycommand.registerSubcommand("requirement", setverification.setMinStars, {
-    aliases: ["starRequirement", "ssr"],
-    caseInsensitive: true,
-    argsRequired: true,
-    requirements: {
-        permissions: {
-            "administrator": true,
-        }
-    },
-    fullDescription: 
-    `Set Star Requirement for Verification Command
-    
-    Sets the star requirement for the verifier to an integer >= 0.
-    
-    **Usage*: \`${CONSTANTS.botPrefix}verification requirement <minStars>\`
-    
-    **<minStars>**: The minimum number of stars to accept for verification. Minimum 0. No max (Do not exceed current ROTMG White Star Requirement)
-    
-    _Example_: \`${CONSTANTS.botPrefix}verification requirement 40\` –> Sets the star verification requirement for the server to 40.`
-});
 
 CONSTANTS.bot.registerCommand("parse", parse.parseImageURL, {
     aliases: ["parseurl", "parseimage"],
@@ -449,6 +348,110 @@ CONSTANTS.bot.registerCommand("quotarole", quota.editQuotaRole, {
     argsRequired: true
 })
 
+CONSTANTS.bot.registerCommand("verify", verify.verify, {
+    argsRequired: false,
+    caseInsensitive: true,
+    deleteCommand: true,
+    permissionMessage: "",
+    requirements: {
+        custom: function(msg) {
+            if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
+            else if (!CONFIG.SystemConfig.servers[msg.guildID].verification.enabled) return false;
+            else if (msg.member.roles.includes(CONFIG.SystemConfig.servers[msg.guildID].suspendrole)) return false;
+            else return (
+                    !(CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.every(id => 
+                        (msg.member.roles.includes(id))))
+                );
+        }
+    }
+});
+
+let verifycommand = CONSTANTS.bot.registerCommand("verification", setverification.verification, {
+    caseInsensitive: true,
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    fullDescription:
+    `Verification Config Command.
+    
+    Shows the current verification config.`
+})
+
+verifycommand.registerSubcommand("enable", setverification.enableVerification, {
+    caseInsensitive: true,
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    fullDescription: 
+    `Enable Verification Command
+    
+    Allows non-members to use the '.verify' command.`
+});
+
+verifycommand.registerSubcommand("disable", setverification.disableVerification, {
+    caseInsensitive: true,
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    fullDescription: 
+    `Disable Verification Command
+    
+    Disables non-members from using the '.verify' command.`
+});
+
+verifycommand.registerSubcommand("enableHiddenLoc", setverification.requirehiddenLoc, {
+    caseInsensitive: true,
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    fullDescription: 
+    `Enable Hidden Location for Verification Command
+    
+    Requires the verifier to have their realmeye location privated for run security.`
+});
+
+verifycommand.registerSubcommand("disableHiddenLoc", setverification.norequirehiddenLoc, {
+    caseInsensitive: true,
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    fullDescription: 
+    `Disable Hidden Location for Verification Command
+    
+    Disalbes requirement for the verifier to have their realmeye location privated for run security.`
+});
+
+verifycommand.registerSubcommand("requirement", setverification.setMinStars, {
+    aliases: ["starRequirement", "ssr"],
+    caseInsensitive: true,
+    argsRequired: true,
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    fullDescription: 
+    `Set Star Requirement for Verification Command
+    
+    Sets the star requirement for the verifier to an integer >= 0.
+    
+    **Usage*: \`${CONSTANTS.botPrefix}verification requirement <minStars>\`
+    
+    **<minStars>**: The minimum number of stars to accept for verification. Minimum 0. No max (Do not exceed current ROTMG White Star Requirement)
+    
+    _Example_: \`${CONSTANTS.botPrefix}verification requirement 40\` –> Sets the star verification requirement for the server to 40.`
+});
+
 // CONSTANTS.bot.registerCommand("removequotarole", quota.removeQuotaRole, {
 //     requirements: {
 //         permissions: {
@@ -572,6 +575,66 @@ removeAccessRoleCommand.registerSubcommand("booster", accessRole.removeAccessBoo
     fullDescription: accessRole.removeAccessBoosterHelp,
     argsRequired: true
 });
+
+const clearaccessrolecommand = CONSTANTS.bot.registerCommand("clearaccessrole", function(msg, args) {
+    return {
+        embed: {
+            title: `Clear Access Command`,
+            description:
+            `Used to clear access from **ALL** \`member, vet,\` or \`booster\` bot access roles.
+            
+            This should never happen, but if you're searching for a way to clear a broken staff role that appears as "undefined" in your config, either contact the developer (recommended) or run the \`.reconfig\` command.
+            **Note: Reconfiguration will revert the server configuration (including staff access) and recreate all auto-generated channels/roles. Use this sparingly.**`,
+            color: 3145463
+        }
+    }
+}, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    caseInsensitive: true,
+    aliases: ["clearaccess"],
+    fullDescription: 
+    `Used to clear access from either of \`[member, vet, booster]\` bot access roles.
+    
+    This should **__never__** happen, but if you need to clear a broken staff role that appears as "undefined" in your config, either contact the developer (recommended) or run the \`.reconfig\` command.
+    **Note: Reconfiguration will revert the server configuration (including staff access) and recreate all auto-generated channels/roles. Use this sparingly.**`
+})
+
+clearaccessrolecommand.registerSubcommand("member", accessRole.clearAccessMember, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    caseInsensitive: true,
+    fullDescription: accessRole.clearAccessMemberHelp,
+    argsRequired: false
+})
+
+clearaccessrolecommand.registerSubcommand("vet", accessRole.clearAccessVet, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    caseInsensitive: true,
+    fullDescription: accessRole.clearAccessVeteranHelp,
+    argsRequired: false
+})
+
+clearaccessrolecommand.registerSubcommand("booster", accessRole.clearAccessBooster, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    caseInsensitive: true,
+    fullDescription: accessRole.clearAccessBoosterHelp,
+    argsRequired: false
+})
 
 const changeChannelCommand = CONSTANTS.bot.registerCommand("changeChannel", accessChannel.changeChannel, {
     requirements: {
@@ -818,6 +881,13 @@ CONSTANTS.bot.registerCommand("mv", manualverify.manualVerify, {
     argsRequired: true
 })
 
+CONSTANTS.bot.registerCommand("vetverify", manualverifyvet.manualVerifyVet, {
+    caseInsensitive: true,
+    fullDescription: manualverifyvet.helpMessage,
+    aliases: ["mvvet", "niceballs"],
+    argsRequired: true
+})
+
 CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
     return {embed: {
         title: "Configuration Commands",
@@ -830,6 +900,7 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
 
         **${CONSTANTS.botPrefix}accessrole** – Add bot privileges to roles
         **${CONSTANTS.botPrefix}removeaccessrole** – Remove bot privileges from roles
+        **${CONSTANTS.botPrefix}clearaccessrole** – Remove bot privileges from roles in bulk
         **${CONSTANTS.botPrefix}setsuspendrole** – Change the 'suspended' role for bot use
 
         **${CONSTANTS.botPrefix}changechannel** – Change a default text channel 
@@ -928,6 +999,7 @@ const helpCommand = CONSTANTS.bot.registerCommand("help", function(msg, args) {
                     **${CONSTANTS.botPrefix}unsuspend** – Unsuspend a user
                     **${CONSTANTS.botPrefix}suspendlist** – Get a list of currently suspended users
                     **${CONSTANTS.botPrefix}mv** – Manually verify a user.
+                    **${CONSTANTS.botPrefix}vetverify** – Verify a user as a veteran raider.
         
                     __**Raid Leader Commands:**__
                     **${CONSTANTS.botPrefix}hc** – Start a headcount
