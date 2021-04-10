@@ -39,6 +39,7 @@ async function initialize(msg, args) {
         "vetoryx": [oryxRole.id],
         "vetexaltation": [exaltRole.id],
         "vetmisc": [miscRole.id],
+        "denyhighreqs": []
     }
 
 
