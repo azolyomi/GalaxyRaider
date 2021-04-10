@@ -10,7 +10,7 @@ exports.execute = executevc;
 
 exports.COMMAND_MkVcFullDescription = `Make Voice Channel Command. 
 **Usage:** \`${CONSTANTS.botPrefix}makevc <category> <type> <?flags> <?name>\`
-**<category>:** Raid category, one of \`main, baler\`
+**<category>:** Raid category, one of \`main, veteran\`
 **<type>:** \`regular, highreqs\`
 **<?flags>:** \`-cap:<number>\` sets the vc cap to the desired number (must be between 0 and 99). Defaults: 75 for regular, 35 for highreqs.
 **<?name>:** Optional: the desired name of the vc (default is <IGN>'s Run)
