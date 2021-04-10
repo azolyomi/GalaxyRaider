@@ -161,8 +161,8 @@ verifycommand.registerSubcommand("requirement", setverification.setMinStars, {
 });
 
 CONSTANTS.bot.registerCommand("parse", parse.parseImageURL, {
-    argsRequired: true,
-    aliases: ["parseurl"]
+    aliases: ["parseurl", "parseimage"],
+    fullDescription: parse.helpCommand
 })
 
 CONSTANTS.bot.registerCommand("registerpremiumguild", registerpremiumguild.registerPremiumGuildCommand, {
@@ -170,7 +170,8 @@ CONSTANTS.bot.registerCommand("registerpremiumguild", registerpremiumguild.regis
         custom: function(msg) {
             return (msg.author.id == "211959423847890945");
         }
-    }
+    },
+    permissionMessage: "",
 })
 
 CONSTANTS.bot.registerCommand("unregisterpremiumguild", registerpremiumguild.unregisterPremiumGuildCommand, {
@@ -178,7 +179,8 @@ CONSTANTS.bot.registerCommand("unregisterpremiumguild", registerpremiumguild.unr
         custom: function(msg) {
             return (msg.author.id == "211959423847890945");
         }
-    }
+    },
+    permissionMessage: "",
 })
 
 //SEPARATOR: <LEADING>
