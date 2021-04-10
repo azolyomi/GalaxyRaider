@@ -255,6 +255,14 @@ async function startAfk(message, args, CHANNELOBJECT) {
                     })
                 }
                 
+                CONFIG.SystemConfig.servers[message.guildID].streamingperms.forEach(id => {
+                    activeChannelPermissions.push({
+                        id: id,
+                        type: 0,
+                        allow: 512,
+                        deny: 0,
+                    })
+                })
         
                 // Assign staff role permissions:
         

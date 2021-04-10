@@ -1,6 +1,45 @@
 const CONSTANTS = require("./constants");
 const CONFIG = require("./config");
 
+async function streamingPerms(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
+    else if (!(msg.roleMentions.length > 0)) return "You need to mention at least one role for that!";
+
+    let types = ["allow", "deny"];
+    let type = args[0];
+    if (!types.includes(type)) return `You must specify whether to \`allow\` or \`deny\` the permissions. Ex: \`.streamingperms allow @role1\``;
+
+    if (type == "allow") {
+        await msg.roleMentions.forEach(id => {
+            if (!CONFIG.SystemConfig.servers[msg.guildID].streamingperms.includes(id)) CONFIG.SystemConfig.servers[msg.guildID].streamingperms.push(id);
+        })
+    }
+    else {
+        await msg.roleMentions.forEach(id => {
+            CONFIG.SystemConfig.servers[msg.guildID].streamingperms = CONFIG.SystemConfig.servers[msg.guildID].streamingperms.filter(enabledID => enabledID != id);
+        })
+    }
+    CONFIG.updateConfig(msg.guildID);
+    
+    return `Successfully ${type=="allow"?"added":"removed"} ${msg.roleMentions.map((roleID, index) => {
+        return `<@&${roleID}>`;
+    }).join(", ")} ${type=="allow"?"to":"from"} bot access for \`streaming\` permissions`
+}
+
+exports.streamingPerms = streamingPerms;
+
+exports.streamingPermsHelpCommand = 
+`Streaming Permissions Command
+Allows you to designate a role to have permission to stream in voice channels they have access to.
+
+**Usage**: \`.streamingperms <type> <@roles>\`
+
+**<type>**: Either \`allow\` or \`deny\`, to either allow or deny the permissions.
+
+**<@roles>**: A list of mentioned roles.
+
+Example: \`.streamingperms allow @role1 @role2\` -> enables users with @role1 and @role2 to stream in raiding voice channels that have access to.`;
+
 function addStaffAccess(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
     else if (!(msg.roleMentions.length > 0)) return "You need to mention a role for that!";

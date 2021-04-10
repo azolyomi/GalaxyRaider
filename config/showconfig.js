@@ -33,6 +33,7 @@ function showConfigDefault(msg, args) {
             **Member Roles**: [${server.nonstaff.memberaccess.length} entries...] (do \`.showconfig memberroles\` for more)
             **Veteran Roles**: [${server.nonstaff.vetaccess.length} entries...] (do \`.showconfig vetroles\` for more)
             **Booster Roles**: [${server.nonstaff.boosteraccess.length} entries...] (do \`.showconfig boosterroles\` for more)
+            **Streaming Roles**: [${server.streamingperms.length} entries...] (do \`.showconfig streamingperms\` for more)
             **Configurated Channels**: (do \`.showconfig channels\` for more)
             **Item Logging Points**: (do \`.showconfig points\` for more)
             `,
@@ -307,3 +308,21 @@ function showConfigQuotaOverrideRoles(msg, args) {
     }
 }
 exports.showConfigQuotaOverrideRoles = showConfigQuotaOverrideRoles;
+
+function showConfigStreamingRoles(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "There is no config entry for this server in the database. Type \`.config\` and try again.";
+    let server = CONFIG.SystemConfig.servers[msg.guildID];
+    return {
+        embed: {
+            title: "Server Configuration",
+            description: 
+            `**List of roles with Streaming permissions**:
+            [${server.streamingperms.map((roleid, index) => {
+                return `<@&${roleid}>`
+            }).join(", ")}]
+            `,
+            color: 3145463
+        }
+    }
+}
+exports.showConfigStreamingRoles = showConfigStreamingRoles;

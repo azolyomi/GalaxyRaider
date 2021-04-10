@@ -82,7 +82,12 @@ async function makevc(message, args) {
         allow: 0,
         deny: 32507648,
     })
-
+    activeChannelPermissions.push({
+        id: message.guildID,
+        type: 0,
+        allow: 0,
+        deny: 1049600,
+    })
         if (CHANNELOBJECT == CONFIG.SystemConfig.servers[message.guildID].channels.Veteran) {
             CONFIG.SystemConfig.servers[message.guildID].nonstaff.memberaccess.forEach(item => {
                 activeChannelPermissions.push({
@@ -132,6 +137,15 @@ async function makevc(message, args) {
                 })
             }
         }
+        
+        CONFIG.SystemConfig.servers[message.guildID].streamingperms.forEach(id => {
+            activeChannelPermissions.push({
+                id: id,
+                type: 0,
+                allow: 512,
+                deny: 0,
+            })
+        })
 
         // Assign staff role permissions:
 

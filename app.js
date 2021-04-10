@@ -288,6 +288,17 @@ showconfigcommand.registerSubcommand("runpoints", showconfig.showConfigRunPointV
     aliases: ["runpts"],
 })
 
+showconfigcommand.registerSubcommand("streamingperms", showconfig.showConfigStreamingRoles, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    }, 
+    caseInsensitive: true,
+    fullDescription: "List current Streaming Roles configurated in bot server.",
+    aliases: ["stream", "streamingperms"],
+})
+
 CONSTANTS.bot.registerCommand("changereqsheet", changereqsheet.changereqsheet, {
     requirements: {
         permissions: {
@@ -648,6 +659,18 @@ const changeChannelCommand = CONSTANTS.bot.registerCommand("changeChannel", acce
     argsRequired: true
 })
 
+CONSTANTS.bot.registerCommand("streamingperms", accessRole.streamingPerms, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    caseInsensitive: true,
+    aliases: ["stream"],
+    fullDescription: accessRole.streamingPermsHelpCommand,
+    argsRequired: true
+})
+
 CONSTANTS.bot.registerCommand('setSuspendRole', accessRole.setSuspendRole, {
     requirements: {
         permissions: {
@@ -901,6 +924,7 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
         **${CONSTANTS.botPrefix}accessrole** – Add bot privileges to roles
         **${CONSTANTS.botPrefix}removeaccessrole** – Remove bot privileges from roles
         **${CONSTANTS.botPrefix}clearaccessrole** – Remove bot privileges from roles in bulk
+        **${CONSTANTS.botPrefix}streamingperms** – Add/remove a role's permissions to stream in raid VCs
         **${CONSTANTS.botPrefix}setsuspendrole** – Change the 'suspended' role for bot use
 
         **${CONSTANTS.botPrefix}changechannel** – Change a default text channel 

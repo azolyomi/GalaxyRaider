@@ -64,6 +64,7 @@ exports.addGuildConfigEntry = function(guildID, guildName, suspendrole, staffrol
             "vetaccess": [],
             "boosteraccess": [],
           },
+          "streamingperms": [],
           "logItemPointValues": {
             "keys": 10,
             "vials": 10,
