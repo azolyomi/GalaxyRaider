@@ -2,9 +2,10 @@ const CONFIG = require("../config/config");
 const CONSTANTS = require("../config/constants");
 const request = require("request");
 const isImageURL = require("valid-image-url");
+require("dotenv").config();
 
 async function parseImageURL(msg, args) {
-    if (!CONFIG.SystemConfig.servers[msg.guildID].premium) return `Your server must be registered with the bot as a premium server ($5/mo) to use that feature.`;
+    if (!CONFIG.SystemConfig.servers[msg.guildID].premium) return `Your server must be registered with the bot as a premium server to use that feature.`;
     let url;
     if (args[0]) url = args[0];
     else if (msg.attachments.length > 0) url = msg.attachments[0].url;
@@ -33,7 +34,7 @@ async function parseImageURL(msg, args) {
                 color: 3145463
             }
         })
-        request("https://api.ocr.space/parse/imageurl?apikey=54c2d4dd6888957&url=" + url, {json:true}, async (err, res, body) => {
+        request("https://api.ocr.space/parse/imageurl?apikey=" + process.env.OCRAPIKEY + "&url=" + url, {json:true}, async (err, res, body) => {
             if (err) {
                 CONSTANTS.bot.createMessage(msg.channel.id, `Something went wrong with that operation.`);
                 console.log(err);
