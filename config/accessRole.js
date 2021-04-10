@@ -275,6 +275,58 @@ exports.clearAccessMember = clearAccessMember;
 exports.clearAccessVet = clearAccessVet;
 exports.clearAccessBooster = clearAccessBooster;
 
+function highreqs(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
+    else if (!CONFIG.SystemConfig.servers[msg.guildID].premium) return `Your server must be registered with the bot as a premium server to use that feature.`;
+    else if (!(msg.roleMentions.length > 0)) return "You need to mention a role for that!";
+
+    let types = ["allow","deny"];
+    let type = args[0];
+    if (!types.includes(type)) return `You must specify in your first argument whether you wish to \`allow\` or \`deny\` permissions. Ex: \`.highreqs allow @role1\``;
+
+    let failedCheck = [];
+    msg.roleMentions.forEach(id => {
+        if (!CONFIG.SystemConfig.servers[msg.guildID].staffroles.includes(id)) {
+            failedCheck.push(id);
+        }
+    })
+
+    if (failedCheck.length > 0) {
+        return `Error: The roles ${failedCheck.map(id => `<@&${id}>`).join(", ")} are not staff roles in the database. First configure them as such, then edit highreqs capabilities.`
+    }
+
+    if (type == "deny") {
+        msg.roleMentions.forEach(roleID => {
+            if (CONFIG.SystemConfig.servers[msg.guildID].modroles.includes(roleID)) CONSTANTS.bot.createMessage(msg.channel.id, `The role <@&${roleID}> is a mod role. Nothing was changed for this role.`);
+            else if (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.denyhighreqs.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.denyhighreqs.push(roleID);
+        })
+    }
+    else {
+        msg.roleMentions.forEach(roleID => {
+            CONFIG.SystemConfig.servers[msg.guildID].afkaccess.denyhighreqs = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.denyhighreqs.filter(id => id != roleID);
+        })
+    }
+
+    CONFIG.updateConfig(msg.guildID);
+    return `Successfully ${type=="allow"?"added":"removed"} permissions for ${msg.roleMentions.map((roleID, index) => {
+        return `<@&${roleID}>`;
+    }).join(", ")} ${type=="allow"?"to":"from"} start${type=="allow"?"":"ing"} highreqs raids.`;
+}
+
+exports.highreqs = highreqs;
+
+exports.highreqsHelpCommand = 
+`Edit Highreqs Status Command
+Used to either allow / deny capacity to start highreqs raids for certain roles. Default is allowed for all new roles configurated with bot.
+
+**Usage**: \`.highreqs <type> <@roles>\`
+
+**<type>**: Either \`allow\` or \`deny\` to specify whether or not you are allowing the role access to highreqs raids or denying it.
+
+**<@roles>**: A list of mentioned roles.
+
+Example: \`.highreqs deny @role1\` -> If @role1 is a configured staff role, eliminates the role's capacity to start highreqs raids.`;
+
 function setSuspendRole(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
     else if (!(msg.roleMentions.length > 0)) return "You need to mention a role for that!";

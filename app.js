@@ -671,6 +671,18 @@ CONSTANTS.bot.registerCommand("streamingperms", accessRole.streamingPerms, {
     argsRequired: true
 })
 
+CONSTANTS.bot.registerCommand("highreqs", accessRole.highreqs, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    caseInsensitive: true,
+    aliases: ["edithighreqs"],
+    fullDescription: accessRole.highreqsHelpCommand,
+    argsRequired: true
+})
+
 CONSTANTS.bot.registerCommand('setSuspendRole', accessRole.setSuspendRole, {
     requirements: {
         permissions: {
@@ -945,6 +957,7 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
         ${RAIDCONSTANTS.checkEmoji} __**Premium Commands**__:
         **${CONSTANTS.botPrefix}clearaccessrole** – Remove bot privileges from roles in bulk
         **${CONSTANTS.botPrefix}streamingperms** – Add/remove a role's permissions to stream in raid VCs
+        **${CONSTANTS.botPrefix}highreqs** - Edit the highreqs capacities for a staff role.
         
         Do ${CONSTANTS.botPrefix}help <command> for more information on that command`,
         color: 3145463,

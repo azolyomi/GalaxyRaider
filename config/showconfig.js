@@ -139,6 +139,11 @@ async function showConfigAFKAccess(msg, args) {
             }).join(", ")}]
             Miscellaneous Dungeons Configured Roles: [${server.afkaccess.vetmisc.map((roleid, index) => {
                 return `<@&${roleid}>`
+            }).join(", ")}]
+            
+            
+            Denied Highreqs Roles: [${server.afkaccess.denyhighreqs.map((roleid, index) => {
+                return `<@&${roleid}>`
             }).join(", ")}]`,
             color: 3145463
         }
@@ -326,3 +331,4 @@ function showConfigStreamingRoles(msg, args) {
     }
 }
 exports.showConfigStreamingRoles = showConfigStreamingRoles;
+
