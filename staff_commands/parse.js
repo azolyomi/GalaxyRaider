@@ -5,7 +5,8 @@ const isImageURL = require("valid-image-url");
 require("dotenv").config();
 
 async function parseImageURL(msg, args) {
-    if (!CONFIG.SystemConfig.servers[msg.guildID].premium) return `Your server must be registered with the bot as a premium server to use that feature.`;
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return `Your server is not configured. First configure the server with the bot using \`.config\``;
+    else if (!CONFIG.SystemConfig.servers[msg.guildID].premium) return `Your server must be registered with the bot as a premium server to use that feature.`;
     let url;
     if (args[0]) url = args[0];
     else if (msg.attachments.length > 0) url = msg.attachments[0].url;

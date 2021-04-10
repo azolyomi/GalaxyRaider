@@ -18,7 +18,7 @@ exports.registerPremiumGuildCommand = registerPremiumGuildCommand
 
 function unregisterPremiumGuildCommand(msg, args) {
     if (args[0]) return unregisterPremiumGuild(args[0]);
-    else return registerPremiumGuild(msg.guildID);
+    else return unregisterPremiumGuild(msg.guildID);
 }
 
 function unregisterPremiumGuild(id) {

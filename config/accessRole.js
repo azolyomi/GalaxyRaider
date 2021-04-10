@@ -3,6 +3,7 @@ const CONFIG = require("./config");
 
 async function streamingPerms(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
+    else if (!CONFIG.SystemConfig.servers[msg.guildID].premium) return `Your server must be registered with the bot as a premium server to use that feature.`;
     else if (!(msg.roleMentions.length > 0)) return "You need to mention at least one role for that!";
 
     let types = ["allow", "deny"];
@@ -246,6 +247,7 @@ function clearAccessBooster(msg, args) {
 
 function clearNonstaffAccess(msg, args, type) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
+    else if (!CONFIG.SystemConfig.servers[msg.guildID].premium) return `Your server must be registered with the bot as a premium server to use that feature.`;
 
     let acceptableNonstaffAccessTypes = ["member", "vet", "booster"];
     if (!type || !acceptableNonstaffAccessTypes.includes(type)) return `Not a valid access type, must be one of \`${acceptableNonstaffAccessTypes.join(", ")}\``;

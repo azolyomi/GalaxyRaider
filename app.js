@@ -923,8 +923,6 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
 
         **${CONSTANTS.botPrefix}accessrole** – Add bot privileges to roles
         **${CONSTANTS.botPrefix}removeaccessrole** – Remove bot privileges from roles
-        **${CONSTANTS.botPrefix}clearaccessrole** – Remove bot privileges from roles in bulk
-        **${CONSTANTS.botPrefix}streamingperms** – Add/remove a role's permissions to stream in raid VCs
         **${CONSTANTS.botPrefix}setsuspendrole** – Change the 'suspended' role for bot use
 
         **${CONSTANTS.botPrefix}changechannel** – Change a default text channel 
@@ -943,6 +941,10 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
         __**Verification**__:
 
         **${CONSTANTS.botPrefix}verification**: Prints out verification configuration and commands
+
+        ${RAIDCONSTANTS.checkEmoji} __**Premium Commands**__:
+        **${CONSTANTS.botPrefix}clearaccessrole** – Remove bot privileges from roles in bulk
+        **${CONSTANTS.botPrefix}streamingperms** – Add/remove a role's permissions to stream in raid VCs
         
         Do ${CONSTANTS.botPrefix}help <command> for more information on that command`,
         color: 3145463,
@@ -1036,7 +1038,7 @@ const helpCommand = CONSTANTS.bot.registerCommand("help", function(msg, args) {
                     **${CONSTANTS.botPrefix}vethc** – Start a **Veteran** headcount 
                     **${CONSTANTS.botPrefix}vetafk** – Start a **Veteran** AFK check
 
-                    ${RAIDCONSTANTS.checkEmoji}__**Premium Commands:**__
+                    ${RAIDCONSTANTS.checkEmoji} __**Premium Commands:**__
                     **${CONSTANTS.botPrefix}parse** – Parse a /who for players not in your voice channel.
         
                     Do ${CONSTANTS.botPrefix}help <command> for more information on that command.
