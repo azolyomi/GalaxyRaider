@@ -31,7 +31,7 @@ async function parseImageURL(msg, args) {
                 color: 3145463
             }
         })
-        request("https://api.ocr.space/parse/imageurl?apikey=54c2d4dd6888957&url=" + url, {json:true}, (err, res, body) => {
+        request("https://api.ocr.space/parse/imageurl?apikey=54c2d4dd6888957&url=" + url, {json:true}, async (err, res, body) => {
             if (err) {
                 CONSTANTS.bot.createMessage(msg.channel.id, `Something went wrong with that operation.`);
                 console.log(err);
@@ -42,10 +42,12 @@ async function parseImageURL(msg, args) {
                 console.log(err);
                 return;
             }
-            if (CONSTANTS.bot.getMessage(parsingMessage.channel.id, parsingMessage.id))CONSTANTS.bot.deleteMessage(parsingMessage.channel.id, parsingMessage.id);
             let voiceChannelMemberNames = voiceChannel.voiceMembers.map(member => member.nick?member.nick:member.username);
-            let parsedText = body.ParsedResults[0].ParsedText;
-            let outputText = parsedText.split(" ").map(word => word.substring(0, word.indexOf(","))).filter(name => !voiceChannelMemberNames.includes(name));
+            let parsedText = body.ParsedResults[0].ParsedText.toString();
+            console.log(parsedText);
+            parsedText = parsedText.replace(/,/g, ``);
+            parsedText = parsedText.replace(/\r\n/g, ` `);
+            let outputText = parsedText.split(" ").filter(name => !voiceChannelMemberNames.includes(name));
             outputText.shift();
             outputText.shift();
             outputText.shift();
