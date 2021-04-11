@@ -157,6 +157,9 @@ async function startAfk(message, args, CHANNELOBJECT) {
                 else if ((dungeonType === "shatters" || dungeonType === "shatters-highreqs" || dungeonType === "nest" || dungeonType === "nest-highreqs" || dungeonType === "fungal" || dungeonType === "fungal-highreqs") && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.exaltation.includes(item)))) {
                     return "You must have an \`Exaltation Leading Role\` configured with the bot to start this afk check.";
                 }
+                else if (dungeonType.includes("highreqs") && (message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.denyhighreqs.includes(item)))) {
+                    return `You have a role that prevents you from leading \`High Requirements\` raids. First have this role removed before starting this afk check.`
+                }
             }
             if (CHANNELOBJECT == CONFIG.SystemConfig.servers[message.guildID].channels.Veteran) {
                 if ((dungeonType.includes("void") || dungeonType.includes("fullskip") || dungeonType.includes("fullclear") || dungeonType.includes("cult")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vethalls.includes(item)))) {
@@ -170,6 +173,9 @@ async function startAfk(message, args, CHANNELOBJECT) {
                 }
                 else if ((dungeonType === "shatters" || dungeonType === "shatters-highreqs" || dungeonType === "nest" || dungeonType === "nest-highreqs" || dungeonType === "fungal" || dungeonType === "fungal-highreqs") && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetexaltation.includes(item)))) {
                     return "You must have an \`Veteran Exaltation Leading Role\` configured with the bot to start this afk check.";
+                }
+                else if (dungeonType.includes("highreqs") && (message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.denyhighreqs.includes(item)))) {
+                    return `You have a role that prevents you from leading \`High Requirements\` raids. First have this role removed before starting this afk check.`
                 }
             }
         }
