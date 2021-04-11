@@ -1061,6 +1061,48 @@ const helpCommand = CONSTANTS.bot.registerCommand("help", function(msg, args) {
         }    
 })
 
+CONSTANTS.bot.registerCommand("patreon", function(msg, args) {
+    return {
+        embed: {
+            author: {
+                name: `Robin Hood Patreon`,
+                icon_url: `https://cdn.discordapp.com/attachments/826194483992461383/830649754814906378/patreon.jpeg`
+            },
+            description:
+            `**Join the [Patreon](https://patreon.com/Theurul) today!**
+            
+            Developing and hosting any public bot takes both time and money to do well. That's why I rely on **your** support to keep this project up and running.
+
+            **If you're interested in additional benefits for the bot in __your server__, supporting the Patreon has cool perks like:**
+            > - _Access to the bot's **premium** ${RAIDCONSTANTS.checkEmoji} commands, like an official optical character recognition algorithm to parse screenshots of the in-game ROTMG /who command._
+            > - _A custom "meme" command for your server, that can say/do whatever you'd like it to! (With certain TOS restrictions)_
+            > - _A flex-able premium icon in the server configuration!_
+
+            **If you're a part of the [Space Travel Dungeons](https://discord.gg/STD) community, supporting the Patreon has cool perks like:**
+            > - _Access to early location in STD for runs!_
+            > - _Ability to unmute in VC!_
+            
+            Help me keep the **Robin Hood** bot alive, and join the crew as a **Rogue Vigilante** supporter, a **Merry Man**, or **Robin Hood** himself!
+
+            **[Click here to join the crew!](https://patreon.com/Theurul)**
+            `,
+            footer: {
+                text: `See you there! | ${new Date().toDateString()}`,
+                icon_url: msg.guild.iconURL
+            },
+            color: 0xff6f00
+        }
+    }
+}, {
+    requirements: {
+        custom: function(msg) {
+            return true;
+        }
+    },
+    caseInsensitive: true,
+    aliases: ["support", "donate", "info"]
+})
+
 
 CONSTANTS.bot.registerCommand("leaveguild", leaveguild.leaveGuild, {
     requirements: {
@@ -1095,7 +1137,7 @@ CONSTANTS.bot.on("ready", () => {
     console.log("Discord Bot Ready!");
     CONSTANTS.botID = CONSTANTS.bot.user.id;
     CONSTANTS.bot.editStatus("online", {
-        name: ".instructions | d.gg/STD"
+        name: ".instructions | .patreon"
     });
 })
 
