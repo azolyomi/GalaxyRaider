@@ -744,6 +744,17 @@ pingrolecommand.registerSubcommand("remove", pingroles.deletePingRole, {
     argsRequired: true
 })
 
+CONSTANTS.bot.registerCommand("setuppingmessage", pingroles.setupPingMessage, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    caseInsensitive: true,
+    fullDescription: pingroles.setupPingMessageHelpCommand,
+    argsRequired: false
+});
+
 
 
 CONSTANTS.bot.registerCommand('setSuspendRole', accessRole.setSuspendRole, {
@@ -1014,6 +1025,8 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
         **${CONSTANTS.botPrefix}accessrole** – Add bot privileges to roles
         **${CONSTANTS.botPrefix}removeaccessrole** – Remove bot privileges from roles
         **${CONSTANTS.botPrefix}setsuspendrole** – Change the 'suspended' role for bot use
+        **${CONSTANTS.botPrefix}pingrole** – Configure pingable roles.
+        **${CONSTANTS.botPrefix}setuppingmessage** – Create and register a ping message automatically. (First make sure ping roles are configured!)
 
         **${CONSTANTS.botPrefix}changechannel** – Change a default text channel 
         **${CONSTANTS.botPrefix}setlogchannel** – Change the log channel for bot use
@@ -1211,6 +1224,39 @@ CONSTANTS.bot.on("guildMemberAdd", function(guild, member) {
     suspend.rolePersist(guild, member);
 })
 
+CONSTANTS.bot.on("messageReactionAdd", function(message, emoji, reactor) {
+    if (!message.guildID) return;
+    else if (!reactor.guild) return;
+    else if (!CONFIG.SystemConfig.servers[message.guildID]) return;
+    else if (!CONFIG.SystemConfig.servers[message.guildID].pings.pingmessageid) return;
+
+    if (message.id == CONFIG.SystemConfig.servers[message.guildID].pings.pingmessageid) {
+        pingroles.pingReacted(message, reactor, emoji, true);
+    }
+})
+
+CONSTANTS.bot.on("messageReactionRemove", function(message, emoji, userid) {
+    if (!message.guildID) return;
+    else if (!CONFIG.SystemConfig.servers[message.guildID]) return;
+    else if (!CONFIG.SystemConfig.servers[message.guildID].pings.pingmessageid) return;
+
+    if (message.id == CONFIG.SystemConfig.servers[message.guildID].pings.pingmessageid) {
+        pingroles.pingReacted(message, userid, emoji, false);
+    }
+})
+
+CONSTANTS.bot.on("messageDelete", async function(message) {
+    if (!CONFIG.SystemConfig.servers[message.guildID]) return;
+    else if (!CONFIG.SystemConfig.servers[message.guildID].pings.pingmessageid) return;
+    else if (!message.guildID) {
+        message = await CONSTANTS.bot.getMessage(message.channel.id, message.id);
+    }
+    
+    if (message.id == CONFIG.SystemConfig.servers[message.guildID].pings.pingmessageid) {
+        pingroles.pingmessagedeleted(message);
+    }
+})
+
 CONSTANTS.bot.on("ready", () => {
     console.log("Discord Bot Ready!");
     CONSTANTS.botID = CONSTANTS.bot.user.id;
@@ -1218,6 +1264,7 @@ CONSTANTS.bot.on("ready", () => {
         name: ".instructions | .patreon"
     });
 })
+
 
 
 CONSTANTS.bot.connect();

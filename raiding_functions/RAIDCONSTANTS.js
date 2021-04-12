@@ -4,10 +4,12 @@ let wizardEmoji = `<:wizard:820007771108802620>`;
 let wizardReaction = `wizard:820007771108802620`;
 let whitebagEmoji = `<:whitebag:820007752486355054>`;
 let whitebagReaction = `whitebag:820007752486355054`;
+
 let warriorEmoji = `<:warrior:820007741106946048>`;
 let warriorReaction = `warrior:820007741106946048`;
 let voidEmoji = `<:void:820007729392648233>`;
 let voidReaction = `void:820007729392648233`;
+
 let vialEmoji = `<:vial:820007717762367529>`;
 let vialReaction = `vial:820007717762367529`;
 let tricksterEmoji = `<:trickster:820007707041857556>`;
@@ -80,6 +82,24 @@ let aetherEmoji = `<:aether:820007323972010024>`;
 let aetherReaction = `aether:820007323972010024`;
 
 exports.pencil = `📝`;
+
+exports.whitebagEmoji = whitebagEmoji;
+exports.voidEmoji = voidEmoji;
+exports.malusEmoji = malusEmoji;
+exports.shattersPortalEmoji = shatterportalEmoji;
+exports.nestPortalEmoji = nestportalEmoji;
+exports.fungalPortalEmoji = fungalportalEmoji;
+exports.sanctuaryPortalEmoji = sanctuaryportalEmoji;
+exports.legendarykeyEmoji = legendarykeyEmoji;
+
+exports.whitebagReaction = whitebagReaction;
+exports.voidReaction = voidReaction;
+exports.malusReaction = malusReaction;
+exports.shattersPortalReaction = shatterportalReaction;
+exports.nestPortalReaction = nestportalReaction;
+exports.fungalPortalReaction = fungalportalReaction;
+exports.sanctuaryPortalReaction = sanctuaryportalReaction;
+exports.legendarykeyReaction = legendarykeyReaction;
 
 exports.boosterReaction = boosterReaction;
 exports.checkReaction = checkReaction;

@@ -96,7 +96,7 @@ exports.addGuildConfigEntry = function(guildID, guildName, suspendrole, staffrol
             "nest": [],
             "fungal": [],
             "oryx3": [],
-            "misc": []
+            "misc": [],
           },     
           "defaultreqsheets": [
             `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`, 
