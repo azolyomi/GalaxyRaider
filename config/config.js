@@ -88,7 +88,16 @@ exports.addGuildConfigEntry = function(guildID, guildName, suspendrole, staffrol
           "quotaEnabled": false,
           "quotaValue": 40,
           "quotaEnabledRoles": [],
-          "quotaOverrideRoles": [],     
+          "quotaOverrideRoles": [],
+          "pings": {
+            "void": [],
+            "cult": [],
+            "shatters": [],
+            "nest": [],
+            "fungal": [],
+            "oryx3": [],
+            "misc": []
+          },     
           "defaultreqsheets": [
             `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`, 
             `https://cdn.discordapp.com/attachments/826194483992461383/826194516922073118/CultVoid.png`, // high-reqs void

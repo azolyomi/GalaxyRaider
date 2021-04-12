@@ -30,12 +30,18 @@ function setQuotaValue(msg, args) {
 }
 
 exports.setQuotaValue = setQuotaValue;
-exports.setQuotaHelpCommand =
-`SetQuota Command
 
-**Usage**: .setquota <value>
+function toggleQuota(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) {
+        return "Server is not configurated yet. Type \`.config\` to configurate it.";
+    }
 
-**<value>**: An integer number of points.`;
+    CONFIG.SystemConfig.servers[msg.guildID].quotaEnabled = !(CONFIG.SystemConfig.servers[msg.guildID].quotaEnabled);
+    CONFIG.updateConfig(msg.guildID);
+
+    CONSTANTS.bot.createMessage(msg.channel.id, `Successfully \`${CONFIG.SystemConfig.servers[msg.guildID].quotaEnabled?"enabled":"disabled"}\` the weekly quota.`);
+}
+exports.toggleQuota = toggleQuota;
 
 function editQuotaRole(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) {

@@ -37,6 +37,8 @@ async function fetchStaffStats(msg, args) {
                     **Total Points:** \`${foundEntry.runpoints}\`
                     **This Week's Points:** \`${foundEntry.currentCycle}\`
                     **Last Week's Points:** \`${foundEntry.previousCycle}\`
+
+                    ${CONFIG.SystemConfig.servers[msg.guildID].quotaEnabled?`**Weekly Quota Value:** \`${CONFIG.SystemConfig.servers[msg.guildID].quotaValue}\``:""}
                     `,
                     color: 3145463
             }

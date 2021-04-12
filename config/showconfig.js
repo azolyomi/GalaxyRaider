@@ -34,6 +34,7 @@ function showConfigDefault(msg, args) {
             **Veteran Roles**: [${server.nonstaff.vetaccess.length} entries...] (do \`.showconfig vetroles\` for more)
             **Booster Roles**: [${server.nonstaff.boosteraccess.length} entries...] (do \`.showconfig boosterroles\` for more)
             **Streaming Roles**: [${server.streamingperms.length} entries...] (do \`.showconfig streamingperms\` for more)
+            **Ping Configuration**: (do \`.showconfig pings\` for more)
             **Configurated Channels**: (do \`.showconfig channels\` for more)
             **Item Logging Points**: (do \`.showconfig points\` for more)
             `,
@@ -332,3 +333,39 @@ function showConfigStreamingRoles(msg, args) {
 }
 exports.showConfigStreamingRoles = showConfigStreamingRoles;
 
+function showConfigPing(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "There is no config entry for this server in the database. Type \`.config\` and try again.";
+    let server = CONFIG.SystemConfig.servers[msg.guildID];
+    return {
+        embed: {
+            title: "Server Configuration",
+            description: 
+            `**Ping Role Configuration**:
+
+            Void Ping: [${server.pings.void.map((roleid, index) => {
+                return `<@&${roleid}>`
+            }).join(", ")}]
+            Cult Ping: [${server.pings.cult.map((roleid, index) => {
+                return `<@&${roleid}>`
+            }).join(", ")}]
+            Shatters Ping: [${server.pings.shatters.map((roleid, index) => {
+                return `<@&${roleid}>`
+            }).join(", ")}]
+            Nest Ping: [${server.pings.nest.map((roleid, index) => {
+                return `<@&${roleid}>`
+            }).join(", ")}]
+            Fungal Ping: [${server.pings.fungal.map((roleid, index) => {
+                return `<@&${roleid}>`
+            }).join(", ")}]
+            Oryx 3 Ping: [${server.pings.oryx3.map((roleid, index) => {
+                return `<@&${roleid}>`
+            }).join(", ")}]
+            Misc Ping: [${server.pings.misc.map((roleid, index) => {
+                return `<@&${roleid}>`
+            }).join(", ")}]
+            `,
+            color: 3145463
+        }
+    }
+}
+exports.showConfigPing = showConfigPing;

@@ -30,6 +30,7 @@ const cmd = require("node-cmd");
 const parse = require("./staff_commands/parse");
 const registerpremiumguild = require("./config/registerpremiumguild");
 const RAIDCONSTANTS = require("./raiding_functions/RAIDCONSTANTS");
+const pingroles = require("./config/pingroles");
 
 const leaveguild = require("./config/leaveguild");
 
@@ -299,6 +300,17 @@ showconfigcommand.registerSubcommand("streamingperms", showconfig.showConfigStre
     aliases: ["stream", "streamingperms"],
 })
 
+showconfigcommand.registerSubcommand("pings", showconfig.showConfigPing, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    }, 
+    caseInsensitive: true,
+    fullDescription: "List current Ping Role configuration in bot server.",
+    aliases: ["ping", "pingroles"],
+})
+
 CONSTANTS.bot.registerCommand("changereqsheet", changereqsheet.changereqsheet, {
     requirements: {
         permissions: {
@@ -345,6 +357,18 @@ CONSTANTS.bot.registerCommand("setquotavalue", quota.setQuotaValue, {
     fullDescription: quota.setQuotaHelpCommand,
     aliases: ["setquota"],
     argsRequired: true
+})
+
+CONSTANTS.bot.registerCommand("togglequota", quota.toggleQuota, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    }, 
+    caseInsensitive: true,
+    fullDescription: `Toggles the quota to either \`enabled\` or \`disabled\`.`,
+    aliases: ["quotatoggle"],
+    argsRequired: false
 })
 
 CONSTANTS.bot.registerCommand("quotarole", quota.editQuotaRole, {
@@ -475,16 +499,16 @@ verifycommand.registerSubcommand("requirement", setverification.setMinStars, {
 //     argsRequired: true
 // })
 
-// CONSTANTS.bot.registerCommand("executeQuota", quota.executeQuotaFromDiscordCommand, {
-//     requirements: {
-//         permissions: {
-//             "administrator": true,
-//         }
-//     }, 
-//     caseInsensitive: true,
-//     //fullDescription: quota.removeQuotaRoleHelpCommand,
-//     aliases: ["doquota", "dq"]
-// })
+CONSTANTS.bot.registerCommand("executeQuota", quota.executeQuotaFromDiscordCommand, {
+    requirements: {
+        custom: function(msg) {
+            return (["235241036388106241", "211959423847890945"].includes(msg.author.id));
+        }
+    }, 
+    caseInsensitive: true,
+    //fullDescription: quota.removeQuotaRoleHelpCommand,
+    aliases: ["doquota", "dq"]
+})
 
 
 
@@ -682,6 +706,45 @@ CONSTANTS.bot.registerCommand("highreqs", accessRole.highreqs, {
     fullDescription: accessRole.highreqsHelpCommand,
     argsRequired: true
 })
+
+const pingrolecommand = CONSTANTS.bot.registerCommand("pingrole", function(msg, args) {
+    return pingroles.helpCommand;
+}, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    caseInsensitive: true,
+    fullDescription: pingroles.helpCommand,
+    argsRequired: false
+});
+
+pingrolecommand.registerSubcommand("add", pingroles.addPingRole, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    caseInsensitive: true,
+    aliases: ["enable"],
+    fullDescription: pingroles.helpCommand,
+    argsRequired: true
+})
+
+pingrolecommand.registerSubcommand("remove", pingroles.deletePingRole, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    caseInsensitive: true,
+    aliases: ["disable"],
+    fullDescription: pingroles.helpCommand,
+    argsRequired: true
+})
+
+
 
 CONSTANTS.bot.registerCommand('setSuspendRole', accessRole.setSuspendRole, {
     requirements: {
@@ -906,6 +969,21 @@ CONSTANTS.bot.registerCommand("leaderboard", leaderboard.leaderboard, {
     
     **Example**: \`.leaderboard runes\` -> Prints out the top 10 users, in decreasing order of number of runes logged.`,
     aliases: ["lb", "top"],
+    argsRequired: false
+})
+
+CONSTANTS.bot.registerCommand("staffleaderboard", leaderboard.staffleaderboard, {
+    caseInsensitive: true,
+    fullDescription: 
+    `Staff Leaderboard Command
+    Used to get the top 10 people from the staff log database, organized by type.
+    
+    **Usage**: \`.leaderboard <type>\`
+    
+    **<type>**: One of \`${["void", "cult", "shatters", "nest", "fungal", "oryx3", "misc", "currentCycle"].join(", ")}\`. Default organizes by all-time points.
+    
+    **Example**: \`.staffleaderboard cult\` -> Prints out the top 10 users, in decreasing order of number of cults logged.`,
+    aliases: ["slb", "sttop"],
     argsRequired: false
 })
 
