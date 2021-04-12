@@ -260,42 +260,42 @@ async function startAfk(message, args, CHANNELOBJECT) {
                         })
                     })
                 }
-                
-                CONFIG.SystemConfig.servers[message.guildID].streamingperms.forEach(id => {
-                    activeChannelPermissions.push({
-                        id: id,
-                        type: 0,
-                        allow: 512,
-                        deny: 0,
-                    })
-                })
-        
-                // Assign staff role permissions:
-        
-                CONFIG.SystemConfig.servers[message.guildID].staffroles.forEach(item => {
-                    activeChannelPermissions.push({
-                        id: item,
-                        type: 0,
-                        allow: 66070272,
-                        deny: 0,
-                    })
-                })
-                CONFIG.SystemConfig.servers[message.guildID].modroles.forEach(item => {
-                    activeChannelPermissions.push({
-                        id: item,
-                        type: 0,
-                        allow: 1610360830,
-                        deny: 0,
-                    })
-                })
-        
-                activeChannelPermissions.push({
-                    id: message.author.id,
-                    type: 1,
-                    allow: 16,
-                    deny: 0
-                })
             }
+            
+            CONFIG.SystemConfig.servers[message.guildID].streamingperms.forEach(id => {
+                activeChannelPermissions.push({
+                    id: id,
+                    type: 0,
+                    allow: 512,
+                    deny: 0,
+                })
+            })
+    
+            // Assign staff role permissions:
+    
+            CONFIG.SystemConfig.servers[message.guildID].staffroles.forEach(item => {
+                activeChannelPermissions.push({
+                    id: item,
+                    type: 0,
+                    allow: 66070272,
+                    deny: 0,
+                })
+            })
+            CONFIG.SystemConfig.servers[message.guildID].modroles.forEach(item => {
+                activeChannelPermissions.push({
+                    id: item,
+                    type: 0,
+                    allow: 1610360830,
+                    deny: 0,
+                })
+            })
+    
+            activeChannelPermissions.push({
+                id: message.author.id,
+                type: 1,
+                allow: 16,
+                deny: 0
+            })
 
             activeChannel = await CONSTANTS.bot.createChannel(message.guildID, `${RAIDCONSTANTS.runTypeTitleText[index]} | ${message.member.nick?message.member.nick:message.member.username}`, 2, {
                 parentID: CHANNELOBJECT.RaidCategoryID,
