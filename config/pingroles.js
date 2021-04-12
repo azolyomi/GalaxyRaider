@@ -156,7 +156,13 @@ async function setupPingMessage(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
     
     let pingmessagedescription = 
-    `React with the ${RAIDCONSTANTS.whitebagEmoji} if you would like to be pinged for \`all\` runs.\n`;
+    `**__Important Information__**
+    **All AFK checks will ping @here.**
+    If you want to **only be pinged for selected runs**, you have to turn off the @here pings and only enable role pings. (Right click server -> notification settings -> disable @everyone and @here, but enable role pings)
+    If the role you reacted with is not given to you within a few minutes, **unreact and re-react to it**. 
+    If you want to disable pings for a certain run type, **unreact from it.**
+    
+    React with the ${RAIDCONSTANTS.whitebagEmoji} if you would like to be pinged for \`all\` runs.\n`;
     let pingreactions = [RAIDCONSTANTS.whitebagReaction];
 
     if (CONFIG.SystemConfig.servers[msg.guildID].pings.void.length > 0) {
