@@ -1121,7 +1121,8 @@ const helpCommand = CONSTANTS.bot.registerCommand("help", function(msg, args) {
                     __**System Commands:**__
                     **${CONSTANTS.botPrefix}ping** – Check if the bot is online
                     **${CONSTANTS.botPrefix}say** – Make the bot speak
-                    **${CONSTANTS.botPrefix}leaderboard** – Get leaderboard
+                    **${CONSTANTS.botPrefix}lb** – Get leaderboard
+                    **${CONSTANTS.botPrefix}slb** – Get staff leaderboard
         
                     __**Moderation Commands:**__
                     **${CONSTANTS.botPrefix}find** – Find a user from name or ID
