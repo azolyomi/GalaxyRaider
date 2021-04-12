@@ -1026,7 +1026,7 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
         **${CONSTANTS.botPrefix}removeaccessrole** – Remove bot privileges from roles
         **${CONSTANTS.botPrefix}setsuspendrole** – Change the 'suspended' role for bot use
         **${CONSTANTS.botPrefix}pingrole** – Configure pingable roles.
-        **${CONSTANTS.botPrefix}setuppingmessage** – Create and register a ping message automatically. (First make sure ping roles are configured!)
+        **${CONSTANTS.botPrefix}setuppingmessage** – Create and register a ping message.
 
         **${CONSTANTS.botPrefix}changechannel** – Change a default text channel 
         **${CONSTANTS.botPrefix}setlogchannel** – Change the log channel for bot use
