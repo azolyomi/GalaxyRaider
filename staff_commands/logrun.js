@@ -12,19 +12,22 @@ async function logrun(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) {
         return "Server is not configurated yet. Type \`.config\` to configurate it.";
     }
+    
     let acceptabletypes = ["void", "cult", "fullskip", "shatters", "nest", "fungal", "o3", "misc"];
     let runtype = args.shift();
     if (!acceptabletypes.includes(runtype)) return `Dungeontype must be one of \`[${acceptabletypes.join(", ")}]\``;
     let numruns = parseInt(args.shift());
-    if (isNaN(numruns) || Math.abs(numruns) > 20) return `Number of runs should be an integer less than 20. You put ${numruns}`;
+    if (isNaN(numruns) || (Math.abs(numruns) > 20 && !msg.member.roles.some(id => CONFIG.SystemConfig.servers[msg.guildID].modroles.includes(id)))) return `Number of runs should be an integer less than 20. You put ${numruns}`;
+    let userID = msg.author.id;
+    if (msg.mentions.length > 0 && msg.member.roles.some(id => CONFIG.SystemConfig.servers[msg.guildID].modroles.includes(id))) userID = msg.mentions[0].id;
 
     MongoClient.connect(process.env.DBURL, async function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
-        let foundEntry = (await dbo.collection("GalaxyRunLogs").findOne({UID: msg.author.id, guildID: msg.guildID}));
+        let foundEntry = (await dbo.collection("GalaxyRunLogs").findOne({UID: userID, guildID: msg.guildID}));
         if (!foundEntry) {
             let queryObject = {
-                UID: msg.author.id,
+                UID: userID,
                 guildID: msg.guildID,
                 void: 0,
                 cult: 0,
@@ -50,7 +53,7 @@ async function logrun(msg, args) {
                 embed: {
                     title: "Run Log",
                     description: 
-                    `Successfully logged ${numruns} ${runtype}s for ${msg.member.mention}`,
+                    `Successfully logged ${numruns} ${runtype}s for ${msg.mentions.length > 0?msg.mentions[0].mention:msg.member.mention}`,
                     color: 3145463
                 }
             })
@@ -59,7 +62,7 @@ async function logrun(msg, args) {
                 embed: {
                     title: "Run Log",
                     description: 
-                    `User ${msg.member.mention} successfully logged ${numruns} ${runtype}s`,
+                    `User ${msg.member.mention} successfully logged ${numruns} ${runtype}s for ${msg.mentions.length > 0?msg.mentions[0].mention:msg.member.mention}`,
                     color: 3145463
                 }
             })
@@ -76,13 +79,13 @@ async function logrun(msg, args) {
             queryObject.runpoints += (numruns * CONFIG.SystemConfig.servers[msg.guildID].runpoints[runtype]);
             queryObject.currentCycle += (numruns * CONFIG.SystemConfig.servers[msg.guildID].runpoints[runtype]);
 
-            dbo.collection("GalaxyRunLogs").updateOne({UID: msg.author.id, guildID: msg.guildID}, {$set: queryObject});
+            dbo.collection("GalaxyRunLogs").updateOne({UID: userID, guildID: msg.guildID}, {$set: queryObject});
 
             CONSTANTS.bot.createMessage(msg.channel.id, {
                 embed: {
                     title: "Run Log",
                     description: 
-                    `Successfully logged ${numruns} ${runtype}s for ${msg.member.mention}`,
+                    `Successfully logged ${numruns} ${runtype}s for ${msg.mentions.length > 0?msg.mentions[0].mention:msg.member.mention}`,
                     color: 3145463
                 }
             })
@@ -91,7 +94,7 @@ async function logrun(msg, args) {
                 embed: {
                     title: "Run Log",
                     description: 
-                    `User ${msg.member.mention} successfully logged ${numruns} ${runtype}s for ${msg.member.mention}`,
+                    `User ${msg.member.mention} successfully logged ${numruns} ${runtype}s for ${msg.mentions.length > 0?msg.mentions[0].mention:msg.member.mention}`,
                     color: 3145463
                 }
             })
