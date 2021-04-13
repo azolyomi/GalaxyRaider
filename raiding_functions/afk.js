@@ -540,9 +540,11 @@ async function startAfk(message, args, CHANNELOBJECT) {
                             let newlocDmChannel = await CONSTANTS.bot.getDMChannel(id);
                             CONSTANTS.bot.createMessage(newlocDmChannel.id, `The location for ${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run has changed to:   \`${location.join(" ")}\``);
                         })
-
-                        if (CONSTANTS.bot.getMessage(CHANNELOBJECT.ActiveRaidsChannelID, changelocmsg.id)) CONSTANTS.bot.deleteMessage(CHANNELOBJECT.ActiveRaidsChannelID, changelocmsg.id);
-                        if (CONSTANTS.bot.getMessage(CHANNELOBJECT.ActiveRaidsChannelID, msg.id)) CONSTANTS.bot.deleteMessage(CHANNELOBJECT.ActiveRaidsChannelID, msg.id);
+                        try {
+                            CONSTANTS.bot.deleteMessage(CHANNELOBJECT.ActiveRaidsChannelID, changelocmsg.id);
+                            CONSTANTS.bot.deleteMessage(CHANNELOBJECT.ActiveRaidsChannelID, msg.id);
+                        }
+                        catch(e) {}
 
                         CONSTANTS.bot.editMessage(CHANNELOBJECT.ActiveRaidsChannelID, activeRaidMessage.id, {
                             embed: {

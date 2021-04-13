@@ -11,7 +11,7 @@ function getInfo(msg, args) {
     // info should include suspend history, currently suspended?, keys, vials, runes, POINTS
     // -> update it so you can set points for each log type
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Server is not configurated yet. Type \`.config\` to configurate it.";
-    else if (msg.mentions.length < 0) return "You need to mention a user. To mention a user, type <@userid>";
+    else if (!(msg.mentions.length > 0)) return "You need to mention a user. To mention a user, type <@userid>";
 
     let user = msg.mentions[0];
 
