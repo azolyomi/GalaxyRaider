@@ -179,6 +179,7 @@ async function suspend(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID].suspendrole || !roles.includes(CONFIG.SystemConfig.servers[msg.guildID].suspendrole)) return "You haven't properly configurated the suspend role in your server. Do \`.instructions\` for more information.";
     args.shift();
     let member = await CONSTANTS.bot.getRESTGuildMember(msg.guildID, msg.mentions[0].id);
+    if (member.roles.some(id => CONFIG.SystemConfig.servers[msg.guildID].staffroles.includes(id))) return `I couldn't suspend that user because they have a bot-configured staff role (<@&${id}>) in the server.`
     let rawDuration = args.shift();
     let timeType = args.shift();
     let reason = args.join(" ");
