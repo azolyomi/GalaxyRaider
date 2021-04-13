@@ -147,7 +147,7 @@ in your realmeye description.
                         return;
                     }
                     else if (body.rank < CONFIG.SystemConfig.servers[msg.guildID].verification.minrank) {
-                        CONSTANTS.bot.createMessage(dmChannel.id, { // check if server config requires rank
+                        await CONSTANTS.bot.createMessage(dmChannel.id, { // check if server config requires rank
                             embed: {
                                 title: "Failure",
                                 description: 
@@ -162,7 +162,7 @@ in your realmeye description.
                         return;
                     }
                     else if (!(body.desc1.includes(code) || body.desc2.includes(code) || body.desc3.includes(code))) {
-                        CONSTANTS.bot.createMessage(dmChannel.id, { 
+                        await CONSTANTS.bot.createMessage(dmChannel.id, { 
                             embed: {
                                 title: "Failure",
                                 description: 
@@ -176,65 +176,86 @@ in your realmeye description.
                     }
                     else {
                         let hasFailed = false;
-                        try {
-                            await msg.member.edit({
-                                nick: ign
-                            });
-                            await CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.forEach(async id => {
-                                await msg.member.addRole(id);
-                            });
-                        }
-                        catch(e) {
+                        await msg.member.edit({
+                            nick: `${ign}`
+                        }).catch(async () => {
                             await CONSTANTS.bot.createMessage(dmChannel.id, { // check if server config requires rank
                                 embed: {
                                     title: "Partial Failure",
                                     description: 
-                                    `I found you on Realmeye and you meet verification requirements, but you have a role in the server that makes it impossible for me to edit your nickname/roles!`,
+                                    `I found you on Realmeye and you meet verification requirements, but I couldn't edit your nickname!`,
                                     color: 0xff0000
                                 }
-                            });
+                            }).catch(() => console.log("> [VERIFY ERR] Failed to create a dm message in verify nick editing"));
                             await CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
                                 embed: {
                                     title: `Auto-Verification Failure`,
                                     description: 
-                                    `**User** ${msg.member.mention} just successfully verified under the IGN \`${ign}\`.
+                                    `**User** ${msg.member.mention} just tried to verify under the IGN \`${ign}\`.
                                     **UID**: ${msg.member.id}
                                     
-                                    However, unfortunately, I could not edit either this user's nickname or their roles (likely because one of their roles is higher than my highest).`,
+                                    However, unfortunately, I could not edit their nickname (likely because one of their roles is higher than my highest or they are administrator).`,
                                     color: 0xff0000,
                                     footer: {
                                         text: `${new Date().toUTCString()}`
                                     }
                                 }
-                            })
+                            }).catch(() => console.log("> [VERIFY ERR] Failed to create a log message in verify nick editing"));
                             hasFailed = true;
-                        }
-                        if (!hasFailed) {
-                            try {
+                        });
+                        await CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.forEach(async id => {
+                            await msg.member.addRole(id).catch(async () => {
+                                await CONSTANTS.bot.createMessage(dmChannel.id, { // check if server config requires rank
+                                    embed: {
+                                        title: "Partial Failure",
+                                        description: 
+                                        `I found you on Realmeye and you meet verification requirements, but I couldn't edit your roles!`,
+                                        color: 0xff0000
+                                    }
+                                }).catch(() => console.log("> [VERIFY ERR] Failed to create dm message in verify role addition"));
                                 await CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
                                     embed: {
-                                        title: `Auto-Verification`,
+                                        title: `Auto-Verification Failure`,
                                         description: 
-                                        `**User** ${msg.member.mention} just verified under the IGN \`${ign}\`
-                                        **UID**: ${msg.member.id}`,
-                                        color: 0x5b1c80,
+                                        `**User** ${msg.member.mention} just tried to verify under the IGN \`${ign}\`.
+                                        **UID**: ${msg.member.id}
+                                        
+                                        However, unfortunately, I could not edit their roles (likely because one of their roles is higher than my highest).`,
+                                        color: 0xff0000,
                                         footer: {
                                             text: `${new Date().toUTCString()}`
                                         }
                                     }
-                                })
-                                await CONSTANTS.bot.createMessage(dmChannel.id, {
-                                    embed: {
-                                        title: "Success!",
-                                        description:
-                                        `Successfully verified under the IGN \`[${ign}]\``,
-                                        color: 0x00ff00,
+                                }).catch(() => console.log("> [VERIFY ERR] Failed to create a log message in verify role addition"));
+                                hasFailed = true;
+                            });
+                        });
+                        if (!hasFailed) {
+                            await CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: `Auto-Verification`,
+                                    description: 
+                                    `**User** ${msg.member.mention} just successfully verified under the IGN \`${ign}\`
+                                    **UID**: ${msg.member.id}`,
+                                    color: 0x5b1c80,
+                                    footer: {
+                                        text: `${new Date().toUTCString()}`
                                     }
-                                });
-                            }
-                            catch(e) {}
+                                }
+                            }).catch(() => {
+                                console.log("> [VERIFY ERR] Failed to create auto-verification success log message");
+                            })
+                            await CONSTANTS.bot.createMessage(dmChannel.id, {
+                                embed: {
+                                    title: "Success!",
+                                    description:
+                                    `Successfully verified under the IGN \`[${ign}]\``,
+                                    color: 0x00ff00,
+                                }
+                            }).catch(() => {
+                                console.log("> [VERIFY ERR] Failed to create auto-verification success dm message");
+                            });
                         }
-                        
                     }
                 })
             })

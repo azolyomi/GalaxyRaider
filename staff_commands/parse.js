@@ -46,7 +46,8 @@ async function parseImageURL(msg, args) {
                 console.log(err);
                 return;
             }
-            let voiceChannelMemberNames = voiceChannel.voiceMembers.map(member => member.nick?member.nick.toLowerCase():member.username.toLowerCase());
+            let voiceChannelMemberNames = voiceChannel.voiceMembers.map(
+                member => member.nick ? member.nick.toLowerCase().replaceAll("[^A-Za-z]" , "") : member.username.toLowerCase().replaceAll("[^A-Za-z]" , ""));
             let parsedText = body.ParsedResults[0].ParsedText.toString();
             parsedText = parsedText.replace(/,/g, ``);
             parsedText = parsedText.replace(/\r\n/g, ` `);
