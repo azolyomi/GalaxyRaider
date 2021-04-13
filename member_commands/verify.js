@@ -108,9 +108,13 @@ in your realmeye description.
                         color: 0x5b1c80,
                     }
                 });
-                request('https://nightfirec.at/realmeye-api/?player=' + ign + "&filter=desc1+desc2+desc3+player_last_seen+rank", {json: true}, (err, res, body) => {
+                request('https://nightfirec.at/realmeye-api/?player=' + ign + "&filter=desc1+desc2+desc3+player_last_seen+rank", {json: true}, async (err, res, body) => {
                     if (err) {
-                        CONSTANTS.bot.createMessage(dmChannel.id, `Something went wrong with that operation.`);
+                        try {
+                            await CONSTANTS.bot.createMessage(dmChannel.id, `Something went wrong with that operation.`);
+                            await CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, `Something went wrong with that operation.`);
+                        }
+                        catch(e) {}
                         return console.log(err);
                     }
 
@@ -170,16 +174,29 @@ in your realmeye description.
                         });
                         return;
                     }
-
-                    try {
-                        CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.forEach(id => {
-                            msg.member.addRole(id);
-                        })
-                        msg.member.edit({
-                            nick: ign
-                        })
+                    else {
+                        console.log("HIHIHIHIIHIH");
                         try {
-                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                            await CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.forEach(id => {
+                                msg.member.addRole(id);
+                            })
+                            await msg.member.edit({
+                                nick: ign
+                            })
+                        }
+                        catch(e) {
+                            await CONSTANTS.bot.createMessage(dmChannel.id, { // check if server config requires rank
+                                embed: {
+                                    title: "Partial Failure",
+                                    description: 
+                                    `I found you on Realmeye and you meet verification requirements, but you have a role in the server that makes it impossible for me to edit your nickname/roles!`,
+                                    color: 0xff0000
+                                }
+                            });
+                            return;
+                        }
+                        try {
+                            await CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
                                 embed: {
                                     title: `Auto-Verification`,
                                     description: 
@@ -193,27 +210,16 @@ in your realmeye description.
                             })
                         }
                         catch(e) {}
-                    }
-                    catch(e) {
-                        CONSTANTS.bot.createMessage(dmChannel.id, { // check if server config requires rank
+
+                        await CONSTANTS.bot.createMessage(dmChannel.id, {
                             embed: {
-                                title: "Partial Failure",
-                                description: 
-                                `I found you on Realmeye and you meet verification requirements, but you have a role in the server that makes it impossible for me to edit your nickname/roles!`,
-                                color: 0xff0000
+                                title: "Success!",
+                                description:
+                                `Successfully verified under the IGN \`[${ign}]\``,
+                                color: 0x00ff00,
                             }
                         });
-                        return;
                     }
-
-                    CONSTANTS.bot.createMessage(dmChannel.id, {
-                        embed: {
-                            title: "Success!",
-                            description:
-                            `Successfully verified under the IGN \`[${ign}]\``,
-                            color: 0x00ff00,
-                        }
-                    });
                 })
             })
         }
