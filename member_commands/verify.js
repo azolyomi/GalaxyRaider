@@ -137,7 +137,7 @@ in your realmeye description.
                         CONSTANTS.bot.createMessage(dmChannel.id, {
                             embed: {
                                 title: "Failure",
-                                description: 
+                                description:
                                 `Last Location: \`${body.player_last_seen}\`
                                 
                                 Please set your Realmeye location to private and re-verify.`,
@@ -180,7 +180,7 @@ in your realmeye description.
                             await msg.member.edit({
                                 nick: ign
                             });
-                            await CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.forEach(id => {
+                            await CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.forEach(async id => {
                                 await msg.member.addRole(id);
                             });
                         }
