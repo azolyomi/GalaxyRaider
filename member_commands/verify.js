@@ -193,8 +193,23 @@ in your realmeye description.
                                     color: 0xff0000
                                 }
                             });
-                            return;
+                            await CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: `Partial Auto-Verification`,
+                                    description: 
+                                    `**User** ${msg.member.mention} just partially verified under the IGN \`${ign}\`.
+                                    **UID**: ${msg.member.id}
+                                    
+                                    Unfortunately, I could not edit either this user's nickname or their roles because one of their roles is higher than my highest.`,
+                                    color: 0x5b1c80,
+                                    footer: {
+                                        text: `${new Date().toUTCString()}`
+                                    }
+                                }
+                            })
+
                         }
+
                         try {
                             await CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
                                 embed: {
