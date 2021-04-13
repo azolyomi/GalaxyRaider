@@ -119,7 +119,7 @@ in your realmeye description.
                     }
 
                     if (body.error) {
-                        CONSTANTS.bot.createMessage(dmChannel.id, {
+                        await CONSTANTS.bot.createMessage(dmChannel.id, {
                             embed: {
                                 title: "Failure",
                                 description: 
@@ -195,13 +195,13 @@ in your realmeye description.
                             });
                             await CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
                                 embed: {
-                                    title: `Partial Auto-Verification`,
+                                    title: `Auto-Verification Failure`,
                                     description: 
-                                    `**User** ${msg.member.mention} just partially verified under the IGN \`${ign}\`.
+                                    `**User** ${msg.member.mention} just successfully verified under the IGN \`${ign}\`.
                                     **UID**: ${msg.member.id}
                                     
-                                    Unfortunately, I could not edit either this user's nickname or their roles because one of their roles is higher than my highest.`,
-                                    color: 0x5b1c80,
+                                    However, unfortunately, I could not edit either this user's nickname or their roles (likely because one of their roles is higher than my highest).`,
+                                    color: 0xff0000,
                                     footer: {
                                         text: `${new Date().toUTCString()}`
                                     }
