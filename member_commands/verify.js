@@ -175,14 +175,14 @@ in your realmeye description.
                         return;
                     }
                     else {
-                        console.log("HIHIHIHIIHIH");
+                        let hasFailed = false;
                         try {
-                            await CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.forEach(id => {
-                                msg.member.addRole(id);
-                            })
                             await msg.member.edit({
                                 nick: ign
-                            })
+                            });
+                            await CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.forEach(id => {
+                                await msg.member.addRole(id);
+                            });
                         }
                         catch(e) {
                             await CONSTANTS.bot.createMessage(dmChannel.id, { // check if server config requires rank
@@ -207,33 +207,34 @@ in your realmeye description.
                                     }
                                 }
                             })
-
+                            hasFailed = true;
                         }
-
-                        try {
-                            await CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
-                                embed: {
-                                    title: `Auto-Verification`,
-                                    description: 
-                                    `**User** ${msg.member.mention} just verified under the IGN \`${ign}\`
-                                    **UID**: ${msg.member.id}`,
-                                    color: 0x5b1c80,
-                                    footer: {
-                                        text: `${new Date().toUTCString()}`
+                        if (!hasFailed) {
+                            try {
+                                await CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                    embed: {
+                                        title: `Auto-Verification`,
+                                        description: 
+                                        `**User** ${msg.member.mention} just verified under the IGN \`${ign}\`
+                                        **UID**: ${msg.member.id}`,
+                                        color: 0x5b1c80,
+                                        footer: {
+                                            text: `${new Date().toUTCString()}`
+                                        }
                                     }
-                                }
-                            })
-                        }
-                        catch(e) {}
-
-                        await CONSTANTS.bot.createMessage(dmChannel.id, {
-                            embed: {
-                                title: "Success!",
-                                description:
-                                `Successfully verified under the IGN \`[${ign}]\``,
-                                color: 0x00ff00,
+                                })
+                                await CONSTANTS.bot.createMessage(dmChannel.id, {
+                                    embed: {
+                                        title: "Success!",
+                                        description:
+                                        `Successfully verified under the IGN \`[${ign}]\``,
+                                        color: 0x00ff00,
+                                    }
+                                });
                             }
-                        });
+                            catch(e) {}
+                        }
+                        
                     }
                 })
             })
