@@ -43,7 +43,7 @@ async function parseImageURL(msg, args) {
             }
             else if (body.error || !body.ParsedResults[0]) {
                 CONSTANTS.bot.createMessage(msg.channel.id, `Something went wrong with that operation.`);
-                console.log("> [PARSE ERROR] " + err);
+                console.log("> [PARSE ERROR] " + body.error?body.error:body.ParsedResults);
                 return;
             }
 

@@ -302,8 +302,13 @@ async function headcount(message, args, CHANNELOBJECT) {
                         }
                     }
                 });
-                if (await CONSTANTS.bot.getMessage(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id)) await CONSTANTS.bot.removeMessageReactions(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id);
-                if (await CONSTANTS.bot.getMessage(message.channel.id, message.id)) await CONSTANTS.bot.deleteMessage(message.channel.id, message.id)
+                try {
+                    CONSTANTS.bot.removeMessageReactions(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id);
+                }catch(e) {}
+                
+                try {
+                    CONSTANTS.bot.deleteMessage(message.channel.id, message.id);
+                }catch(e) {}
             }
         }, RAIDCONSTANTS.hcTimeoutLength); 
     }

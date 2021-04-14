@@ -16,6 +16,3 @@ X 11. Add ability to change # of early reactions accepted
 PRE STD PUSH
 .slb
 
-
--- ping role assignment
--- afk check edit ping
