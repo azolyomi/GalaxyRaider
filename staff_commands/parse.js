@@ -38,14 +38,15 @@ async function parseImageURL(msg, args) {
         request("https://api.ocr.space/parse/imageurl?apikey=" + process.env.OCRAPIKEY + "&url=" + url, {json:true}, async (err, res, body) => {
             if (err) {
                 CONSTANTS.bot.createMessage(msg.channel.id, `Something went wrong with that operation.`);
-                console.log(err);
+                console.log("> [PARSE ERROR] " + err);
                 return;
             }
-            if (body.error) {
+            else if (body.error || !body.ParsedResults[0]) {
                 CONSTANTS.bot.createMessage(msg.channel.id, `Something went wrong with that operation.`);
-                console.log(err);
+                console.log("> [PARSE ERROR] " + err);
                 return;
             }
+
             let voiceChannelMemberNames = voiceChannel.voiceMembers.map(
                 member => member.nick ? member.nick.toLowerCase().replace(/[^A-Za-z]/g , "") : member.username.toLowerCase().replace(/[^A-Za-z]/g , ""));
             let parsedText = body.ParsedResults[0].ParsedText.toString();
