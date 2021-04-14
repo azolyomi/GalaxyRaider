@@ -99,7 +99,10 @@ in your realmeye description.
                 }
             });
 
+            let hasCollected = false;
+
             collector.on("collect", async(dmmsg) => {
+                hasCollected = true;
                 let ign = dmmsg.content;
                 CONSTANTS.bot.createMessage(dmChannel.id, {
                     embed: {
@@ -259,6 +262,10 @@ in your realmeye description.
                     }
                 })
             })
+
+            setTimeout(() => {
+                if (!hasCollected) CONSTANTS.bot.createMessage(dmChannel.id, `[Error]: 5 minutes have passed -- process **timed out**. Please rerun the \`.verify\` command.`);
+            }, 300000);
         }
         
     })
