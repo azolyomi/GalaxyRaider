@@ -1,6 +1,7 @@
 const CONSTANTS = require('./constants');
 const CONFIG = require('./config');
 const RAIDCONSTANTS = require('../raiding_functions/RAIDCONSTANTS');
+const Eris = require("eris");
 
 exports.execute = initialize;
 
@@ -176,25 +177,78 @@ In order to be verified, you must meet the following requirements:
 
 exports.reconfig = async function(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "You can't reconfigurate a server you've never configured! Type \`.config\` first!";
-    try {
-        CONSTANTS.bot.createMessage(msg.channel.id, "Deleting old bot access channels and database entry...");
 
-        const guildChannelIDs = (await CONSTANTS.bot.getRESTGuildChannels(msg.guildID)).map((channel, index) => {
-            return channel.id;
-        });
+    let msgchannel = CONSTANTS.bot.getChannel(msg.channel.id);
 
-        Object.values(CONFIG.SystemConfig.servers[msg.guildID].channels.Main).forEach(async(channel, index) => {
-            if (guildChannelIDs.includes(channel)) await CONSTANTS.bot.deleteChannel(channel, "reconfiguration");
-        })
-        Object.values(CONFIG.SystemConfig.servers[msg.guildID].channels.Veteran).forEach(async(channel, index) => {
-            if (guildChannelIDs.includes(channel)) await CONSTANTS.bot.deleteChannel(channel, "reconfiguration");
-        })
-        if (guildChannelIDs.includes(CONFIG.SystemConfig.servers[msg.guildID].logchannel)) await CONSTANTS.bot.deleteChannel(CONFIG.SystemConfig.servers[msg.guildID].logchannel, "reconfiguration");
+    let collector = new Eris.MessageCollector(msgchannel, {
+        timeout: 300000,
+        count: 1,
+        filter: function(filterMsg) {
+            return filterMsg.author.id == msg.author.id;
+        }
+    })
+    collector.run();
 
-        delete CONFIG.SystemConfig.servers[msg.guildID];
-        initialize(msg, args);
-    }
-    catch(e) {
-        console.log("Something happened in reconfig" + e);
-    }
+    await CONSTANTS.bot.createMessage(msg.channel.id, {
+        embed: {
+            title: `Reconfiguration Safety Check`,
+            description: 
+            `Are you **sure** you want to reconfigure the server with the bot?
+            
+            **__This will:__**
+            1. Delete old bot access channels (all channels registered with the bot)
+            2. Delete the old server configuration from the bot
+            3. Re-create new access channels and default roles
+            4. Re-initialize server configuration to default.
+            
+            **__Would you like to reconfigure the server?__**
+            If you have **any doubts** about this process, please type \`no\` and contact the developer for help instead.
+            If you are certain you know what you're doing, please type \`yes\``
+        }
+    })
+
+    let hasCollected = false;
+
+    collector.on("collect", async (newmessage) => {
+        if (newmessage.content == "no") {
+            CONSTANTS.bot.createMessage(msg.channel.id, `Stopped the reconfiguration process.`);
+        }
+        else if (newmessage.content == "yes") {
+            hasCollected = true;
+            try {
+                CONSTANTS.bot.createMessage(msg.channel.id, "Deleting old bot access channels and database entry...");
+        
+                const guildChannelIDs = (await CONSTANTS.bot.getRESTGuildChannels(msg.guildID)).map((channel, index) => {
+                    return channel.id;
+                });
+        
+                Object.values(CONFIG.SystemConfig.servers[msg.guildID].channels.Main).forEach(async(channel, index) => {
+                    if (guildChannelIDs.includes(channel)) await CONSTANTS.bot.deleteChannel(channel, "reconfiguration");
+                })
+                Object.values(CONFIG.SystemConfig.servers[msg.guildID].channels.Veteran).forEach(async(channel, index) => {
+                    if (guildChannelIDs.includes(channel)) await CONSTANTS.bot.deleteChannel(channel, "reconfiguration");
+                })
+                if (guildChannelIDs.includes(CONFIG.SystemConfig.servers[msg.guildID].logchannel)) await CONSTANTS.bot.deleteChannel(CONFIG.SystemConfig.servers[msg.guildID].logchannel, "reconfiguration");
+        
+                delete CONFIG.SystemConfig.servers[msg.guildID];
+                initialize(msg, args);
+            }
+            catch(e) {
+                console.log("Something happened in reconfig" + e);
+            }
+        }
+        else {
+            hasCollected = true;
+            CONSTANTS.bot.createMessage(msg.channel.id, `I did not recognize the parameter \`${newmessage.content}\`. Rerun the \`.reconfig\` command and type \`no\` or \`yes\` to decline or accept reconfiguration.`);
+        }
+    })
+
+    setTimeout(() => {
+        if (!hasCollected) CONSTANTS.bot.createMessage(msg.channel.id, `Timed out. Please retry the \`.reconfig\` command.`)
+    }, 300000)
+
+
+
+
+    
 }
