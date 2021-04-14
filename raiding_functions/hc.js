@@ -109,7 +109,46 @@ async function headcount(message, args, CHANNELOBJECT) {
 
         const LeaderAsMember = await CONSTANTS.bot.getRESTGuildMember(message.guildID, message.author.id)
         let endHeadcountEventHasOccurred = false;
-        let raidStatusMessage = await CONSTANTS.bot.createMessage(CHANNELOBJECT.RaidStatusChannelID, "@here"); // change to raidMessagePing 
+
+        let pings = [];
+
+        if (dungeonType.includes("void") || dungeonType.includes("fullskip") || dungeonType.includes("fullclear")) {
+            CONFIG.SystemConfig.servers[message.guildID].pings.void.forEach(id => {
+                pings.push(`<@&${id}>`);
+            })
+        }
+        else if (dungeonType.includes("cult")) {
+            CONFIG.SystemConfig.servers[message.guildID].pings.cult.forEach(id => {
+                pings.push(`<@&${id}>`);
+            })
+        }
+        else if (dungeonType.includes("shatters")) {
+            CONFIG.SystemConfig.servers[message.guildID].pings.shatters.forEach(id => {
+                pings.push(`<@&${id}>`);
+            })
+        }
+        else if (dungeonType.includes("nest")) {
+            CONFIG.SystemConfig.servers[message.guildID].pings.nest.forEach(id => {
+                pings.push(`<@&${id}>`);
+            })
+        }
+        else if (dungeonType.includes("fungal")) {
+            CONFIG.SystemConfig.servers[message.guildID].pings.fungal.forEach(id => {
+                pings.push(`<@&${id}>`);
+            })
+        }
+        else if (dungeonType.includes("o3")) {
+            CONFIG.SystemConfig.servers[message.guildID].pings.oryx3.forEach(id => {
+                pings.push(`<@&${id}>`);
+            })
+        }
+        else if (dungeonType.includes("misc")) {
+            CONFIG.SystemConfig.servers[message.guildID].pings.misc.forEach(id => {
+                pings.push(`<@&${id}>`);
+            })
+        }
+
+        let raidStatusMessage = await CONSTANTS.bot.createMessage(CHANNELOBJECT.RaidStatusChannelID, `@here ` + pings.join(" ")); // change to raidMessagePing 
         CONSTANTS.bot.editMessage(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id, {
             embed: {
                 allowedMentions: {
