@@ -1262,7 +1262,7 @@ CONSTANTS.bot.on("ready", () => {
     console.log("Discord Bot Ready!");
     CONSTANTS.botID = CONSTANTS.bot.user.id;
     CONSTANTS.bot.editStatus("online", {
-        name: ".instructions | .patreon"
+        name: ".patreon | .instructions"
     });
 })
 
