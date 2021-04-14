@@ -203,7 +203,8 @@ exports.reconfig = async function(msg, args) {
             
             **__Would you like to reconfigure the server?__**
             If you have **any doubts** about this process, please type \`no\` and contact the developer for help instead.
-            If you are certain you know what you're doing, please type \`yes\``
+            If you are certain you know what you're doing, please type \`yes\``,
+            color: 0xff0000
         }
     })
 
