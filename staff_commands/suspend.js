@@ -92,8 +92,8 @@ async function unsuspend(msg, args) {
 
     let roles = (await CONSTANTS.bot.getRESTGuildRoles(msg.guildID)).map(item => {return item.id});
     if (!CONFIG.SystemConfig.servers[msg.guildID].suspendrole || !roles.includes(CONFIG.SystemConfig.servers[msg.guildID].suspendrole)) return "You haven't properly configurated the suspend role in your server. Do \`.instructions\` for more information.";
-    args.shift();
     let member = await CONSTANTS.bot.getRESTGuildMember(msg.guildID, msg.mentions[0].id);
+    args.shift();
     let reason = args.join(" ");
     
     MongoClient.connect(process.env.DBURL, async function(err, db) {
@@ -177,9 +177,9 @@ async function suspend(msg, args) {
 
     let roles = (await CONSTANTS.bot.getRESTGuildRoles(msg.guildID)).map(item => {return item.id});
     if (!CONFIG.SystemConfig.servers[msg.guildID].suspendrole || !roles.includes(CONFIG.SystemConfig.servers[msg.guildID].suspendrole)) return "You haven't properly configurated the suspend role in your server. Do \`.instructions\` for more information.";
-    args.shift();
     let member = await CONSTANTS.bot.getRESTGuildMember(msg.guildID, msg.mentions[0].id);
-    if (member.roles.some(id => CONFIG.SystemConfig.servers[msg.guildID].staffroles.includes(id))) return `I couldn't suspend that user because they have a bot-configured staff role in the server.`
+    if (member.roles.some(id => CONFIG.SystemConfig.servers[msg.guildID].staffroles.includes(id))) return `I couldn't suspend that user because they have a bot-configured staff role in the server.`;
+    args.shift();
     let rawDuration = args.shift();
     let timeType = args.shift();
     let reason = args.join(" ");
@@ -210,6 +210,7 @@ async function suspend(msg, args) {
         CONSTANTS.bot.removeGuildMemberRole(msg.guildID, member.id, roleID, `Suspension issued by ${msg.author.username}`)
         .catch((error) => {
             CONSTANTS.bot.createMessage(msg.channel.id, "Warning: Target's roles include one or more roles that are higher than the bot's highest role, this role will not be removed upon unsuspension.");
+            console.log("> [SUSPEND ERROR] " + error);
         });
     })
     

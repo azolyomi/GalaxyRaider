@@ -32,10 +32,13 @@ const registerpremiumguild = require("./config/registerpremiumguild");
 const RAIDCONSTANTS = require("./raiding_functions/RAIDCONSTANTS");
 const pingroles = require("./config/pingroles");
 
+require("events").EventEmitter.defaultMaxListeners = 200;
+
 process.setMaxListeners(200);
 CONSTANTS.bot.setMaxListeners(200);
 
 const leaveguild = require("./config/leaveguild");
+const { CommandClient } = require('eris');
 
 CONSTANTS.bot.registerCommand("ping", function(msg, args) {
     return {
