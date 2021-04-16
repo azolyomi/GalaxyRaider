@@ -363,8 +363,8 @@ async function startAfk(message, args, CHANNELOBJECT) {
                 color: RAIDCONSTANTS.runTypeColor[index],
                 timestamp: new Date().toISOString(),
                 footer: {
-                    text: "AFK check will end in " + RAIDCONSTANTS.afkCheckLengthString + " • d.gg/STD ",
-                    icon_url: "https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
+                    text: `AFK check will end in ${RAIDCONSTANTS.afkCheckLengthString} ${CONFIG.SystemConfig.servers[message.guildID].premium?"":`• d.gg/STD`}`,
+                    icon_url: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.iconURL:"https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
                 }
             }
         })
@@ -405,8 +405,8 @@ async function startAfk(message, args, CHANNELOBJECT) {
                             color: 4,
                             timestamp: new Date().toISOString(),
                             footer: {
-                                text: "d.gg/STD",
-                                icon_url: "https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
+                                text: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.name:"d.gg/STD",
+                                icon_url: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.iconURL:"https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
                             }
                         }
                     });
@@ -464,8 +464,8 @@ async function startAfk(message, args, CHANNELOBJECT) {
                         color: RAIDCONSTANTS.runTypeColor[index],
                         timestamp: new Date().toISOString(),
                         footer: {
-                            text: "d.gg/STD",
-                            icon_url: "https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
+                            text: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.name:"d.gg/STD",
+                            icon_url: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.iconURL:"https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
                         }
 
                     }
@@ -597,8 +597,8 @@ async function startAfk(message, args, CHANNELOBJECT) {
                     color: RAIDCONSTANTS.runTypeColor[index],
                     timestamp: new Date().toISOString(),
                     footer: {
-                        text: "d.gg/STD",
-                        icon_url: "https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
+                        text: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.name:"d.gg/STD",
+                        icon_url: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.iconURL:"https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
                     }
                 }
                 });
@@ -629,8 +629,8 @@ async function startAfk(message, args, CHANNELOBJECT) {
                     color: RAIDCONSTANTS.runTypeColor[index],
                     timestamp: new Date().toISOString(),
                     footer: {
-                        text: "d.gg/STD",
-                        icon_url: "https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
+                        text: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.name:"d.gg/STD",
+                        icon_url: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.iconURL:"https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
                     }
                 }
                 });
@@ -658,8 +658,8 @@ async function startAfk(message, args, CHANNELOBJECT) {
                         color: RAIDCONSTANTS.runTypeColor[index],
                         timestamp: new Date().toISOString(),
                         footer: {
-                            text: "d.gg/STD",
-                            icon_url: "https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
+                            text: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.name:"d.gg/STD",
+                            icon_url: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.iconURL:"https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
                         }
                     }
                 });

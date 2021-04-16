@@ -162,8 +162,8 @@ async function headcount(message, args, CHANNELOBJECT) {
                 color: RAIDCONSTANTS.runTypeColor[index],
                 timestamp: new Date().toISOString(),
                 footer: {
-                    text: "Headcount will end in " + RAIDCONSTANTS.hcLengthString + " • d.gg/STD ",
-                    icon_url: "https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
+                    text: `Headcount will end in ${RAIDCONSTANTS.hcLengthString} ${CONFIG.SystemConfig.servers[message.guildID].premium?"":`• d.gg/STD`}`,
+                    icon_url: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.iconURL:"https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
                 }
             }
         })
@@ -210,7 +210,12 @@ async function headcount(message, args, CHANNELOBJECT) {
                             title: message.guild.name + " Reaction Confirmation",
                             description: "Did you react with <:" + event.emoji.name + ":" + event.emoji.id + ">" + " ?", 
                             color: 4,
-                            timestamp: new Date().toISOString()
+                            footer: {
+                                text: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.name:"d.gg/STD",
+                                icon_url: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.iconURL:"https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
+                            },
+                            timestamp: new Date().toISOString(),
+
                         }
                     });
                     await a.addReaction(RAIDCONSTANTS.checkReaction);
@@ -267,8 +272,8 @@ async function headcount(message, args, CHANNELOBJECT) {
                         color: RAIDCONSTANTS.runTypeColor[index],
                         timestamp: new Date().toISOString(),
                         footer: {
-                            text: "d.gg/STD",
-                            icon_url: "https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
+                            text: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.name:"d.gg/STD",
+                            icon_url: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.iconURL:"https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
                         }
                     }
                     });
@@ -297,8 +302,8 @@ async function headcount(message, args, CHANNELOBJECT) {
                         color: RAIDCONSTANTS.runTypeColor[index],
                         timestamp: new Date().toISOString(),
                         footer: {
-                            text: "d.gg/STD",
-                            icon_url: "https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
+                            text: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.name:"d.gg/STD",
+                            icon_url: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.iconURL:"https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
                         }
                     }
                 });
