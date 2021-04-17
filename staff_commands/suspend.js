@@ -207,9 +207,9 @@ async function suspend(msg, args) {
     let oldMemberRoles = member.roles;
 
     member.roles.forEach(async roleID => {
-        CONSTANTS.bot.removeGuildMemberRole(msg.guildID, member.id, roleID, `Suspension issued by ${msg.author.username}`)
+        CONSTANTS.bot.removeGuildMemberRole(msg.guildID, member.id, roleID, `Suspension`)
         .catch((error) => {
-            CONSTANTS.bot.createMessage(msg.channel.id, "Warning: Target's roles include one or more roles that are higher than the bot's highest role, this role will not be removed upon unsuspension.");
+            CONSTANTS.bot.createMessage(msg.channel.id, "Error removing a role: Target's roles likely include one or more roles that are higher than the bot's highest role, this role will not be removed upon unsuspension.");
             console.log("> [SUSPEND ERROR] " + error);
         });
     })
