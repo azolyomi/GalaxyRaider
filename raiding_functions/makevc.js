@@ -85,7 +85,7 @@ async function makevc(message, args) {
     activeChannelPermissions.push({
         id: message.guildID,
         type: 0,
-        allow: 0,
+        allow: 33554432,
         deny: 1049600,
     })
         if (CHANNELOBJECT == CONFIG.SystemConfig.servers[message.guildID].channels.Veteran) {
