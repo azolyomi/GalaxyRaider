@@ -26,6 +26,7 @@ It enables servers to quickly and easily set up a community that provides access
 1. An official optical character recognition algorithm that enables the user to parse screenshots of the ingame `/who` command, returning a list of all players that are not currently in your voice channel.
 2. The ability to configure streaming permissions roles.
 3. Access to high-requirements raid configuration.
+
 [Go Premium Today!](https://patreon.com/Theurul)
 
 # Setup Instructions: #
