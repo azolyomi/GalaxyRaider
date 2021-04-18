@@ -3,6 +3,8 @@
 
 [Support my Patreon!](https://patreon.com/Theurul)
 
+[Setup Instructions](https://github.com/theurul/RobinHood/blob/master/README.md#setup-instructions)
+
 # What Is Robin Hood? #
 
 Robin Hood is a multipurpose, generalized raiding bot for the online MMORPG Realm of the Mad God.
