@@ -3,8 +3,32 @@
 
 [Support my Patreon!](https://patreon.com/Theurul)
 
+# What Is Robin Hood? #
+
+Robin Hood is a multipurpose, generalized raiding bot for the online MMORPG Realm of the Mad God.
+It enables servers to quickly and easily set up a community that provides access to any level of the game's content, with the ease-of-access and utility of professionally built software.
+
+### Free Robin Hood features include... ###
+1. Automatic verification and customizeable requirements (`Star Count`, `Hidden Location`, etc.)
+2. Suspension and automatic unsuspension 
+> Robin Hood uses an authentic database to manage all user information!
+3. Ability to track contributions of `members` 
+> Using the integrated database, you can log items for users, fetch information like their suspension history, etc.
+4. Ability to start custom-built AFK checks for each Exaltation Dungeon runtype, as well as the `miscellaneous` category.
+> Tip: You can also customize the requirement sheets posted on each AFK!
+5. Ability to designate `ping roles` for more customized member notification
+> Tip: For example, you can designate a role that is pinged by all `shatters` afk checks. For more information, type `.help pingrole`.
+6. Entirely configurable permissions access for leaders, moderators, securities, veterans, members, and early location roles (e.g. `Nitro Boosters`)
+7. Ability to track activity of `leaders` 
+> Using the integrated database, you can log runs for staff, enable a weekly point quota, and configure points per run type for quota purposes!
+
+### Premium features include... ###
+1. An official optical character recognition algorithm that enables the user to parse screenshots of the ingame `/who` command, returning a list of all players that are not currently in your voice channel.
+2. The ability to configure streaming permissions roles.
+3. Access to high-requirements raid configuration.
+[Go Premium Today!](https://patreon.com/Theurul)
+
 # Setup Instructions: #
- 
  > Pre-Tip: At any point, you can view the current server configuration with `.showconfig`
 
 ## 1. Run the command `.config`. ##
