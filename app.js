@@ -1348,7 +1348,8 @@ CONSTANTS.bot.on("messageDelete", async function(message) {
 })
 
 CONSTANTS.bot.on("ready", () => {
-    console.log("Discord Bot Ready!");
+    console.log(`> [READY] Discord Bot Ready > ${new Date().toUTCString()}`);
+    console.error(`> [READY] Discord Bot Ready > ${new Date().toUTCString()}`)
     CONSTANTS.botID = CONSTANTS.bot.user.id;
     CONSTANTS.bot.editStatus("online", {
         name: ".patreon | .instructions"
