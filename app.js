@@ -1093,7 +1093,8 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
 // Custom guild command for Space Travel Dungeons ($20 Patreon Subscription)
 
 CONSTANTS.bot.registerCommand("fuck", function(msg, args) {
-    if (!msg.guildID || msg.guildID != "522815906376843274") return;
+    console.log("fuck triggered");
+    if (!msg.guildID || msg.guildID != "522815906376843274") return "x";
     else if (!(msg.mentions.length > 0)) return "Mention a user.";
 
     if (msg.member.id == msg.mentions[0].id) return {
