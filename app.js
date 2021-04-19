@@ -16,6 +16,7 @@ const suspendlist = require("./staff_commands/suspendlist");
 const log = require("./raiding_functions/logitem");
 const changereqsheet = require("./raiding_functions/changereqsheet");
 const getinfo = require("./staff_commands/getinfo");
+const stats = require("./member_commands/stats");
 const setpoints = require("./config/setpoints");
 const leaderboard = require("./staff_commands/leaderboard");
 const manualverify = require("./staff_commands/manualverify");
@@ -972,6 +973,21 @@ CONSTANTS.bot.registerCommand("getinfo", getinfo.getInfo, {
     fullDescription: getinfo.helpMessage,
     aliases: ["gi", "get"],
     argsRequired: true
+})
+
+CONSTANTS.bot.registerCommand("stats", stats.fetchStats, {
+    caseInsensitive: true,
+    fullDescription: stats.helpMessage,
+    aliases: ["points", "mystats", "fetchstats"],
+    argsRequired: false,
+    requirements: {
+        custom: function(msg) {
+            if (!msg.guildID) return false;
+            else if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
+            else if (!(CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.some(id => msg.member.roles.includes(id)))) return false;
+            else return true;
+        }
+    }
 })
 
 CONSTANTS.bot.registerCommand("leaderboard", leaderboard.leaderboard, {
