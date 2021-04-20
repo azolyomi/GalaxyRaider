@@ -473,10 +473,10 @@ async function startAfk(message, args, CHANNELOBJECT) {
                     if (CONSTANTS.bot.getMessage(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id)) await CONSTANTS.bot.removeMessageReactions(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id);
                     if (CONSTANTS.bot.getChannel(activeChannel.id) && !voicechannel) {
                         CONFIG.SystemConfig.servers[message.guildID].nonstaff.memberaccess.forEach(id => {
-                            activeChannel.editPermission(id, "1024", "4361028352", "role", "closed channel");
+                            activeChannel.editPermission(id, "1024", "4327473664", "role", "closed channel");
                         })
                         CONFIG.SystemConfig.servers[message.guildID].nonstaff.vetaccess.forEach(id => {
-                            activeChannel.editPermission(id, "1024", "4361028352", "role", "closed channel");
+                            activeChannel.editPermission(id, "1024", "4327473664", "role", "closed channel");
                         })
                         activeChannel.editPosition(100000);
                     }
@@ -666,10 +666,10 @@ async function startAfk(message, args, CHANNELOBJECT) {
                 if (await CONSTANTS.bot.getMessage(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id)) await CONSTANTS.bot.removeMessageReactions(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id);
                 if (CONSTANTS.bot.getChannel(activeChannel.id) && !voicechannel) {
                     CONFIG.SystemConfig.servers[message.guildID].nonstaff.memberaccess.forEach(id => {
-                        activeChannel.editPermission(id, "1024", "4361028352", "role", "closed channel");
+                        activeChannel.editPermission(id, "1024", "4327473920", "role", "closed channel");
                     })
                     CONFIG.SystemConfig.servers[message.guildID].nonstaff.vetaccess.forEach(id => {
-                        activeChannel.editPermission(id, "1024", "4361028352", "role", "closed channel");
+                        activeChannel.editPermission(id, "1024", "4327473920", "role", "closed channel");
                     })
                     activeChannel.editPosition(100000);
                 }
