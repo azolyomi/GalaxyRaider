@@ -1131,7 +1131,7 @@ CONSTANTS.bot.registerCommand("fuck", function(msg, args) {
             color: 0xff0000
         }
     }
-    if (msg.mentions.length > 1) {
+    if (msg.mentions.length > 1 && msg.mentions.length <= 5) {
         let desc = 
         `**Pictured**:
         
