@@ -10,7 +10,7 @@ var MongoClient = require("mongodb").MongoClient;
 const { type } = require("os");
 
 var task = cron.schedule("0 0 * * SUN", () => {
-    var guildIDs = CONSTANTS.bot.guilds.map(guild => guild.id).filter(id => CONFIG.SystemConfig.servers[id].quotaEnabled);
+    var guildIDs = CONSTANTS.bot.guilds.map(guild => guild.id).filter(id => CONFIG.SystemConfig.servers[id] && CONFIG.SystemConfig.servers[id].quotaEnabled);
     guildIDs.forEach(async id => {
         let channel = await createQuotaChannel(id);
         executeQuotaInChannel(id, channel.id);
