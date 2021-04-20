@@ -1131,6 +1131,25 @@ CONSTANTS.bot.registerCommand("fuck", function(msg, args) {
             color: 0xff0000
         }
     }
+    if (msg.mentions.length > 1) {
+        let desc = 
+        `**Pictured**:
+        
+        Center: ${msg.member.mention}
+        Top: ${msg.mentions.map(mention => mention.mention).join(", ")}`;
+        return {
+            embed: {
+                title: "What a lucky guy!",
+                description: desc,
+                image: {
+                    url: "https://cdn.discordapp.com/attachments/826194483992461383/834078874581205062/fc8.png"
+                },
+                color: 0xffb6c1
+            }
+        }
+    }
+
+
     let rand = Math.random() * 100 + 1;
 
     if (rand < 50) {
