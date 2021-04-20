@@ -1396,6 +1396,7 @@ CONSTANTS.bot.on("messageDelete", async function(message) {
 
 CONSTANTS.bot.on("ready", () => {
     console.log(`> [READY] Discord Bot Ready > ${new Date().toUTCString()}`);
+    console.log(`> [GUILDS as of ${new Date().toUTCString()}]: \n${CONSTANTS.bot.guilds.map(guild => `[NAME: ${guild.name}, ID: ${guild.id}, #: ${guild.memberCount}]`).join("\n")}`);
     console.error(`> [READY] Discord Bot Ready > ${new Date().toUTCString()}`)
     CONSTANTS.botID = CONSTANTS.bot.user.id;
     CONSTANTS.bot.editStatus("online", {
