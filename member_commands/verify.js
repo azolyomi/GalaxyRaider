@@ -45,59 +45,75 @@ async function verify(message, args) {
             })
             collector.run();
 
-            CONSTANTS.bot.createMessage(dmChannel.id, {
-                embed: {
-                    author: {
-                        name: `${msg.guild.name} Verification`,
-                        icon_url: msg.guild.iconURL,
-                    },
-                    description: 
-                    `**__Verification Requirements:__**
-                    
-                    `,
-                    fields: [
-                        {
-                            name: "Stars Required:",
-                            value: 
-                            "```css\n" + CONFIG.SystemConfig.servers[msg.guildID].verification.minrank + "```",
-                            inline: false,
-                        },
-                        {
-                            name: "Hidden Location Required:",
-                            value:
-                            "```css\n" + CONFIG.SystemConfig.servers[msg.guildID].verification.hiddenloc + "```",
-                            inline: false,
-                        }
-                    ],
-                    color: 0x5b1c80,
-                }
-            });
-
             let threedigitcode = Math.floor(Math.random()*(900)+100);
             let threelettername = msg.guild.name.substring(0, 3);
             let code = `${threelettername}${threedigitcode}`;
 
 
-            CONSTANTS.bot.createMessage(dmChannel.id, {
+//             CONSTANTS.bot.createMessage(dmChannel.id, {
+//                 embed: {
+//                     author: {
+//                         name: `${msg.guild.name} Verification`,
+//                         icon_url: msg.guild.iconURL,
+//                     },
+//                     description: 
+// `**How To Verify**
+// \`\`\`md
+// 1. Make sure your realmeye matches the above verification requirements.
+// 2. Put the code 
+
+// #       ${code}         #
+
+// in your realmeye description.
+// 3. Type your ingame name here EXACTLY as it appears in-game (case-sensitive).
+// \`\`\``,
+//                     color: 0x5b1c80,
+//                 }
+//             });
+
+            let verifymsg = await CONSTANTS.bot.createMessage(dmChannel.id, {
                 embed: {
                     author: {
                         name: `${msg.guild.name} Verification`,
                         icon_url: msg.guild.iconURL,
                     },
                     description: 
-`**How To Verify**
+                    `**How To Verify**
 \`\`\`md
-1. Make sure your realmeye matches the above verification requirements.
+1. Make sure your realmeye matches the server-specific requirements below.
 2. Put the code 
 
 #       ${code}         #
 
 in your realmeye description.
 3. Type your ingame name here EXACTLY as it appears in-game (case-sensitive).
-\`\`\``,
+\`\`\`
+                    
+                    
+                    **__Server-Specific Verification Requirements:__**
+                    `,
+                    fields: [
+                        {
+                            name: "Stars Required:",
+                            value: 
+                            "```css\n" + CONFIG.SystemConfig.servers[msg.guildID].verification.minrank + "```",
+                            inline: true,
+                        },
+                        {
+                            name: "Hidden Location Required:",
+                            value:
+                            "```css\n" + CONFIG.SystemConfig.servers[msg.guildID].verification.hiddenloc + "```",
+                            inline: true,
+                        }
+                    ],
                     color: 0x5b1c80,
                 }
+            }).catch((err) => {
+                console.error("> [VERIFY DM FAILED] Couldn't DM user " + msg.author.id + ".\n > Error: " + err);
+                return {err: err};
             });
+
+            if (verifymsg.err) return;
 
             let hasCollected = false;
 

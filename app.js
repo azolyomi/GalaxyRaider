@@ -953,12 +953,37 @@ CONSTANTS.bot.registerCommand("log", log.logitem, {
     argsRequired: true
 });
 
+CONSTANTS.bot.registerCommand("resetitems", log.resetitems, {
+    caseInsensitive: true,
+    fullDescription: log.resetItemsHelpCommand,
+    aliases: ["resetmember"],
+    argsRequired: true,
+    requirements: {
+        permissions: {
+            "administrator": true
+        }
+    }
+});
+
 CONSTANTS.bot.registerCommand("logrun", logrun.logrun, {
     caseInsensitive: true,
     fullDescription: logrun.helpMessage,
     aliases: ["lr"],
     argsRequired: true
 });
+
+CONSTANTS.bot.registerCommand("resetruns", logrun.resetruns, {
+    caseInsensitive: true,
+    fullDescription: logrun.resetRunsHelpCommand,
+    aliases: ["resetstaff"],
+    argsRequired: true,
+    requirements: {
+        permissions: {
+            "administrator": true
+        }
+    }
+});
+
 
 CONSTANTS.bot.registerCommand("staffstats", staffstats.fetchStaffStats, {
     caseInsensitive: true,
@@ -1055,7 +1080,10 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
 
         **${CONSTANTS.botPrefix}changereqsheet** – Change the default req sheet posted for a given AFK check
         **${CONSTANTS.botPrefix}setpoints** – Set the point values associated with logging keys/vials/runes
-        **${CONSTANTS.botPrefix}setrunpoints** – Set the point values associated with logging runs (for Raid Leaders)
+        **${CONSTANTS.botPrefix}setrunpoints** – Set the point values associated with logging runs
+        **${CONSTANTS.botPrefix}resetruns** – Reset a user's run database entry (runs/points)
+        **${CONSTANTS.botPrefix}resetruns** – Reset a member's item database entry. (keys/vials/runes/points)
+
 
         __**Quota**__:
 

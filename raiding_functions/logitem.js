@@ -14,7 +14,7 @@ async function logitem(msg, args) {
     if (!acceptableLogTypes.includes(inputLogType)) return `That is not a valid log type. Log type must be one of \`[${acceptableLogTypes.join(", ")}]\``;
 
     let numItems = parseInt(args.shift());
-    if (isNaN(numItems) || Math.abs(numItems) > 20 ) return `The number of items to log must be an integer less than 20.`;
+    if (isNaN(numItems) || Math.abs(numItems) > 500 || (Math.abs(numItems) > 20 && !msg.member.roles.some(id => CONFIG.SystemConfig.servers[msg.guildID].modroles.includes(id)))) return `The number of items to log must be an integer less than 20. (Moderators can log up to 500)`;
 
     let found = await find.find(msg, args);
     if (!found) return;
@@ -38,7 +38,7 @@ async function logitem(msg, args) {
             if (err) throw (err);
             var dbo = db.db("GalaxyRaiderDB");
             let foundEntry = (await dbo.collection("GalaxyItemLogs").findOne({UID: found[0].id, guildID: msg.guildID}));
-            if (!foundEntry) {
+            if (!(await foundEntry)) {
                 let queryObject = {
                     UID: found[0].id,
                     guildID: msg.guildID,
@@ -74,6 +74,9 @@ async function logitem(msg, args) {
             }
             else {
                 let queryObject = await foundEntry;
+
+                if (isNaN(queryObject[`${inputLogType}s`])) queryObject[`${inputLogType}s`] = 0; // reset to 0
+                if (isNaN(queryObject.points)) queryObject.points = 0; // reset to 0
                 
                 if (queryObject[`${inputLogType}s`] < Math.abs(numItems) && numItems < 0) {
                     numItems = 0 - queryObject[`${inputLogType}s`];
@@ -123,5 +126,48 @@ Used to log keys/runes/vials for a user. Doing this automatically updates the us
 **<user>**: A username/nickname/id/mention that references the user somehow.
 
 **Example**: \`.log key 3 theurul\` -> Logs 3 keys for the user with username 'theurul'. If you do not specify an ID, ensure this is the correct user!`;
+
+
+async function resetitems(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) {
+        return "Server is not configurated yet. Type \`.config\` to configurate it.";
+    }
+    else if (!(msg.mentions.length > 0)) return `Mention a user to run that command.`;
+    let user = msg.mentions[0];
+
+    MongoClient.connect(process.env.DBURL, async function(err, db) {
+        if (err) throw (err);
+        var dbo = db.db("GalaxyRaiderDB");
+        let foundEntry = (await dbo.collection("GalaxyItemLogs").findOne({UID: user.id, guildID: msg.guildID}));
+        if (!(await foundEntry)) {
+            CONSTANTS.bot.createMessage(msg.channel.id, "No entry in the item database for that user.");
+            db.close();
+        }
+        else {
+            let queryObject = await foundEntry;
+            queryObject = {
+                UID: queryObject.UID,
+                guildID: queryObject.guildID,
+                keys: 0,
+                vials: 0,
+                runes: 0,
+                points: 0
+            }
+
+            dbo.collection("GalaxyItemLogs").updateOne({UID: user.id, guildID: msg.guildID}, {$set: queryObject});
+
+            CONSTANTS.bot.createMessage(msg.channel.id, `Success!`);
+            db.close();
+        }
+    })
+}
+
+exports.resetitems = resetitems;
+exports.resetItemsHelpCommand = 
+`Used to reset items for a member. This will wipe all keys/vials/runes/points for that member. Be cautious.
+
+**Usage**: \`${CONSTANTS.botPrefix}resetitems <@user>\`
+
+**<@user>** A mentioned user. To mention a user, do <@userID>`;
 
 //Structure:

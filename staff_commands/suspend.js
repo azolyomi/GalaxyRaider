@@ -130,8 +130,7 @@ async function unsuspend(msg, args) {
                 }
             })
 
-            if (CONSTANTS.bot.getChannel(CONFIG.SystemConfig.servers[msg.guildID].logchannel))
-             CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
                 embed: {
                     title: `User Unsuspended`,
                     description: 
@@ -143,7 +142,9 @@ async function unsuspend(msg, args) {
                     `,
                     color: 0x2ECC71,
                 }
-            })
+            }).catch((err) => {
+                console.error("> [SUSPEND LOG FAILED] Couldn't log suspend in " + msg.guild.name + ".\n > Error: " + err);
+            });
 
             let dmChannel = await CONSTANTS.bot.getDMChannel(member.id);
             dmChannel.createMessage({
@@ -158,7 +159,9 @@ async function unsuspend(msg, args) {
                     `,
                     color: 0x2ECC71,
                 }
-            })
+            }).catch((err) => {
+                console.error("> [SUSPEND DM FAILED] Couldn't DM user " + member.id + ".\n > Error: " + err);
+            });
             db.close();
         }
         else {
@@ -210,7 +213,7 @@ async function suspend(msg, args) {
         CONSTANTS.bot.removeGuildMemberRole(msg.guildID, member.id, roleID, `Suspension`)
         .catch((error) => {
             CONSTANTS.bot.createMessage(msg.channel.id, "Error removing a role: Target's roles likely include one or more roles that are higher than the bot's highest role, this role will not be removed upon unsuspension.");
-            console.log("> [SUSPEND ERROR] " + error);
+            console.error("> [SUSPEND ERROR] " + error);
         });
     })
     
@@ -253,7 +256,7 @@ async function suspend(msg, args) {
                 }
             })
 
-            if (CONSTANTS.bot.getChannel(CONFIG.SystemConfig.servers[msg.guildID].logchannel)) CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
                 embed: {
                     title: `Suspension Issued`,
                     description: 
@@ -265,6 +268,8 @@ async function suspend(msg, args) {
                     `,
                     color: 0xE74C3C,
                 }
+            }).catch((err) => {
+                console.error("> [SUSPEND LOG FAILED] Couldn't log suspend in " + msg.guild.name + ".\n > Error: " + err);
             });
 
             let dmChannel = await CONSTANTS.bot.getDMChannel(member.id);
@@ -281,7 +286,9 @@ async function suspend(msg, args) {
                     `,
                     color: 0xE74C3C,
                 }
-            })
+            }).catch((err) => {
+                console.error("> [SUSPEND DM FAILED] Couldn't DM user " + member.id + ".\n > Error: " + err);
+            });
             db.close();
         }
         else {
@@ -315,7 +322,7 @@ async function suspend(msg, args) {
                 }
             });
 
-            if (CONSTANTS.bot.getChannel(CONFIG.SystemConfig.servers[msg.guildID].logchannel)) CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
                 embed: {
                     title: `Suspension Issued`,
                     description: 
@@ -327,7 +334,9 @@ async function suspend(msg, args) {
                     `,
                     color: 0xE74C3C,
                 }
-            });
+            }).catch((err) => {
+                console.error("> [SUSPEND LOG FAILED] Couldn't log suspend in " + msg.guild.name + ".\n > Error: " + err);
+            });;
 
             let dmChannel = await CONSTANTS.bot.getDMChannel(member.id);
             dmChannel.createMessage({
@@ -343,7 +352,9 @@ async function suspend(msg, args) {
                     `,
                     color: 0xE74C3C,
                 }
-            })
+            }).catch((err) => {
+                console.error("> [SUSPEND DM FAILED] Couldn't DM user " + member.id + ".\n > Error: " + err);
+            });
             db.close();
         }
     })
