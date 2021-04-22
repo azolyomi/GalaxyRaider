@@ -37,13 +37,15 @@ async function parseImageURL(msg, args) {
         })
         request("https://api.ocr.space/parse/imageurl?apikey=" + process.env.OCRAPIKEY + "&url=" + url, {json:true}, async (err, res, body) => {
             if (err) {
-                CONSTANTS.bot.createMessage(msg.channel.id, `Something went wrong with that operation.`);
-                console.log("> [PARSE ERROR] " + err);
+                CONSTANTS.bot.createMessage(msg.channel.id, `Something went wrong with that operation [1]`);
+                console.log("> [PARSE ERROR] ");
+                console.log(err);
                 return;
             }
             else if (body.error || !body.ParsedResults[0]) {
-                CONSTANTS.bot.createMessage(msg.channel.id, `Something went wrong with that operation.`);
-                console.log("> [PARSE ERROR] " + body.error?body.error:body.ParsedResults);
+                CONSTANTS.bot.createMessage(msg.channel.id, `Something went wrong with that operation [2]`);
+                console.log("> [PARSE ERROR] ");
+                console.log(body.error?body.error:body.ParsedResults);
                 return;
             }
 
