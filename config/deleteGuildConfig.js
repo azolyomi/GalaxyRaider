@@ -16,6 +16,7 @@ function deleteGuildConfig(guildID) {
             dbo.collection("ServerConfigs").deleteOne({_id: guildID});
             dbo.collection("GalaxySuspensions").deleteMany({guildID: guildID});
             dbo.collection("GalaxyItemLogs").deleteMany({guildID: guildID});
+            dbo.collection("GalaxyRunLogs").deleteMany({guildID: guildid});
             CONFIG.getConfig();
             db.close();
         })

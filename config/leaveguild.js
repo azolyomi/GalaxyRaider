@@ -14,6 +14,7 @@ function leaveGuild(msg, args) {
             dbo.collection("ServerConfigs").deleteOne({_id: guildid});
             dbo.collection("GalaxySuspensions").deleteMany({guildID: guildid});
             dbo.collection("GalaxyItemLogs").deleteMany({guildID: guildid});
+            dbo.collection("GalaxyRunLogs").deleteMany({guildID: guildid});
             CONSTANTS.bot.leaveGuild(guildid);
             CONFIG.getConfig();
             db.close();

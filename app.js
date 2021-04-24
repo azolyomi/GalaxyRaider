@@ -1084,13 +1084,6 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
         **${CONSTANTS.botPrefix}resetruns** – Reset a user's run database entry (runs/points)
         **${CONSTANTS.botPrefix}resetruns** – Reset a member's item database entry. (keys/vials/runes/points)
 
-
-        __**Quota**__:
-
-        **${CONSTANTS.botPrefix}setquota** – Set the weekly quota value
-        **${CONSTANTS.botPrefix}quotarole** – Edit quota roles
-        **${CONSTANTS.botPrefix}enablequota** – Coming soon
-
         __**Verification**__:
 
         **${CONSTANTS.botPrefix}verification**: Prints out verification configuration and commands
@@ -1099,6 +1092,10 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
         **${CONSTANTS.botPrefix}clearaccessrole** – Remove bot privileges from roles in bulk
         **${CONSTANTS.botPrefix}streamingperms** – Add/remove a role's permissions to stream in raid VCs
         **${CONSTANTS.botPrefix}highreqs** - Edit the highreqs capacities for a staff role.
+
+        **${CONSTANTS.botPrefix}setquota** – Set the weekly quota value
+        **${CONSTANTS.botPrefix}quotarole** – Edit quota roles
+        **${CONSTANTS.botPrefix}enablequota** - Toggle the weekly quota on or off
         
         Do ${CONSTANTS.botPrefix}help <command> for more information on that command`,
         color: 3145463,

@@ -11,8 +11,9 @@ const { type } = require("os");
 
 cron.schedule("0 0 * * SUN", () => {
     var guildIDs = CONSTANTS.bot.guilds.map(guild => guild.id).filter(id => CONFIG.SystemConfig.servers[id] && CONFIG.SystemConfig.servers[id].quotaEnabled);
+    console.log("[QUOTA TRIGGERING] => Beginning quota guild loop");
     guildIDs.forEach(async id => {
-        console.log("in quota loop!");
+        console.log("[QUOTA TRIGGERING] => in quota loop for guild: " + id);
         let channel = await createQuotaChannel(id);
         executeQuotaInChannel(id, channel.id);
     })
@@ -22,6 +23,7 @@ function setQuotaValue(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) {
         return "Server is not configurated yet. Type \`.config\` to configurate it.";
     }
+    else if (!CONFIG.SystemConfig.servers[msg.guildID].premium) return `You must be a premium server to use quota commands.`;
     let newQuota = parseInt(args.shift());
     if (isNaN(newQuota)) return `You must enter a value to set the quota to. You entered ${newQuota}`;
 
@@ -37,6 +39,7 @@ function toggleQuota(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) {
         return "Server is not configurated yet. Type \`.config\` to configurate it.";
     }
+    else if (!CONFIG.SystemConfig.servers[msg.guildID].premium) return `You must be a premium server to use quota commands.`;
 
     CONFIG.SystemConfig.servers[msg.guildID].quotaEnabled = !(CONFIG.SystemConfig.servers[msg.guildID].quotaEnabled);
     CONFIG.updateConfig(msg.guildID);
@@ -49,6 +52,7 @@ function editQuotaRole(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) {
         return "Server is not configurated yet. Type \`.config\` to configurate it.";
     }
+    else if (!CONFIG.SystemConfig.servers[msg.guildID].premium) return `You must be a premium server to use quota commands.`;
     else if (!(msg.roleMentions.length > 0)) return "You must mention at least one role.";
     let acceptabletypes = ["enable", "override", "disable", "nooverride"];
     let type = args[0];
