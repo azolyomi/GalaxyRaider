@@ -107,7 +107,7 @@ _I keep suspending people, but it's not working! What's going on?_
 
 To get started, go through the above bullet points, assign the roles, and type `.help` to see a comprehensive list of available commands!
 
-Have fun, and Happy Raiding!
+Have fun, and Happy Raiding! :)
 
 Your Friendly Bot Developer, [Theurul](https://patreon.com/Theurul)
 
