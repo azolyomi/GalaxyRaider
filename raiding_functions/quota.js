@@ -9,7 +9,7 @@ require('dotenv').config();
 var MongoClient = require("mongodb").MongoClient;
 const { type } = require("os");
 
-cron.schedule("0 0 * * SUN", () => {
+cron.schedule("0 0 * * MON", () => {
     var guildIDs = CONSTANTS.bot.guilds.map(guild => guild.id).filter(id => CONFIG.SystemConfig.servers[id] && CONFIG.SystemConfig.servers[id].quotaEnabled);
     console.log("[QUOTA TRIGGERING] => Beginning quota guild loop");
     guildIDs.forEach(async id => {
