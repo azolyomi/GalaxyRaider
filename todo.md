@@ -12,7 +12,7 @@ X 11. Add ability to change # of early reactions accepted
 
 
 20. add check reaction for verify, and .verification redochannel
-21. Add .listaccess role to print out bot access that a role has
+22. accessrole helper
 
 
 
