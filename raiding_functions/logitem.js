@@ -155,7 +155,7 @@ async function logitem(msg, args) {
                 }).catch(()=>{});
 
                 if (CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.enabled && queryObject.points >= CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.points) {
-                    found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.id).catch(e => {
+                    if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.id)) found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.id).catch(e => {
                         console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
                         CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
                             embed: {
@@ -167,7 +167,7 @@ async function logitem(msg, args) {
                     });
                 }
                 else if (CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.enabled && queryObject.points >= CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.points) {
-                    found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.id).catch(e => {
+                    if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.id)) found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.id).catch(e => {
                         console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
                         CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
                             embed: {
@@ -179,7 +179,7 @@ async function logitem(msg, args) {
                     });
                 }
                 else if (CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.enabled && queryObject.points >= CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.points) {
-                    found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.id).catch(e => {
+                    if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.id)) found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.id).catch(e => {
                         console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
                         CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
                             embed: {
@@ -191,7 +191,7 @@ async function logitem(msg, args) {
                     });
                 }
                 else if (CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.enabled && queryObject.points >= CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.points) {
-                    found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.id).catch(e => {
+                    if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.id)) found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.id).catch(e => {
                         console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
                         CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
                             embed: {
