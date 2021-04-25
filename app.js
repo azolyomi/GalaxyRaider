@@ -32,6 +32,7 @@ const parse = require("./staff_commands/parse");
 const registerpremiumguild = require("./config/registerpremiumguild");
 const RAIDCONSTANTS = require("./raiding_functions/RAIDCONSTANTS");
 const pingroles = require("./config/pingroles");
+const keyroles = require("./config/registerkeypopperrole");
 
 require("events").EventEmitter.defaultMaxListeners = 200;
 
@@ -316,6 +317,17 @@ showconfigcommand.registerSubcommand("pings", showconfig.showConfigPing, {
     caseInsensitive: true,
     fullDescription: "List current Ping Role configuration in bot server.",
     aliases: ["ping", "pingroles"],
+})
+
+showconfigcommand.registerSubcommand("keyroles", showconfig.showConfigKeyRoles, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    }, 
+    caseInsensitive: true,
+    fullDescription: "List current Auto-Key Popper Role configuration in bot server.",
+    aliases: ["autokeyroles", "keypopperroles"],
 })
 
 CONSTANTS.bot.registerCommand("changereqsheet", changereqsheet.changereqsheet, {
@@ -762,6 +774,28 @@ CONSTANTS.bot.registerCommand("setuppingmessage", pingroles.setupPingMessage, {
     argsRequired: false
 });
 
+CONSTANTS.bot.registerCommand("keyrole", keyroles.registerKeyPopperRole, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    caseInsensitive: true,
+    fullDescription: keyroles.helpCommand,
+    argsRequired: true
+})
+
+CONSTANTS.bot.registerCommand("resetkeyroles", keyroles.resetKeyPopperRoles, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    caseInsensitive: true,
+    fullDescription: keyroles.resetHelpCommand,
+    argsRequired: false
+})
+
 
 
 CONSTANTS.bot.registerCommand('setSuspendRole', accessRole.setSuspendRole, {
@@ -1096,6 +1130,9 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
         **${CONSTANTS.botPrefix}setquota** – Set the weekly quota value
         **${CONSTANTS.botPrefix}quotarole** – Edit quota roles
         **${CONSTANTS.botPrefix}enablequota** - Toggle the weekly quota on or off
+
+        **${CONSTANTS.botPrefix}keyrole** – Configure automatic key popper role addition
+        **${CONSTANTS.botPrefix}resetkeyroles** – Reset key roles
         
         Do ${CONSTANTS.botPrefix}help <command> for more information on that command`,
         color: 3145463,

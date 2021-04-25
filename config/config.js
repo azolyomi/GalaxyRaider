@@ -116,7 +116,29 @@ exports.addGuildConfigEntry = function(guildID, guildName, suspendrole, staffrol
             `https://cdn.discordapp.com/attachments/826194483992461383/826194539169579038/O3.png`,  // o3 highreqs
             `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`,
             `https://cdn.discordapp.com/attachments/826194483992461383/826194535188135936/Exaltations.png` // misc highreqs
-          ]
+          ],
+          "keypoproles" : {
+                "novice" : {
+                        "enabled" : false,
+                        "id" : "",
+                        "points" : 0
+                },
+                "apprentice" : {
+                        "enabled" : false,
+                        "id" : "",
+                        "points" : 0
+                },
+                "adept" : {
+                        "enabled" : false,
+                        "id" : "",
+                        "points" : 0
+                },
+                "master" : {
+                        "enabled" : false,
+                        "id" : "",
+                        "points" : 0
+                }
+          }
       }
     exports.SystemConfig.servers[guildID] = newEntry;
     updateConfig(guildID);

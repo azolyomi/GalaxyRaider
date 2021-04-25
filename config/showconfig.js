@@ -21,10 +21,6 @@ function showConfigDefault(msg, args) {
             **AFK Access**: (do \`.showconfig afkaccess\` for more)
 
             **Raid Leader Run Logging Points**: (do \`.showconfig runpoints\` for more)
-            **Weekly Quota Enabled?**: \`${server.quotaEnabled}\`
-            **Quota Value**: \`${server.quotaValue}\`
-            **Quota Enabled Roles**: (do \`.showconfig quotaenabledroles\` for more)
-            **Quota Override Roles**: (do \`.showconfig quotaoverrideroles\` for more)
 
             **Verification Enabled**: \`${server.verification.enabled}\`
             **Verification Star Requirement**: \`${server.verification.minrank}\`
@@ -37,6 +33,15 @@ function showConfigDefault(msg, args) {
             **Ping Configuration**: (do \`.showconfig pings\` for more)
             **Configurated Channels**: (do \`.showconfig channels\` for more)
             **Item Logging Points**: (do \`.showconfig points\` for more)
+
+            ${RAIDCONSTANTS.checkEmoji} **Premium Features**:
+
+            **Weekly Quota Enabled?**: \`${server.quotaEnabled}\`
+            **Quota Value**: \`${server.quotaValue}\`
+            **Quota Enabled Roles**: (do \`.showconfig quotaenabledroles\` for more)
+            **Quota Override Roles**: (do \`.showconfig quotaoverrideroles\` for more)
+
+            **Auto Key Popper Role Configuration**: (do \`.showconfig keyroles\` for more)
             `,
             color: 3145463
         }
@@ -369,3 +374,27 @@ function showConfigPing(msg, args) {
     }
 }
 exports.showConfigPing = showConfigPing;
+
+
+function showConfigKeyRoles(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "There is no config entry for this server in the database. Type \`.config\` and try again.";
+    let server = CONFIG.SystemConfig.servers[msg.guildID];
+    return {
+        embed: {
+            title: "Server Configuration",
+            description: 
+            `**Key Role Configuration**:
+
+            **Novice Tier**: ${server.keypoproles.novice.enabled?`<@&${server.keypoproles.novice.id}>\n**Required Points**: \`${server.keypoproles.novice.points}\``:`\`disabled\``}
+
+            **Apprentice Tier**: ${server.keypoproles.apprentice.enabled?`<@&${server.keypoproles.apprentice.id}>\n**Required Points**: \`${server.keypoproles.apprentice.points}\``:`\`disabled\``}
+
+            **Adept Tier**: ${server.keypoproles.adept.enabled?`<@&${server.keypoproles.adept.id}>\n**Required Points**: \`${server.keypoproles.adept.points}\``:`\`disabled\``}
+
+            **Master Tier**: ${server.keypoproles.master.enabled?`<@&${server.keypoproles.master.id}>\n**Required Points**: \`${server.keypoproles.master.points}\``:`\`disabled\``}
+            `,
+            color: 3145463
+        }
+    }
+}
+exports.showConfigKeyRoles = showConfigKeyRoles;
