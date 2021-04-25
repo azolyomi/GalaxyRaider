@@ -154,6 +154,8 @@ async function logitem(msg, args) {
                     }
                 }).catch(()=>{});
 
+                if (!found[0].roles) found[0] = await CONSTANTS.bot.getRESTGuildMember(msg.guildID, found[0].id);
+
                 if (CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.enabled && queryObject.points >= CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.points) {
                     if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.id)) found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.id).catch(e => {
                         console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
