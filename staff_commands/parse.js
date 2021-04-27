@@ -35,7 +35,7 @@ async function parseImageURL(msg, args) {
                 color: 3145463
             }
         })
-        request("https://api.ocr.space/parse/imageurl?apikey=" + process.env.OCRAPIKEY + "&url=" + url, {json:true}, async (err, res, body) => {
+        request(process.env.OCRAPIURL + process.env.OCRAPIKEY + "&url=" + url, {json:true}, async (err, res, body) => {
             if (err) {
                 CONSTANTS.bot.createMessage(msg.channel.id, `Something went wrong with that operation [1]`);
                 console.log("> [PARSE ERROR] ");
