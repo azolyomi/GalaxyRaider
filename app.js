@@ -45,7 +45,7 @@ const { CommandClient } = require('eris');
 CONSTANTS.bot.registerCommand("ping", function(msg, args) {
     return {
         embed: {
-            title: "Pong! I'm alive!",
+            title: "Pong!",
             timestamp: new Date().toISOString(),
         }
     }
