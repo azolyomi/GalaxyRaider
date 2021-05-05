@@ -157,23 +157,23 @@ exports.acceptableRunTypes =
 // ];
 
 exports.runTypeChannelCap = 
-[65, // Void
-35, // Void-Highreqs
-65, //Fullskip
-65, // Fullclear
-35, // Fullclear highreqs
-65, // cult
-35, // cult highreqs
-65, // shatters
-35, // shatters-highreqs
-65, //nest
-35, // nest-highreqs
-65, //fungal
-35, // fungal-highreqs
+[50, // Void
+25, // Void-Highreqs
+50, //Fullskip
+50, // Fullclear
+25, // Fullclear highreqs
+50, // cult
+25, // cult highreqs
+50, // shatters
+25, // shatters-highreqs
+50, //nest
+25, // nest-highreqs
+50, //fungal
+25, // fungal-highreqs
 75, //o3
-20, //o3-highreqs
-65, // misc
-35 // misc-highreqs
+25, //o3-highreqs
+25, // misc
+15 // misc-highreqs
 ];
 
 exports.runTypeEmoji = 
