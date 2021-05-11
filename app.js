@@ -1396,6 +1396,21 @@ CONSTANTS.bot.registerCommand("leaveguild", leaveguild.leaveGuild, {
     permissionMessage: false,
 })
 
+CONSTANTS.bot.registerCommand("fetchguilds", function(msg, args) {
+    return {embed: {
+        title: `Guilds as of ${new Date().toUTCString()}`,
+        description: `${CONSTANTS.bot.guilds.map(guild => `**NAME**: \`${guild.name}\`, **ID:** \`${guild.id}\`, **#**: \`${guild.memberCount}\`]`).join("\n")}`,
+        color: 3145463
+    }};
+}, {
+    caseInsensitive: true,
+    requirements: {
+        custom: function(msg) {
+            return msg.author.id == "211959423847890945";
+        }
+    }
+})
+
 exports.guildCache = {};
 
 CONSTANTS.bot.on("error", console.log);
