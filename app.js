@@ -34,6 +34,8 @@ const RAIDCONSTANTS = require("./raiding_functions/RAIDCONSTANTS");
 const pingroles = require("./config/pingroles");
 const keyroles = require("./config/registerkeypopperrole");
 
+const promovote = require("./custom_commands/STD/promovote");
+
 require("events").EventEmitter.defaultMaxListeners = 200;
 
 process.setMaxListeners(200);
@@ -1150,6 +1152,23 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
 
 
 // SEPARATOR: <CUSTOM>
+
+
+//custom promovote command for Space Travel Dungeons 
+
+CONSTANTS.bot.registerCommand("promovote", promovote.execute, {
+    caseInsensitive: true,
+    aliases: ["pv", "promo"],
+    argsRequired: true,
+    fullDescription: promovote.fulldesc,
+    requirements: {
+        custom: function(msg) {
+            if (msg.guildID != CONSTANTS.STDGuildID) return false;
+            else if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
+            else return CONFIG.SystemConfig.servers[msg.guildID].modroles.some(modroleID => msg.member.roles.includes(modroleID));
+        }
+    }
+})
 
 
 // Custom guild command for Space Travel Dungeons ($20 Patreon Subscription)

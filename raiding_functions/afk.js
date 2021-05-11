@@ -409,9 +409,13 @@ async function startAfk(message, args, CHANNELOBJECT) {
                                 icon_url: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.iconURL:"https://cdn.discordapp.com/attachments/751589431441490082/764948382912479252/SPACE.gif"
                             }
                         }
-                    }).catch(() => console.log("> [AFK CHECK ERROR] Creating DM Reaction Confirmation Message Failed"));
-                    await a.addReaction(RAIDCONSTANTS.checkReaction);
-                    await a.addReaction(RAIDCONSTANTS.redXReaction);
+                    })
+                    .then(async () => {
+                        await a.addReaction(RAIDCONSTANTS.checkReaction);
+                        await a.addReaction(RAIDCONSTANTS.redXReaction);
+                    })
+                    .catch(() => console.error("> [AFK CHECK ERROR] Creating DM Reaction Confirmation Message Failed"));
+                    
 
                     let dmReactionListener = new ReactionHandler.continuousReactionStream(
                         a, 

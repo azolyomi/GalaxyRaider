@@ -63,3 +63,7 @@ exports.bot = bot;
 exports.botID = "784842269378609152";
 exports.botCommandOptions = commandOptions;
 exports.botPrefix = botPrefix;
+
+const STDGuildID = `522815906376843274`;
+
+exports.STDGuildID = STDGuildID;
