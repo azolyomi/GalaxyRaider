@@ -11,12 +11,14 @@ async function verify(message, args) {
     MongoClient.connect(process.env.DBURL, async function(err, db) {
         if (err) {
             CONSTANTS.bot.createMessage(msg.channel.id, `Error with Database. Contact the bot developer ASAP.`);
+            db.close();
             throw err;
         }
         var dbo = db.db("GalaxyRaiderDB");
 
         let entry = await dbo.collection("GalaxySuspensions").findOne({UID: msg.member.id, guildID: msg.guildID});
         if ((await entry) && (await entry).currentlySuspended) {
+            db.close();
             try {
                 msg.member.addRole(CONFIG.SystemConfig.servers[msg.guildID].suspendrole);
                 let pmChannel = await CONSTANTS.bot.getDMChannel(msg.author.id);
@@ -35,6 +37,7 @@ async function verify(message, args) {
             catch (e) {}
         }
         else {
+            db.close();
             let dmChannel = await CONSTANTS.bot.getDMChannel(msg.author.id);
             let collector = new Eris.MessageCollector(dmChannel, {
                 timeout: 300000,
@@ -48,28 +51,6 @@ async function verify(message, args) {
             let threedigitcode = Math.floor(Math.random()*(900)+100);
             let threelettername = msg.guild.name.substring(0, 3);
             let code = `${threelettername}${threedigitcode}`;
-
-
-//             CONSTANTS.bot.createMessage(dmChannel.id, {
-//                 embed: {
-//                     author: {
-//                         name: `${msg.guild.name} Verification`,
-//                         icon_url: msg.guild.iconURL,
-//                     },
-//                     description: 
-// `**How To Verify**
-// \`\`\`md
-// 1. Make sure your realmeye matches the above verification requirements.
-// 2. Put the code 
-
-// #       ${code}         #
-
-// in your realmeye description.
-// 3. Type your ingame name here EXACTLY as it appears in-game (case-sensitive).
-// \`\`\``,
-//                     color: 0x5b1c80,
-//                 }
-//             });
 
             let verifymsg = await CONSTANTS.bot.createMessage(dmChannel.id, {
                 embed: {
