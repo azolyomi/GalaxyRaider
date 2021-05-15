@@ -10,13 +10,13 @@ function deleteGuildConfigFromDiscord(msg, args) {
 function deleteGuildConfig(guildID) {
     if (!CONFIG.SystemConfig.servers[guildID]) return "That guild ID does not exist in the database.";
     else {
-        MongoClient.connect(process.env.DBURL, function(err, db) {
+        MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
             if (err) throw (err);
             var dbo = db.db("GalaxyRaiderDB");
-            dbo.collection("ServerConfigs").deleteOne({_id: guildID});
-            dbo.collection("GalaxySuspensions").deleteMany({guildID: guildID});
-            dbo.collection("GalaxyItemLogs").deleteMany({guildID: guildID});
-            dbo.collection("GalaxyRunLogs").deleteMany({guildID: guildid});
+            await dbo.collection("ServerConfigs").deleteOne({_id: guildID});
+            await dbo.collection("GalaxySuspensions").deleteMany({guildID: guildID});
+            await dbo.collection("GalaxyItemLogs").deleteMany({guildID: guildID});
+            await dbo.collection("GalaxyRunLogs").deleteMany({guildID: guildid});
             CONFIG.getConfig();
             db.close();
         })

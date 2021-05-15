@@ -34,7 +34,7 @@ async function logitem(msg, args) {
     }
     else {
         // found.length === 1;
-        MongoClient.connect(process.env.DBURL, async function(err, db) {
+        MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
             if (err) throw (err);
             var dbo = db.db("GalaxyRaiderDB");
             let foundEntry = (await dbo.collection("GalaxyItemLogs").findOne({UID: found[0].id, guildID: msg.guildID}));
@@ -51,7 +51,7 @@ async function logitem(msg, args) {
                     queryObject[`${inputLogType}s`] = numItems;
                     queryObject.points = (numItems * CONFIG.SystemConfig.servers[msg.guildID].logItemPointValues[`${inputLogType}s`]);
                 }
-                dbo.collection("GalaxyItemLogs").insertOne(queryObject);
+                await dbo.collection("GalaxyItemLogs").insertOne(queryObject);
 
                 CONSTANTS.bot.createMessage(msg.channel.id, {
                     embed: {
@@ -134,7 +134,7 @@ async function logitem(msg, args) {
 
                 queryObject.points += (numItems * CONFIG.SystemConfig.servers[msg.guildID].logItemPointValues[`${inputLogType}s`]);
 
-                dbo.collection("GalaxyItemLogs").updateOne({UID: found[0].id, guildID: msg.guildID}, {$set: queryObject});
+                await dbo.collection("GalaxyItemLogs").updateOne({UID: found[0].id, guildID: msg.guildID}, {$set: queryObject});
 
                 CONSTANTS.bot.createMessage(msg.channel.id, {
                     embed: {
@@ -235,7 +235,7 @@ async function resetitems(msg, args) {
     else if (!(msg.mentions.length > 0)) return `Mention a user to run that command.`;
     let user = msg.mentions[0];
 
-    MongoClient.connect(process.env.DBURL, async function(err, db) {
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
         let foundEntry = (await dbo.collection("GalaxyItemLogs").findOne({UID: user.id, guildID: msg.guildID}));
@@ -254,7 +254,7 @@ async function resetitems(msg, args) {
                 points: 0
             }
 
-            dbo.collection("GalaxyItemLogs").updateOne({UID: user.id, guildID: msg.guildID}, {$set: queryObject});
+            await dbo.collection("GalaxyItemLogs").updateOne({UID: user.id, guildID: msg.guildID}, {$set: queryObject});
 
             CONSTANTS.bot.createMessage(msg.channel.id, `Success!`);
             db.close();

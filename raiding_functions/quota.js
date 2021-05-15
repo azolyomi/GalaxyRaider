@@ -122,7 +122,7 @@ async function executeQuotaInChannel(guildID, quotaChannelID) {
     let membersWhoHaveQuota = guildMembers.filter(member => member.roles.some(roleID => CONFIG.SystemConfig.servers[guildID].quotaEnabledRoles.includes(roleID)));
     let membersWhoFailedToMeetQuota = [];
     let membersWithoutDBEntry = [];
-    MongoClient.connect(process.env.DBURL, function(err, db) {
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
         var count = 0;
@@ -160,7 +160,7 @@ async function executeQuotaInChannel(guildID, quotaChannelID) {
                         }
                     });
                 })
-                dbo.collection("GalaxyRunLogs").updateMany({guildID: guildID},
+                await dbo.collection("GalaxyRunLogs").updateMany({guildID: guildID},
                     [
                         {'$set': {
                             'previousCycle': `$currentCycle`,

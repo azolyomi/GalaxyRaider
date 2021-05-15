@@ -11,7 +11,7 @@ cron.schedule("* * * * *", () => {
 })
 
 function updateSuspensions() {
-    MongoClient.connect(process.env.DBURL, async function(err, db) {
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) throw (err)
         var dbo = db.db("GalaxyRaiderDB");
         await dbo.collection("GalaxySuspensions").updateMany({duration: {$gt: 0}, currentlySuspended: true}, {$inc: {duration: -1}}); // update all suspensions with positive duration in the collection, decrement by *1* minute;
@@ -32,7 +32,7 @@ function updateSuspensions() {
         suspensionObject.suspenderID = "";
         suspensionObject.date = "";
 
-        dbo.collection("GalaxySuspensions").updateOne({UID: suspensionObject.UID, guildID: suspensionObject.guildID}, {$set: suspensionObject});
+        await dbo.collection("GalaxySuspensions").updateOne({UID: suspensionObject.UID, guildID: suspensionObject.guildID}, {$set: suspensionObject});
 
         if (CONSTANTS.bot.getChannel(CONFIG.SystemConfig.servers[suspensionObject.guildID].logchannel))
             CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[suspensionObject.guildID].logchannel, {
@@ -96,7 +96,7 @@ async function unsuspend(msg, args) {
     args.shift();
     let reason = args.join(" ");
     
-    MongoClient.connect(process.env.DBURL, async function(err, db) {
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
         let suspensionObject = await dbo.collection("GalaxySuspensions").findOne({UID: member.id, guildID: msg.guildID, currentlySuspended: true})
@@ -115,7 +115,7 @@ async function unsuspend(msg, args) {
             suspensionObject.suspenderID = "";
             suspensionObject.date = "";
 
-            dbo.collection("GalaxySuspensions").updateOne({UID: suspensionObject.UID, guildID: suspensionObject.guildID}, {$set: suspensionObject});
+            await dbo.collection("GalaxySuspensions").updateOne({UID: suspensionObject.UID, guildID: suspensionObject.guildID}, {$set: suspensionObject});
             CONSTANTS.bot.createMessage(msg.channel.id, {
                 embed: {
                     title: `User Unsuspended`,
@@ -217,7 +217,7 @@ async function suspend(msg, args) {
         });
     })
     
-    MongoClient.connect(process.env.DBURL, async function(err, db) {
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
         let foundEntry = (await dbo.collection("GalaxySuspensions").findOne({UID: member.id, guildID: msg.guildID})) 
@@ -235,7 +235,7 @@ async function suspend(msg, args) {
                 date: new Date().toUTCString(),
                 history: []
             }
-            dbo.collection("GalaxySuspensions").insertOne(suspensionObject);
+            await dbo.collection("GalaxySuspensions").insertOne(suspensionObject);
             
             await CONSTANTS.bot.addGuildMemberRole(msg.guildID, member.id, CONFIG.SystemConfig.servers[msg.guildID].suspendrole)
             .catch((error)=> {
@@ -302,7 +302,7 @@ async function suspend(msg, args) {
             suspensionObject.suspenderID = msg.member.id;
             suspensionObject.date = new Date().toUTCString();
 
-            dbo.collection("GalaxySuspensions").updateOne({UID: member.id, guildID: msg.guildID}, {$set: suspensionObject});
+            await dbo.collection("GalaxySuspensions").updateOne({UID: member.id, guildID: msg.guildID}, {$set: suspensionObject});
             await CONSTANTS.bot.addGuildMemberRole(msg.guildID, member.id, CONFIG.SystemConfig.servers[msg.guildID].suspendrole)
             .catch((error) => {
                 CONSTANTS.bot.createMessage(msg.channel.id, 'Failed to assign suspended role. Ensure that this role is below the bot\`s highest role.')
@@ -363,10 +363,10 @@ exports.suspend = suspend;
 
 exports.rolePersist = function(guild, member) {
     if (!CONFIG.SystemConfig.servers[guild.id] || !CONFIG.SystemConfig.servers[guild.id].suspendrole) return;
-    MongoClient.connect(process.env.DBURL, function(err, db) {
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
-        let entry = dbo.collection("GalaxySuspensions").findOne({UID: member.id, guildID: guild.id});
+        let entry = await dbo.collection("GalaxySuspensions").findOne({UID: member.id, guildID: guild.id});
         if (entry.currentlySuspended) {
             member.addRole(CONFIG.SystemConfig.servers[guild.id].suspendrole);
         }

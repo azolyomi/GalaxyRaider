@@ -21,7 +21,7 @@ async function logrun(msg, args) {
     let userID = msg.author.id;
     if (msg.mentions.length > 0 && msg.member.roles.some(id => CONFIG.SystemConfig.servers[msg.guildID].modroles.includes(id))) userID = msg.mentions[0].id;
 
-    MongoClient.connect(process.env.DBURL, async function(err, db) {
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
         let foundEntry = (await dbo.collection("GalaxyRunLogs").findOne({UID: userID, guildID: msg.guildID}));
@@ -47,7 +47,7 @@ async function logrun(msg, args) {
                 queryObject.currentCycle = (numruns * CONFIG.SystemConfig.servers[msg.guildID].runpoints[runtype]);
             }
 
-            dbo.collection("GalaxyRunLogs").insertOne(queryObject);
+            await dbo.collection("GalaxyRunLogs").insertOne(queryObject);
 
             CONSTANTS.bot.createMessage(msg.channel.id, {
                 embed: {
@@ -83,7 +83,7 @@ async function logrun(msg, args) {
             queryObject.runpoints += (numruns * CONFIG.SystemConfig.servers[msg.guildID].runpoints[runtype]);
             queryObject.currentCycle += (numruns * CONFIG.SystemConfig.servers[msg.guildID].runpoints[runtype]);
 
-            dbo.collection("GalaxyRunLogs").updateOne({UID: userID, guildID: msg.guildID}, {$set: queryObject});
+            await dbo.collection("GalaxyRunLogs").updateOne({UID: userID, guildID: msg.guildID}, {$set: queryObject});
 
             CONSTANTS.bot.createMessage(msg.channel.id, {
                 embed: {
@@ -129,7 +129,7 @@ async function resetruns(msg, args) {
     else if (!(msg.mentions.length > 0)) return `Mention a user to run that command.`;
     let user = msg.mentions[0];
 
-    MongoClient.connect(process.env.DBURL, async function(err, db) {
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
         let foundEntry = (await dbo.collection("GalaxyRunLogs").findOne({UID: user.id, guildID: msg.guildID}));
@@ -155,7 +155,7 @@ async function resetruns(msg, args) {
                 currentCycle: 0
             }
 
-            dbo.collection("GalaxyRunLogs").updateOne({UID: user.id, guildID: msg.guildID}, {$set: queryObject});
+            await dbo.collection("GalaxyRunLogs").updateOne({UID: user.id, guildID: msg.guildID}, {$set: queryObject});
 
             CONSTANTS.bot.createMessage(msg.channel.id, `Success!`);
             db.close();

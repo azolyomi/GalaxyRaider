@@ -15,7 +15,7 @@ function getInfo(msg, args) {
 
     let user = msg.mentions[0];
 
-    MongoClient.connect(process.env.DBURL, async function(err, db) {
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
         let suspensionEntry = await dbo.collection("GalaxySuspensions").findOne({UID: user.id, guildID: msg.guildID});

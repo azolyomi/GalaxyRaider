@@ -12,7 +12,7 @@ async function fetchStaffStats(msg, args) {
     if (msg.mentions.length > 0) user = msg.mentions[0];
     else user = msg.author;
 
-    MongoClient.connect(process.env.DBURL, async function(err, db) {
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
         let foundEntry = await dbo.collection("GalaxyRunLogs").findOne({UID: user.id, guildID: msg.guildID});

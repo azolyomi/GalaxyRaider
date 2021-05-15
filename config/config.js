@@ -7,10 +7,10 @@ var MongoClient = require("mongodb").MongoClient;
 exports.SystemConfig = { servers: {} };
 
 function getConfig() {
-  MongoClient.connect(process.env.DBURL, function(err, db) {
+  MongoClient.connect(process.env.DBURL,  {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
     if (err) throw (err);
     var dbo = db.db("GalaxyRaiderDB");
-    dbo.collection("ServerConfigs").find().forEach(function(entry) {
+    await dbo.collection("ServerConfigs").find().forEach(function(entry) {
       exports.SystemConfig.servers[entry._id] = entry;
     })
     db.close();
@@ -19,7 +19,7 @@ function getConfig() {
 
 function updateConfig(guildID) {
   try {
-    MongoClient.connect(process.env.DBURL, async function(err, db) {
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
       if (err) throw (err);
       var dbo = db.db("GalaxyRaiderDB");
       var serverObject = {_id: guildID};

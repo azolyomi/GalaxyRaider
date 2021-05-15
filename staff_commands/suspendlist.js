@@ -8,7 +8,7 @@ var MongoClient = require("mongodb").MongoClient;
 function suspendList(msg, args) {
     let fields = [];
 
-    MongoClient.connect(process.env.DBURL, async function(err, db) {
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
         await dbo.collection("GalaxySuspensions").find({guildID: msg.guildID, currentlySuspended: true}).forEach(entry => {

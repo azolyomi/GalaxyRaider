@@ -13,11 +13,11 @@ function leaderboard(msg, args) {
     let acceptableTypes = ["keys", "vials", "runes"];
     if (args[0] && acceptableTypes.includes(args[0])) type = args[0];
 
-    MongoClient.connect(process.env.DBURL, async function(err, db) {
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
-        let array = dbo.collection("GalaxyItemLogs").find({guildID: msg.guildID}).sort({[type]: -1}).toArray();
-        array = (await array).slice(0, 10);
+        let array = await dbo.collection("GalaxyItemLogs").find({guildID: msg.guildID}).sort({[type]: -1}).toArray();
+        array = array.slice(0, 10);
         
         CONSTANTS.bot.createMessage(msg.channel.id, {
             embed: {
@@ -51,11 +51,11 @@ function staffleaderboard(msg, args) {
     let acceptableTypes = ["void", "cult", "shatters", "nest", "fungal", "oryx3", "misc", "currentCycle"];
     if (args[0] && acceptableTypes.includes(args[0])) type = args[0];
 
-    MongoClient.connect(process.env.DBURL, async function(err, db) {
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
-        let array = dbo.collection("GalaxyRunLogs").find({guildID: msg.guildID}).sort({[type]: -1}).toArray();
-        array = (await array).slice(0, 10);
+        let array = await dbo.collection("GalaxyRunLogs").find({guildID: msg.guildID}).sort({[type]: -1}).toArray();
+        array = array.slice(0, 10);
         
         CONSTANTS.bot.createMessage(msg.channel.id, {
             embed: {

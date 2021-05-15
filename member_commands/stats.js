@@ -9,7 +9,7 @@ function fetchStats(msg, args) {
 
     let user = msg.member;
 
-    MongoClient.connect(process.env.DBURL, async function(err, db) {
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
         let itemLogsEntry = await dbo.collection("GalaxyItemLogs").findOne({UID: user.id, guildID: msg.guildID});
