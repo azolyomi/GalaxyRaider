@@ -501,8 +501,8 @@ async function startAfk(message, args, CHANNELOBJECT) {
             }
         })
 
-        await activeRaidMessage.addReaction(RAIDCONSTANTS.redXReaction);
         await activeRaidMessage.addReaction(RAIDCONSTANTS.pencil);
+        await activeRaidMessage.addReaction(RAIDCONSTANTS.redXReaction);
 
         let endRaidListener = new ReactionHandler.continuousReactionStream(
             activeRaidMessage, 
