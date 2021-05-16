@@ -11,7 +11,7 @@ async function verify(message, args) {
     MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) {
             CONSTANTS.bot.createMessage(msg.channel.id, `Error with Database. Contact the bot developer ASAP.`);
-            db.close();
+            if (db) db.close();
             throw err;
         }
         var dbo = db.db("GalaxyRaiderDB");
