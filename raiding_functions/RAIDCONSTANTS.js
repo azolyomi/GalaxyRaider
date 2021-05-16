@@ -342,11 +342,11 @@ exports.HCReactionlistForRunTypes = [
 
 ]
 exports.HCDescriptionsForRunTypes = [
-    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you are willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${fungalTomeEmoji} if you will bring a fungal tome to the run.`, // Void
-    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you are willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${fungalTomeEmoji} if you will bring a fungal tome to the run.`, // Highreqs Void
+    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you are willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.`, // Void
+    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you are willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.`, // Highreqs Void
     `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with ${brainEmoji}  if you\'re bringing a trickster\nReact with ${mysticEmoji}  if you\'re bringing a mystic.`, // Fullskip
-    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard\nReact with the ${fungalTomeEmoji} if you will bring a fungal tome to the run.`, // Fullclear
-    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard\nReact with the ${fungalTomeEmoji} if you will bring a fungal tome to the run.`, // Fullclear Highreqs
+    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard.`, // Fullclear
+    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard.`, // Fullclear Highreqs
     `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji}  if you're willing to rush.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Cult
     `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji}  if you're willing to rush.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Cult Highreqs
     `React with the ${shatterportalEmoji} if you're planning to join the run.\nReact with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with ${switchOneEmoji} if you can rush 1st switch.\nReact with ${switchTwoEmoji} if you can rush 2nd switch.\nReact with ${secretEmoji} if you can rush secret.`, // Shatters
@@ -381,11 +381,11 @@ exports.EarlyReactionNumberForRunTypes = [
 ]
 
 exports.HeadcountReactionNumberForRunTypes = [
-    [null, 2, 3, 2], // Void
-    [null, 2, 3, 2], // Void Highreqs
+    [null, 2, 3], // Void
+    [null, 2, 3], // Void Highreqs
     [null, 2, 3, 3, 3], // Fullskip
-    [null, 2, 3, 4, 2],
-    [null, 2, 3, 4, 2], // Fullclear Highreqs
+    [null, 2, 3, 4],
+    [null, 2, 3, 4], // Fullclear Highreqs
     [null, 2, 4],
     [null, 2, 4], // Cult Highreqs
     [null, 2, 1, 1, 1],
