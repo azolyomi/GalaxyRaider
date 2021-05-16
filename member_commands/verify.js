@@ -8,7 +8,7 @@ var MongoClient = require("mongodb").MongoClient;
 async function verify(message, args) {
     var msg = message;
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Server is not configurated yet. Reach out to an administrator and tell them to configurate the server first.";
-    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
+    MongoClient.connect(process.env.DBURL, async function(err, db) {
         if (err) {
             console.error("> [Verify Error] Threw within the first connect. " + err);
             throw err;
