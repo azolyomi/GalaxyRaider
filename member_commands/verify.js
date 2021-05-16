@@ -10,8 +10,7 @@ async function verify(message, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Server is not configurated yet. Reach out to an administrator and tell them to configurate the server first.";
     MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) {
-            CONSTANTS.bot.createMessage(msg.channel.id, `Error with Database. Contact the bot developer ASAP.`);
-            if (db) db.close();
+            console.error("> [Verify Error] Threw within the first connect. " + err);
             throw err;
         }
         var dbo = db.db("GalaxyRaiderDB");
