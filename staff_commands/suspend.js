@@ -367,7 +367,7 @@ exports.rolePersist = function(guild, member) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
         let entry = await dbo.collection("GalaxySuspensions").findOne({UID: member.id, guildID: guild.id});
-        if (entry.currentlySuspended) {
+        if (entry && entry.currentlySuspended) {
             member.addRole(CONFIG.SystemConfig.servers[guild.id].suspendrole);
         }
         db.close();
