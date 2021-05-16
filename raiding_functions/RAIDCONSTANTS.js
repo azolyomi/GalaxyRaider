@@ -322,11 +322,11 @@ exports.AFKCheckDescriptionsForRunTypes = [
 ]
 
 exports.HCReactionlistForRunTypes = [
-    [losthallsReaction, lhkeyReaction, vialReaction, fungalTomeReaction,],
-    [losthallsReaction, lhkeyReaction, vialReaction, fungalTomeReaction], // void highreqs
+    [losthallsReaction, lhkeyReaction, vialReaction],
+    [losthallsReaction, lhkeyReaction, vialReaction], // void highreqs
     [losthallsReaction, lhkeyReaction, vialReaction, brainReaction, mysticReaction],
-    [losthallsReaction, lhkeyReaction, vialReaction, mushroomspellReaction, fungalTomeReaction],
-    [losthallsReaction, lhkeyReaction, vialReaction, mushroomspellReaction, fungalTomeReaction], // fullclear highreqs
+    [losthallsReaction, lhkeyReaction, vialReaction, mushroomspellReaction],
+    [losthallsReaction, lhkeyReaction, vialReaction, mushroomspellReaction], // fullclear highreqs
     [losthallsReaction, lhkeyReaction, rusherReaction],
     [losthallsReaction, lhkeyReaction, rusherReaction], // cult highreqs
     [shatterportalReaction, shatterskeyReaction, switchOneReaction, switchTwoReaction, secretReaction],
