@@ -1,16 +1,16 @@
-# Robin Hood #
-[Add Robin Hood to your Discord Server!](https://discord.com/api/oauth2/authorize?client_id=784842269378609152&permissions=8&scope=bot)
+# Galaxy Raider #
+[Add Galaxy Raider to your Discord Server!](https://discord.com/api/oauth2/authorize?client_id=784842269378609152&permissions=8&scope=bot)
 
 [Support my Patreon!](https://patreon.com/Theurul)
 
 [Setup Instructions](https://github.com/theurul/RobinHood/blob/master/README.md#setup-instructions)
 
-# What Is Robin Hood? #
+# What Is Galaxy Raider? #
 
-Robin Hood is a multipurpose, generalized raiding bot for the online MMORPG Realm of the Mad God.
+Galaxy Raider is a multipurpose, generalized raiding bot for the online MMORPG Realm of the Mad God.
 It enables servers to quickly and easily set up a community that provides access to any level of the game's content, with the ease-of-access and utility of professionally built software.
 
-### Free Robin Hood features include... ###
+### Free Galaxy Raider features include... ###
 1. Automatic verification and customizeable requirements (`Star Count`, `Hidden Location`, etc.)
 2. Suspension and automatic unsuspension 
 > Robin Hood uses an authentic database to manage all user information!
