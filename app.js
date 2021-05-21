@@ -34,7 +34,15 @@ const RAIDCONSTANTS = require("./raiding_functions/RAIDCONSTANTS");
 const pingroles = require("./config/pingroles");
 const keyroles = require("./config/registerkeypopperrole");
 
-const promovote = require("./custom_commands/STD/promovote");
+
+//Custom Commands
+
+//STD
+const STD_fuck = require("./custom_commands/STD/fuck");
+const STD_promovote = require("./custom_commands/STD/promovote");
+
+//USE
+const USE_ban = require("./custom_commands/USE/ban");
 
 require("events").EventEmitter.defaultMaxListeners = 200;
 
@@ -1154,13 +1162,13 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
 // SEPARATOR: <CUSTOM>
 
 
-//custom promovote command for Space Travel Dungeons 
+// // // STD // // // 
 
-CONSTANTS.bot.registerCommand("promovote", promovote.execute, {
+CONSTANTS.bot.registerCommand("promovote", STD_promovote.execute, {
     caseInsensitive: true,
     aliases: ["pv", "promo"],
     argsRequired: true,
-    fullDescription: promovote.fulldesc,
+    fullDescription: STD_promovote.fulldesc,
     requirements: {
         custom: function(msg) {
             if (msg.guildID != CONSTANTS.STDGuildID) return false;
@@ -1170,94 +1178,11 @@ CONSTANTS.bot.registerCommand("promovote", promovote.execute, {
     }
 })
 
+CONSTANTS.bot.registerCommand("fuck", STD_fuck.execute);
 
-// Custom guild command for Space Travel Dungeons ($20 Patreon Subscription)
+// // // USE // // //
 
-CONSTANTS.bot.registerCommand("fuck", function(msg, args) {
-    if (!msg.guildID || msg.guildID != "522815906376843274") return;
-    else if (!(msg.mentions.length > 0)) return "Mention a user.";
-
-    if (msg.member.id == msg.mentions[0].id) return {
-        embed: {
-            title: "Ruh roh!",
-            description: "Masturbation is illegal in Indonesia! Pick someone else to fuck.",
-            color: 0xff0000
-        }
-    }
-    if (msg.mentions.length > 1 && msg.mentions.length <= 5) {
-        let desc = 
-        `**Pictured**:
-        
-        Center: ${msg.member.mention}
-        Top: ${msg.mentions.map(mention => mention.mention).join(", ")}`;
-        return {
-            embed: {
-                title: "What a lucky guy!",
-                description: desc,
-                image: {
-                    url: "https://cdn.discordapp.com/attachments/826194483992461383/834078874581205062/fc8.png"
-                },
-                color: 0xffb6c1
-            }
-        }
-    }
-
-
-    let rand = Math.random() * 100 + 1;
-
-    if (rand < 50) {
-        return {
-            embed: {
-                title: "What's going on here?!",
-                description: 
-                `Pictured: 
-                **Left**: ${msg.member.mention},
-                **Right**: ${msg.mentions[0].mention}`,
-                image: {
-                    url: "https://i.imgur.com/okrfYto.gif",
-                },
-                color: 0xffb6c1
-            }
-        }
-    }
-    else {
-        CONSTANTS.bot.createMessage(msg.channel.id, {
-            embed: {
-                title: "Incoming!",
-                color: 0xffb6c1
-            }
-        })
-        CONSTANTS.bot.createMessage(msg.channel.id, {
-            embed: {
-                title: "3...",
-                color: 0xffb6c1
-            }
-        })
-        CONSTANTS.bot.createMessage(msg.channel.id, {
-            embed: {
-                title: "2...",
-                color: 0xffb6c1
-            }
-        })
-        CONSTANTS.bot.createMessage(msg.channel.id, {
-            embed: {
-                title: "1...",
-                color: 0xffb6c1
-            }
-        })
-        return {
-            embed: {
-                title: "Yahtzee!",
-                description: `${msg.member.mention} successfully fucked ${msg.mentions[0].mention}`,
-                color: 0x00ff00
-            }
-        }
-    }
-
-})
-
-
-
+CONSTANTS.bot.registerCommand("ban", USE_ban.execute);
 
 
 //SEPARATOR: <HELP>
