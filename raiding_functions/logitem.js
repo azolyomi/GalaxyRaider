@@ -53,6 +53,10 @@ async function logitem(msg, args) {
                 }
                 await dbo.collection("GalaxyItemLogs").insertOne(queryObject);
 
+                if (msg.guildID == CONSTANTS.STDGuildID) {
+                    updateCredits(queryObject.UID, queryObject.guildID, queryObject.points);
+                }
+
                 CONSTANTS.bot.createMessage(msg.channel.id, {
                     embed: {
                         title: "Item Log",
@@ -136,6 +140,10 @@ async function logitem(msg, args) {
 
                 await dbo.collection("GalaxyItemLogs").updateOne({UID: found[0].id, guildID: msg.guildID}, {$set: queryObject});
 
+                if (msg.guildID == CONSTANTS.STDGuildID) {
+                    updateCredits(queryObject.UID, queryObject.guildID, (numItems * CONFIG.SystemConfig.servers[msg.guildID].logItemPointValues[`${inputLogType}s`]));
+                }
+
                 CONSTANTS.bot.createMessage(msg.channel.id, {
                     embed: {
                         title: "Item Log",
@@ -208,6 +216,32 @@ async function logitem(msg, args) {
             }
         })
     }
+}
+
+function updateCredits(userID, guildID, creditIncrement) {
+    MongoClient.connect(process.env.DBURL,  {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("GalaxyRaiderDB");
+
+        let foundEntry = await dbo.collection("GalaxyGambling.UserData").findOne({guildID: guildID, userID: userID});
+
+        if (!(await foundEntry)) {
+            let queryObject = {
+                guildID: guildID, 
+                userID: userID,
+                credits: CONSTANTS.defaultCredits + creditIncrement,
+                wins: 0,
+                losses: 0,
+                winstreak: 0
+            }
+            await dbo.collection("GalaxyGambling.UserData").insertOne(queryObject);
+            db.close();
+        }
+        else {
+            await dbo.collection("GalaxyGambling.UserData").updateOne({guildID: guildID, userID: userID}, {$inc: {credits: creditIncrement}});
+            db.close();
+        }
+    })
 }
 
 exports.logitem = logitem;

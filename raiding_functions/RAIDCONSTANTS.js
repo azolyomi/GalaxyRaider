@@ -1,5 +1,16 @@
 const CONSTANTS = require("../config/constants");
 
+
+//MINIBOSSES
+exports.gemsbokEmoji = "<:Gemsbok:845378614471426078>";
+exports.gemsbokReaction = "Gemsbok:845378614471426078";
+exports.beisaEmoji = "<:Beisa:845378632607465484>";
+exports.beisaReaction = "Beisa:845378632607465484";
+exports.leucoryxEmoji = "<:Leucoryx:845378653999333429>";
+exports.leucoryxReaction = "Leucoryx:845378653999333429";
+exports.dammahEmoji = "<:Dammah:845378670347681883>";
+exports.dammahReaction = "Dammah:845378670347681883";
+
 let wizardEmoji = `<:wizard:820007771108802620>`;
 let wizardReaction = `wizard:820007771108802620`;
 let whitebagEmoji = `<:whitebag:820007752486355054>`;
@@ -16,7 +27,6 @@ let tricksterEmoji = `<:trickster:820007707041857556>`;
 let tricksterReaction = `trickster:820007707041857556`;
 let swordruneEmoji = `<:swordrune:820007695548416031>`;
 let swordruneReaction = `swordrune:820007695548416031`;
-
 let switchOneEmoji = `<:switch1:829055690441621515>`;
 let switchOneReaction = `switch1:829055690441621515`;
 let switchTwoEmoji = `<:switch2:829055710012244020>`;

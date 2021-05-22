@@ -40,6 +40,7 @@ const keyroles = require("./config/registerkeypopperrole");
 //STD
 const STD_fuck = require("./custom_commands/STD/fuck");
 const STD_promovote = require("./custom_commands/STD/promovote");
+const STD_gamble = require("./custom_commands/STD/gamble");
 
 //USE
 const USE_ban = require("./custom_commands/USE/ban");
@@ -1179,6 +1180,36 @@ CONSTANTS.bot.registerCommand("promovote", STD_promovote.execute, {
 })
 
 CONSTANTS.bot.registerCommand("fuck", STD_fuck.execute);
+
+CONSTANTS.bot.registerCommand("credits", STD_gamble.credits, {
+    caseInsensitive: true,
+    fullDescription: "Print current credit count!",
+    aliases: ["creds", "mycredits", "bank", "wallet"],
+    argsRequired: false,
+    requirements: {
+        custom: function(msg) {
+            if (!msg.guildID) return false;
+            else if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
+            else if (!(CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.some(id => msg.member.roles.includes(id)))) return false;
+            else return true;
+        }
+    }
+});
+
+CONSTANTS.bot.registerCommand("gamble", STD_gamble.gamble, {
+    caseInsensitive: true,
+    fullDescription: "Create a miniboss gamble.",
+    aliases: ["minibossgamble"],
+    argsRequired: false,
+    requirements: {
+        custom: function(msg) {
+            if (!msg.guildID) return false;
+            else if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
+            else if (!(CONFIG.SystemConfig.servers[msg.guildID].staffroles.some(id => msg.member.roles.includes(id)))) return false;
+            else return true;
+        }
+    }
+});
 
 // // // USE // // //
 
