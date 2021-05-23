@@ -186,6 +186,7 @@ async function minibossBet(miniboss, userID, guildID, msg, event, reactedUsersAr
                 guildID: guildID, 
                 userID: userID,
                 credits: CONSTANTS.defaultCredits,
+                ported: false,
                 wins: 0,
                 losses: 0,
                 winstreak: 0
@@ -317,6 +318,7 @@ async function endMinibossBet(msgID, guildID, winningMiniboss) {
 
 
 exports.credits = function(msg, args) {
+    if (msg.guildID != CONSTANTS.STDGuildID) return;
     MongoClient.connect(process.env.DBURL,  {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
@@ -327,6 +329,7 @@ exports.credits = function(msg, args) {
                 guildID: msg.guildID, 
                 userID: msg.author.id,
                 credits: CONSTANTS.defaultCredits,
+                ported: false,
                 wins: 0,
                 losses: 0,
                 winstreak: 0
@@ -361,6 +364,42 @@ exports.credits = function(msg, args) {
                 }
             })
 
+            db.close();
+        }
+    })
+}
+
+exports.credits_port = function(msg, args) {
+    if (msg.guildID != CONSTANTS.STDGuildID) return;
+    MongoClient.connect(process.env.DBURL,  {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
+        if (err) throw (err);
+        var dbo = db.db("GalaxyRaiderDB");
+        let pointsEntry = await dbo.collection("GalaxyItemLogs").findOne({UID: msg.author.id, guildID: msg.guildID});
+        if (!pointsEntry) {
+            msg.channel.createMessage(`You don't have any points to port over.`);
+            db.close();
+            return;
+        }
+        let gamblingUserDataEntry = await dbo.collection("GalaxyGambling.UserData").findOne({userID: msg.author.id, guildID: msg.guildID});
+        let object;
+        if (!gamblingUserDataEntry) {
+            object = {
+                guildID: msg.guildID, 
+                userID: msg.author.id,
+                credits: CONSTANTS.defaultCredits + pointsEntry.points,
+                ported: true,
+                wins: 0,
+                losses: 0,
+                winstreak: 0
+            }
+            await dbo.collection("GalaxyGambling.UserData").insertOne(object);
+
+            msg.channel.createMessage(`Successfully ported over points to credits.`);
+            db.close();
+        }
+        else {
+            await dbo.collection("GalaxyGambling.UserData").updateOne({userID: msg.author.id, guildID: msg.guildID}, {$set: {credits: pointsEntry.points, ported: true}});
+            msg.channel.createMessage(`Successfully ported over points to credits.`);
             db.close();
         }
     })

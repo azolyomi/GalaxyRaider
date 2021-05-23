@@ -1181,7 +1181,7 @@ CONSTANTS.bot.registerCommand("promovote", STD_promovote.execute, {
 
 CONSTANTS.bot.registerCommand("fuck", STD_fuck.execute);
 
-CONSTANTS.bot.registerCommand("credits", STD_gamble.credits, {
+const STDCreditsCommand = CONSTANTS.bot.registerCommand("credits", STD_gamble.credits, {
     caseInsensitive: true,
     fullDescription: "Print current credit count!",
     aliases: ["creds", "mycredits", "bank", "wallet"],
@@ -1195,6 +1195,22 @@ CONSTANTS.bot.registerCommand("credits", STD_gamble.credits, {
         }
     }
 });
+
+STDCreditsCommand.registerSubcommand("port", STD_gamble.credits_port, {
+    caseInsensitive: true,
+    fullDescription: "Port points to credits.!",
+    argsRequired: false,
+    requirements: {
+        custom: function(msg) {
+            if (!msg.guildID) return false;
+            else if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
+            else if (!(CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.some(id => msg.member.roles.includes(id)))) return false;
+            else return true;
+        }
+    }
+})
+
+
 
 CONSTANTS.bot.registerCommand("gamble", STD_gamble.gamble, {
     caseInsensitive: true,
