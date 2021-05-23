@@ -34,6 +34,10 @@ It enables servers to quickly and easily set up a community that provides access
 # Setup Instructions: #
  > Pre-Tip: At any point, you can view the current server configuration with `.showconfig`
 
+## Prep: ##
+Create a role for the bot and drag it above all roles that the bot will ever have to manage. (`Server Settings` > `Roles` > `Create A Role` > Drag it above the roles that Galaxy Raider should be able to govern.)
+> This is due to discord's natural permissions structure -- the bot will be unable to impact (e.g. `suspend`, `verify`, etc.) any members who have roles `higher` or `equal to` the bot's highest role.
+
 ## 1. Run the command `.config`. ##
 This will compile all the resources that the bot needs, generate the necessary files and create your local server configuration.
 This command will also generate default roles and channels.
