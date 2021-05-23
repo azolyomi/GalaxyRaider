@@ -41,6 +41,8 @@ async function minibossGamble(msg, args) {
 
     let gambleEnded = false;
 
+    let allReactedUsers = [];
+
     let gambleReactionListener = new ReactionHandler.continuousReactionStream(
         gambleMessage, 
         (userID) => (!userID.bot), 
@@ -49,8 +51,12 @@ async function minibossGamble(msg, args) {
     );
 
     gambleReactionListener.on('reacted', async function(event) {
-        if (["Gemsbok", "Beisa", "Leucoryx", "Dammah"].includes(event.emoji.name)) {
-            minibossBet(event.emoji.name, event.userID.id, msg.guildID, gambleMessage, event);
+        if (allReactedUsers.includes(event.userID.id) && event.emoji.name != "redX") {
+            gambleMessage.removeReaction(event.emoji.name + ":" + event.emoji.id, event.userID.id);
+        }
+        else if (["Gemsbok", "Beisa", "Leucoryx", "Dammah"].includes(event.emoji.name)) {
+            allReactedUsers.push(event.userID.id);
+            minibossBet(event.emoji.name, event.userID.id, msg.guildID, gambleMessage, event, allReactedUsers);
         }
         else if (event.emoji.name == "redX" && event.userID.id == msg.author.id) {
             gambleMessage.edit({
@@ -163,7 +169,7 @@ async function minibossGamble(msg, args) {
     }, 900000)
 }
 
-async function minibossBet(miniboss, userID, guildID, msg, event) {
+async function minibossBet(miniboss, userID, guildID, msg, event, reactedUsersArray) {
     MongoClient.connect(process.env.DBURL,  {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
         if (err) throw (err);
         var dbo = db.db("GalaxyRaiderDB");
@@ -238,7 +244,7 @@ async function minibossBet(miniboss, userID, guildID, msg, event) {
                 embed: {
                     title: `Miniboss Gamble`,
                     description: 
-                    `Please enter the **number of credits you wish to bet**
+                    `Please enter the **number of credits you wish to bet on \`${event.emoji.name}\`**
                     Make sure this is a number. The bot will not respond to any other input.
                     
                     You have: ${foundEntry?foundEntry.credits:50} available credits.`,
@@ -257,6 +263,8 @@ async function minibossBet(miniboss, userID, guildID, msg, event) {
         setTimeout(() => {
             if (!hasConfirmed) dmChannel.createMessage(`Timed out!`).catch(() => {});
             db.close();
+            msg.removeReaction(event.emoji.name + ":" + event.emoji.id, userID).catch(() => {});
+            reactedUsersArray.splice(reactedUsersArray.indexOf(event.userID.id), 1);
         }, 60000)
 
     })
