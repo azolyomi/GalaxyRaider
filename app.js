@@ -33,9 +33,10 @@ const registerpremiumguild = require("./config/registerpremiumguild");
 const RAIDCONSTANTS = require("./raiding_functions/RAIDCONSTANTS");
 const pingroles = require("./config/pingroles");
 const keyroles = require("./config/registerkeypopperrole");
+const postraidlogging = require("./config/postraidlogging");
 
 
-//Custom Commands
+//Custom Server Command Requires
 
 //STD
 const STD_fuck = require("./custom_commands/STD/fuck");
@@ -516,6 +517,18 @@ verifycommand.registerSubcommand("requirement", setverification.setMinStars, {
     
     _Example_: \`${CONSTANTS.botPrefix}verification requirement 40\` –> Sets the star verification requirement for the server to 40.`
 });
+
+CONSTANTS.bot.registerCommand("togglepostraidpanel", postraidlogging.togglePostRaidPanel, {
+    aliases: ["toggleautolog"],
+    caseInsensitive: true,
+    argsRequired: false,
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    fullDescription: postraidlogging.helpMessage
+})
 
 // CONSTANTS.bot.registerCommand("removequotarole", quota.removeQuotaRole, {
 //     requirements: {

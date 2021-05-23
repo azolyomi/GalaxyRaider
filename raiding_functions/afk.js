@@ -4,12 +4,10 @@ const RAIDCONSTANTS = require("./RAIDCONSTANTS");
 const ReactionHandler = require('eris-reactions');
 const isImageURL = require('valid-image-url');
 const Eris = require("eris");
+const autolog = require("./autolog");
 
 exports.executeRegular = afkCheck;
 exports.executeVeteran = veteranAfkCheck;
-// exports.executeTest = testAfkCheck;
-
-CONSTANTS.bot.setMaxListeners(100);
 
 exports.COMMAND_AFKCheckFullDescription = `AFK Check Command. 
 **Usage:** \`${CONSTANTS.botPrefix}afk <DungeonType> <Location> <?flags>\`
@@ -578,9 +576,6 @@ async function startAfk(message, args, CHANNELOBJECT) {
                 }
             }
 
-
-
-
             else if (endevent.emoji.name === "redX") {
                 endRaidEventHasOccurred = true;
                 endAFKEventHasOccurred = true;
@@ -608,6 +603,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                 });
                 CONSTANTS.bot.deleteMessage(message.channel.id, message.id);
                 if (await CONSTANTS.bot.getMessage(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id)) await CONSTANTS.bot.removeMessageReactions(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id);
+                if (CONFIG.SystemConfig.servers[message.guildID].postraidpanelenabled) autolog.execute(CHANNELOBJECT, message, index);
                 return;
             }
         });
@@ -685,238 +681,3 @@ async function startAfk(message, args, CHANNELOBJECT) {
         console.log(e);
     }
 }
-
-
-
-
-
-// async function logRunCheck(CHANNELOBJECT, message, index) {
-//     let checkMessage = await CONSTANTS.bot.createMessage(CHANNELOBJECT.ActiveRaidsChannelID, {
-//         embed: {
-//             title: `Post-Raid Panel for ${message.member.nick}'s ${RAIDCONSTANTS.runTypeTitleText[index] + " " + RAIDCONSTANTS.runTypeEmoji[index]} run`,
-//             description:
-//             `How did your run go?
-
-//             React with ${RAIDCONSTANTS.oneemoji} if the run was a success! (Logs 1 run)
-//             React with ${RAIDCONSTANTS.twoemoji} if the run was a chain! (Input # of runs)
-//             React with ${RAIDCONSTANTS.threeemoji} if the run was a failure.
-//             React with ${RAIDCONSTANTS.redXEmoji} if you would prefer to log the run manually!
-            
-//             This message will time out in 5 minutes, after which you will have to log the run manually.`,
-//             color: RAIDCONSTANTS.runTypeColor[index],
-//             timestamp: new Date().toISOString()
-//         }
-//     })
-
-//     await checkMessage.addReaction(RAIDCONSTANTS.onereaction);
-//     await checkMessage.addReaction(RAIDCONSTANTS.tworeaction);
-//     await checkMessage.addReaction(RAIDCONSTANTS.threereaction);
-//     await checkMessage.addReaction(RAIDCONSTANTS.redXReaction);
-
-//     let checkMessageListener = new ReactionHandler.continuousReactionStream(
-//         checkMessage, 
-//         (userID) => userID.id == message.author.id || userID.roles.includes(ROLEINFO.HigherStaffRoles.AdminID) || userID.roles.includes(ROLEINFO.HigherStaffRoles.BotMakerID), 
-//         false, 
-//         { maxMatches: 1, time: 300000}
-//     );
-
-//     let hasConfirmed = false;
-
-//     checkMessageListener.on('reacted', async (checkevent) => { // Success!
-//         if (checkevent.emoji.name == "DONOTDELETE_1") {
-//             hasConfirmed = true;
-//             if (RAIDCONSTANTS.acceptableRunTypes[index] == "void" || RAIDCONSTANTS.acceptableRunTypes[index] == "void-highreqs" || RAIDCONSTANTS.acceptableRunTypes[index] == "fullskip") {
-//                 if (await CONSTANTS.bot.getMessage(checkMessage.channel.id, checkMessage.id)) {
-//                     await CONSTANTS.bot.editMessage(checkMessage.channel.id, checkMessage.id, {
-//                         embed: {
-//                             title: `Post-Raid Panel for ${message.member.nick}'s ${RAIDCONSTANTS.runTypeTitleText[index] + " " + RAIDCONSTANTS.runTypeEmoji[index]} run`,
-//                             description:
-//                             `Logging...`,
-//                             color: RAIDCONSTANTS.runTypeColor[index],
-//                             timestamp: new Date().toISOString()
-//                         }
-//                     })
-//                     await CONSTANTS.bot.removeMessageReactions(checkMessage.channel.id, checkMessage.id);
-//                 }
-    
-//                 collector = new Eris.MessageCollector(checkMessage.channel, {
-//                     timeout: 60000,
-//                     count: 1,
-//                     filter: function(msg) {
-//                         return ((msg.author.id == message.author.id || msg.member.roles.includes(ROLEINFO.HigherStaffRoles.AdminID)) && !isNaN(msg.content));
-//                     }
-//                 })
-//                 collector.run();
-    
-//                 let confirmMessage = await CONSTANTS.bot.createMessage(checkMessage.channel.id, {
-//                     embed: {
-//                         description: "Please enter the number of pots you hit as an integer. (e.g. \`3\`)",
-//                         color: RAIDCONSTANTS.runTypeColor[index],
-//                         timestamp: new Date().toISOString()
-//                     }
-//                 })
-    
-//                 collector.on("collect", async(msg) => {
-//                     let value = msg.content;
-//                     sql.logrun(message.member, checkMessage, true, index, 1, value);
-//                     console.log("logged 1 successful run index " + index + " numruns " + 1 + " numPots " + value);
-//                     hasConfirmedCollectorForNumRuns = true;
-//                     if (await CONSTANTS.bot.getMessage(msg.channel.id, msg.id)) CONSTANTS.bot.deleteMessage(msg.channel.id, msg.id);
-//                     if (await CONSTANTS.bot.getMessage(confirmMessage.channel.id, confirmMessage.id)) CONSTANTS.bot.deleteMessage(confirmMessage.channel.id, confirmMessage.id);
-//                 })
-//             }
-//             else {
-//                 sql.logrun(message.member, checkMessage, true, index, 1, -1);
-//             }
-//         }
-//         else if (checkevent.emoji.name == "DONOTDELETE_2") { // Chain
-//             let hasConfirmedCollectorForNumRuns = false;
-//             let hasConfirmedCollectorForNumPots = false;
-
-//             hasConfirmed = true;
-
-//             if (await CONSTANTS.bot.getMessage(checkMessage.channel.id, checkMessage.id)) {
-//                 await CONSTANTS.bot.editMessage(checkMessage.channel.id, checkMessage.id, {
-//                     embed: {
-//                         title: `Post-Raid Panel for ${message.member.nick}'s ${RAIDCONSTANTS.runTypeTitleText[index] + " " + RAIDCONSTANTS.runTypeEmoji[index]} run`,
-//                         description:
-//                         `Logging...`,
-//                         color: RAIDCONSTANTS.runTypeColor[index],
-//                         timestamp: new Date().toISOString()
-//                     }
-//                 })
-//                 await CONSTANTS.bot.removeMessageReactions(checkMessage.channel.id, checkMessage.id);
-//             }
-
-//             collector = new Eris.MessageCollector(checkMessage.channel, {
-//                 timeout: 60000,
-//                 count: 1,
-//                 filter: function(msg) {
-//                     return ((msg.author.id == message.author.id || msg.member.roles.includes(ROLEINFO.HigherStaffRoles.AdminID)) && !isNaN(msg.content));
-//                 }
-//             })
-//             collector.run();
-
-//             let confirmMessageOne = await CONSTANTS.bot.createMessage(checkMessage.channel.id, {
-//                 embed: {
-//                     description: "Please enter the number of runs you chained as an integer. (e.g. \`6\`)",
-//                     color: RAIDCONSTANTS.runTypeColor[index],
-//                     timestamp: new Date().toISOString()
-//                 }
-//             })
-
-//             collector.on("collect", async(msgOne) => {
-//                 let numRuns = msgOne.content;
-//                 hasConfirmedCollectorForNumRuns = true;
-
-//                 if (RAIDCONSTANTS.acceptableRunTypes[index] == "void" || RAIDCONSTANTS.acceptableRunTypes[index] == "void-highreqs" || RAIDCONSTANTS.acceptableRunTypes[index] == "fullskip") {
-//                     secondCollector = new Eris.MessageCollector(checkMessage.channel, {
-//                         timeout: 60000,
-//                         count: 1,
-//                         filter: function(msgOne) {
-//                             return ((msgOne.author.id == message.author.id || msgOne.member.roles.includes(ROLEINFO.HigherStaffRoles.AdminID)) && !isNaN(msgOne.content));
-//                         }
-//                     })
-//                     secondCollector.run();
-        
-//                     let confirmMessageTwo = await CONSTANTS.bot.createMessage(checkMessage.channel.id, {
-//                         embed: {
-//                             description: "Please enter the **total** number of pots you hit as an integer. (e.g. \`3\`)",
-//                             color: RAIDCONSTANTS.runTypeColor[index],
-//                             timestamp: new Date().toISOString()
-//                         }
-//                     })
-        
-//                     secondCollector.on("collect", async(msgTwo) => {
-//                         let numPots = msgTwo.content;
-//                         sql.logrun(message.member, checkMessage, true, index, numRuns, numPots);
-//                         hasConfirmedCollectorForNumPots = true;
-//                         if (await CONSTANTS.bot.getMessage(msgTwo.channel.id, msgTwo.id)) CONSTANTS.bot.deleteMessage(msgTwo.channel.id, msgTwo.id);
-//                         if (await CONSTANTS.bot.getMessage(confirmMessageTwo.channel.id, confirmMessageTwo.id)) CONSTANTS.bot.deleteMessage(confirmMessageTwo.channel.id, confirmMessageTwo.id);
-//                     })
-
-//                     setTimeout( async() => {
-//                         if (!hasConfirmedCollectorForNumPots) {
-//                             if (await CONSTANTS.bot.getMessage(checkMessage.channel.id, checkMessage.id)) {
-//                                 await CONSTANTS.bot.editMessage(checkMessage.channel.id, checkMessage.id, {
-//                                     embed: {
-//                                         title: `Post-Raid Panel for ${message.member.nick}'s ${RAIDCONSTANTS.runTypeTitleText[index] + " " + RAIDCONSTANTS.runTypeEmoji[index]} run`,
-//                                         description:
-//                                         `Timed out. Please log this run manually.`,
-//                                         color: RAIDCONSTANTS.runTypeColor[index],
-//                                         timestamp: new Date().toISOString()
-//                                     }
-//                                 })
-//                                 await CONSTANTS.bot.removeMessageReactions(checkMessage.channel.id, checkMessage.id);
-//                             }
-//                             if (await CONSTANTS.bot.getMessage(confirmMessageTwo.channel.id, confirmMessageTwo.id)) CONSTANTS.bot.deleteMessage(confirmMessageTwo.channel.id, confirmMessageTwo.id);
-//                         }
-//                     }, 60000)
-//                 }
-//                 else {
-//                     sql.logrun(message.member, checkMessage, true, index, numRuns, -1);
-//                 }
-
-//                 if (await CONSTANTS.bot.getMessage(msgOne.channel.id, msgOne.id)) CONSTANTS.bot.deleteMessage(msgOne.channel.id, msgOne.id);
-//                 if (await CONSTANTS.bot.getMessage(confirmMessageOne.channel.id, confirmMessageOne.id)) CONSTANTS.bot.deleteMessage(confirmMessageOne.channel.id, confirmMessageOne.id);            })
-
-//             setTimeout( async() => {
-//                 if (!hasConfirmedCollectorForNumRuns) {
-//                     if (await CONSTANTS.bot.getMessage(checkMessage.channel.id, checkMessage.id)) {
-//                         await CONSTANTS.bot.editMessage(checkMessage.channel.id, checkMessage.id, {
-//                             embed: {
-//                                 title: `Post-Raid Panel for ${message.member.nick}'s ${RAIDCONSTANTS.runTypeTitleText[index] + " " + RAIDCONSTANTS.runTypeEmoji[index]} run`,
-//                                 description:
-//                                 `Timed out. Please log this run manually.`,
-//                                 color: RAIDCONSTANTS.runTypeColor[index],
-//                                 timestamp: new Date().toISOString()
-//                             }
-//                         })
-//                         await CONSTANTS.bot.removeMessageReactions(checkMessage.channel.id, checkMessage.id);
-//                     }
-//                     if (await CONSTANTS.bot.getMessage(confirmMessageOne.channel.id, confirmMessageOne.id)) CONSTANTS.bot.deleteMessage(confirmMessageOne.channel.id, confirmMessageOne.id);
-//                 }
-//             }, 60000)
-//         }
-//         else if (checkevent.emoji.name == "DONOTDELETE_3") { // Failure
-//             sql.logrun(message.member, checkMessage, false, index, 1, -1);
-//             hasConfirmed = true;
-//         }
-//         else if (checkevent.emoji.name == "redX") { // Manual
-//             if (await CONSTANTS.bot.getMessage(checkMessage.channel.id, checkMessage.id)) {
-//                 await CONSTANTS.bot.editMessage(checkMessage.channel.id, checkMessage.id, {
-//                     embed: {
-//                         title: `Post-Raid Panel for ${message.member.nick}'s ${RAIDCONSTANTS.runTypeTitleText[index] + " " + RAIDCONSTANTS.runTypeEmoji[index]} run`,
-//                         description:
-//                         `You elected to manually log this run!`,
-//                         color: RAIDCONSTANTS.runTypeColor[index],
-//                         timestamp: new Date().toISOString()
-//                     }
-//                 })
-//                 await CONSTANTS.bot.removeMessageReactions(checkMessage.channel.id, checkMessage.id);
-//                 hasConfirmed = true;
-//             }
-//         }
-//     });
-
-
-//     setTimeout(async () => {
-//         if (!hasConfirmed) {
-//             if (await CONSTANTS.bot.getMessage(checkMessage.channel.id, checkMessage.id)) {
-//                 await CONSTANTS.bot.editMessage(checkMessage.channel.id, checkMessage.id, {
-//                     embed: {
-//                         title: `Post-Raid Panel for ${message.member.nick}'s ${RAIDCONSTANTS.runTypeTitleText[index] + " " + RAIDCONSTANTS.runTypeEmoji[index]} run`,
-//                         description:
-//                         `Timed out. Please log this run manually.`,
-//                         color: RAIDCONSTANTS.runTypeColor[index],
-//                         timestamp: new Date().toISOString()
-//                     }
-//                 })
-//                 await CONSTANTS.bot.removeMessageReactions(checkMessage.channel.id, checkMessage.id);
-//             }
-//         }
-//     }, 300000)
-// }
-
-
-

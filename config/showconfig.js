@@ -20,8 +20,6 @@ function showConfigDefault(msg, args) {
             **Security Roles**: [${server.securityroles.length} entries...] (do \`.showconfig securityroles\` for more)
             **AFK Access**: (do \`.showconfig afkaccess\` for more)
 
-            **Raid Leader Run Logging Points**: (do \`.showconfig runpoints\` for more)
-
             **Verification Enabled**: \`${server.verification.enabled}\`
             **Verification Star Requirement**: \`${server.verification.minrank}\`
             **Verification Hidden Loc Required?**: \`${server.verification.hiddenloc}\`
@@ -38,6 +36,8 @@ function showConfigDefault(msg, args) {
 
             **Weekly Quota Enabled?**: \`${server.quotaEnabled}\`
             **Quota Value**: \`${server.quotaValue}\`
+            **Raid Leader Run Logging Points**: (do \`.showconfig runpoints\` for more)
+            **Post-Raid Run Logging Panel**: \`${server.postraidpanelenabled?"enabled":"disabled"}\`
             **Quota Enabled Roles**: (do \`.showconfig quotaenabledroles\` for more)
             **Quota Override Roles**: (do \`.showconfig quotaoverrideroles\` for more)
 

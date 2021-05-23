@@ -25,12 +25,12 @@ function updateConfig(guildID) {
       var serverObject = {_id: guildID};
       let hasFoundEntry = (await dbo.collection("ServerConfigs").findOne(serverObject));
       if (!hasFoundEntry) {
-        dbo.collection("ServerConfigs").insertOne(exports.SystemConfig.servers[guildID]);
+        await dbo.collection("ServerConfigs").insertOne(exports.SystemConfig.servers[guildID]);
         db.close();
       }
       else {
         updateObject = {$set: exports.SystemConfig.servers[guildID]} // the object i'd like to update
-        dbo.collection("ServerConfigs").updateOne(serverObject, updateObject)
+        await dbo.collection("ServerConfigs").updateOne(serverObject, updateObject)
         db.close();
       }
     })
@@ -57,6 +57,7 @@ exports.addGuildConfigEntry = function(guildID, guildName, suspendrole, staffrol
           "modroles": [],
           "securityroles": [],
           "afkaccess": afkaccess,
+          "postraidpanelenabled": false,
           "channels": channels,
           "logchannel": logchannel,
           "nonstaff": {

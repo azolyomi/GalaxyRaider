@@ -11,6 +11,15 @@ exports.leucoryxReaction = "Leucoryx:845378653999333429";
 exports.dammahEmoji = "<:Dammah:845378670347681883>";
 exports.dammahReaction = "Dammah:845378670347681883";
 
+
+exports.optionthreeEmoji = "<:optionthree:846109723039367179>";
+exports.optiontwoEmoji = "<:optiontwo:846109707013849168>";
+exports.optiononeEmoji = "<:optionone:846109687057088552>";
+
+exports.optionthreeReaction = "optionthree:846109723039367179";
+exports.optiontwoReaction = "optiontwo:846109707013849168";
+exports.optiononeReaction = "optionone:846109687057088552";
+
 let wizardEmoji = `<:wizard:820007771108802620>`;
 let wizardReaction = `wizard:820007771108802620`;
 let whitebagEmoji = `<:whitebag:820007752486355054>`;
