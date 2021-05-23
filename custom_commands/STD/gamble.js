@@ -38,6 +38,7 @@ async function minibossGamble(msg, args) {
     gambleMessage.addReaction(RAIDCONSTANTS.leucoryxReaction);
     gambleMessage.addReaction(RAIDCONSTANTS.dammahReaction);
     gambleMessage.addReaction(RAIDCONSTANTS.redXReaction);
+    gambleMessage.addReaction(RAIDCONSTANTS.trashCan);
 
     let gambleEnded = false;
 
@@ -51,8 +52,8 @@ async function minibossGamble(msg, args) {
     );
 
     gambleReactionListener.on('reacted', async function(event) {
-        if (allReactedUsers.includes(event.userID.id) && event.emoji.name != "redX") {
-            gambleMessage.removeReaction(event.emoji.name + ":" + event.emoji.id, event.userID.id);
+        if (allReactedUsers.includes(event.userID.id) && event.emoji.name != "redX" && event.emoji.name != RAIDCONSTANTS.pencil && event.emoji.name != RAIDCONSTANTS.trashCan) {
+            gambleMessage.removeReaction(event.emoji.id?(event.emoji.name + `:` + event.emoji.id):event.emoji.name, event.userID.id);
         }
         else if (["Gemsbok", "Beisa", "Leucoryx", "Dammah"].includes(event.emoji.name)) {
             allReactedUsers.push(event.userID.id);
@@ -75,6 +76,7 @@ async function minibossGamble(msg, args) {
             })
             await gambleMessage.removeReactions();
             await gambleMessage.addReaction(RAIDCONSTANTS.pencil);
+            await gambleMessage.addReaction(RAIDCONSTANTS.trashCan);
         }
         else if (event.emoji.name == RAIDCONSTANTS.pencil && event.userID.id == msg.author.id) {
             //deciding the bet now
@@ -131,12 +133,17 @@ async function minibossGamble(msg, args) {
             setTimeout(() => {
                 if (!gambleEnded) gambleMessage.channel.createMessage(`Miniboss selection timed out. Re-react with the ${RAIDCONSTANTS.pencil}`);
             }, 60000)
-
-            
+        }
+        else if (event.emoji.name == RAIDCONSTANTS.trashCan && event.userID.id == msg.author.id) {
+            undoGamble(false);
         }
     })
 
     setTimeout(() => {
+        undoGamble(true);
+    }, 900000)
+
+    const undoGamble = function(timedOut) {
         if (!gambleEnded) {
             MongoClient.connect(process.env.DBURL,  {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
                 if (err) throw (err);
@@ -151,7 +158,7 @@ async function minibossGamble(msg, args) {
                     embed: {
                         title: `Miniboss Gamble`,
                         description:
-                        `This gamble has timed out. Start a new one!`,
+                        `This gamble has ${timedOut?"timed out. Start a new one!":"been forcibly terminated."} `,
                         footer: {
                             icon_url: `${msg.guild.iconURL}`,
                             text: `${new Date().toUTCString()}`
@@ -166,7 +173,7 @@ async function minibossGamble(msg, args) {
                 db.close();
             })
         }
-    }, 900000)
+    }
 }
 
 async function minibossBet(miniboss, userID, guildID, msg, event, reactedUsersArray) {
@@ -263,7 +270,7 @@ async function minibossBet(miniboss, userID, guildID, msg, event, reactedUsersAr
         setTimeout(() => {
             if (!hasConfirmed) dmChannel.createMessage(`Timed out!`).catch(() => {});
             db.close();
-            msg.removeReaction(event.emoji.name + ":" + event.emoji.id, userID).catch(() => {});
+            msg.removeReaction(event.emoji.id?(event.emoji.name + `:` + event.emoji.id):event.emoji.name, userID).catch(() => {});
             reactedUsersArray.splice(reactedUsersArray.indexOf(event.userID.id), 1);
         }, 60000)
 

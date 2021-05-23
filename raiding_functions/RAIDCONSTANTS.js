@@ -94,6 +94,7 @@ let aetherEmoji = `<:aether:820007323972010024>`;
 let aetherReaction = `aether:820007323972010024`;
 
 exports.pencil = `📝`;
+exports.trashCan = `🗑️`;
 
 exports.whitebagEmoji = whitebagEmoji;
 exports.voidEmoji = voidEmoji;
