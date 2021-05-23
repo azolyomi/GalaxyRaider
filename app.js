@@ -1154,6 +1154,7 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
         **${CONSTANTS.botPrefix}setquota** – Set the weekly quota value
         **${CONSTANTS.botPrefix}quotarole** – Edit quota roles
         **${CONSTANTS.botPrefix}enablequota** - Toggle the weekly quota on or off
+        **${CONSTANTS.botPrefix}toggleautolog** – Toggle postraid logging on or off.
 
         **${CONSTANTS.botPrefix}keyrole** – Configure automatic key popper role addition
         **${CONSTANTS.botPrefix}resetkeyroles** – Reset key roles
