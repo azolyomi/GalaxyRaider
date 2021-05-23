@@ -22,12 +22,17 @@ It enables servers to quickly and easily set up a community that provides access
 > Tip: For example, you can designate a role that is pinged by all `shatters` afk checks. For more information, type `.help pingrole`.
 6. Entirely configurable permissions access for leaders, moderators, securities, veterans, members, and early location roles (e.g. `Nitro Boosters`)
 7. Ability to track activity of `leaders` 
-> Using the integrated database, you can log runs for staff, enable a weekly point quota, and configure points per run type for quota purposes!
+> Using the integrated database, you can log runs for staff and configure points per run type for quota purposes (premium)!
 
 ### Premium features include... ###
-1. An official optical character recognition algorithm that enables the user to parse screenshots of the ingame `/who` command, returning a list of all players that are not currently in your voice channel.
-2. The ability to configure streaming permissions roles.
-3. Access to high-requirements raid configuration.
+1. Parse Command
+> An official optical character recognition algorithm that enables the user to parse screenshots of the ingame `/who` command, returning a list of all players that are not currently in your voice channel.
+2. Weekly quota for Raid Leaders
+> Including a post-raid run logging panel for efficient and easy-to-remember run logging
+3. Automagic key-popper role addition
+> Configure up to `four` tiers of key popper roles. When a user gains points that satisfy the conditions for a role (which you can configure), the role will automagically be added to them.
+4. Various misc. features that STD has
+> Streaming Perms role, highreqs raid customizability, etc.
 
 [Go Premium Today!](https://patreon.com/Theurul)
 
