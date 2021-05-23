@@ -381,9 +381,8 @@ exports.credits_port = function(msg, args) {
             return;
         }
         let gamblingUserDataEntry = await dbo.collection("GalaxyGambling.UserData").findOne({userID: msg.author.id, guildID: msg.guildID});
-        let object;
         if (!gamblingUserDataEntry) {
-            object = {
+            let object = {
                 guildID: msg.guildID, 
                 userID: msg.author.id,
                 credits: CONSTANTS.defaultCredits + pointsEntry.points,
@@ -398,9 +397,15 @@ exports.credits_port = function(msg, args) {
             db.close();
         }
         else {
-            await dbo.collection("GalaxyGambling.UserData").updateOne({userID: msg.author.id, guildID: msg.guildID}, {$set: {credits: pointsEntry.points, ported: true}});
-            msg.channel.createMessage(`Successfully ported over points to credits.`);
-            db.close();
+            if (gamblingUserDataEntry.ported) {
+                msg.channel.createMessage(`Error: You've already ported your points over to credits!`);
+                db.close();
+            }
+            else {
+                await dbo.collection("GalaxyGambling.UserData").updateOne({userID: msg.author.id, guildID: msg.guildID}, {$set: {credits: pointsEntry.points, ported: true}});
+                msg.channel.createMessage(`Successfully ported over points to credits.`);
+                db.close();
+            }
         }
     })
 }
