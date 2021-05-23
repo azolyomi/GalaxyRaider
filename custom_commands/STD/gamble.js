@@ -269,10 +269,12 @@ async function minibossBet(miniboss, userID, guildID, msg, event, reactedUsersAr
         }
 
         setTimeout(() => {
-            if (!hasConfirmed) dmChannel.createMessage(`Timed out!`).catch(() => {});
-            db.close();
-            msg.removeReaction(event.emoji.id?(event.emoji.name + `:` + event.emoji.id):event.emoji.name, userID).catch(() => {});
-            reactedUsersArray.splice(reactedUsersArray.indexOf(event.userID.id), 1);
+            if (!hasConfirmed) {
+                dmChannel.createMessage(`Timed out!`).catch(() => {});
+                db.close();
+                msg.removeReaction(event.emoji.id?(event.emoji.name + `:` + event.emoji.id):event.emoji.name, userID).catch(() => {});
+                reactedUsersArray.splice(reactedUsersArray.indexOf(event.userID.id), 1);
+            }
         }, 60000)
 
     })
