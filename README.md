@@ -105,6 +105,10 @@ _Help! I broke something and nothing I've tried has fixed it! What do I do?_
 _I keep suspending people, but it's not working! What's going on?_
 > Most likely, the suspend role in your server is not configured. Run the command `.setsuspendrole @role` to fix this issue.
 
+_Auto-Verification isn't working! Help!_
+> Verification is disabled by default. To enable it, type `.verification enable`.
+> If that doesn't solve it, are you sure you've configured a member role? Do `.showconfig member`. If nothing pops up, it means you need to configure a member role before verification can be set up!
+
 To get started, go through the above bullet points, assign the roles, and type `.help` to see a comprehensive list of available commands!
 
 Have fun, and Happy Raiding!
