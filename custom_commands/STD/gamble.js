@@ -14,6 +14,8 @@ exports.gamble = function(msg, args) {
     return minibossGamble(msg, args);
 }
 
+const gambletimeoutMS = 1800000;
+
 async function minibossGamble(msg, args) {
     if (msg.guildID != CONSTANTS.STDGuildID) return;
     let gambleMessage = await CONSTANTS.bot.createMessage(msg.channel.id, {
@@ -48,7 +50,7 @@ async function minibossGamble(msg, args) {
         gambleMessage, 
         (userID) => (!userID.bot), 
         false, 
-        { maxMatches: 200, time: 900000}
+        { maxMatches: 200, time: gambletimeoutMS}
     );
 
     gambleReactionListener.on('reacted', async function(event) {
@@ -141,7 +143,7 @@ async function minibossGamble(msg, args) {
 
     setTimeout(() => {
         undoGamble(true);
-    }, 900000)
+    }, gambletimeoutMS)
 
     const undoGamble = function(timedOut) {
         if (!gambleEnded) {
