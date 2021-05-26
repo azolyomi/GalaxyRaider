@@ -107,6 +107,17 @@ in your realmeye description.
                         color: 0x5b1c80,
                     }
                 });
+                // console.log((await message.guild.fetchMembers()).map(member => member.nick).filter(nick => nick != null && nick != undefined));
+                if ((await message.guild.fetchMembers()).map(member => member.nick).filter(nick => nick != null && nick != undefined).includes(ign)) {
+                    CONSTANTS.bot.createMessage(dmChannel.id, {
+                        embed: {
+                            description: 
+                            `Error: Unable to verify. Someone already has that nickname in this server!`,
+                            color: 0xff0000,
+                        }
+                    });
+                    return;
+                }
                 request('https://nightfirec.at/realmeye-api/?player=' + ign + "&filter=desc1+desc2+desc3+player_last_seen+rank", {json: true}, async (err, res, body) => {
                     if (err) {
                         try {
