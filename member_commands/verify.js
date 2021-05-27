@@ -291,3 +291,29 @@ verification: {
     hiddenloc: bool,
 }
  */
+
+
+exports.check = async function(msg, args) {
+    let guildcache = await msg.guild.fetchMembers();
+    let guildCacheDuplicateNicks = guildcache.map(member => member.nick);
+    var uniq = guildCacheDuplicateNicks
+    .map((name) => {
+        return {
+        count: 1,
+        name: name
+        }
+    })
+    .reduce((a, b) => {
+        a[b.name] = (a[b.name] || 0) + b.count
+        return a
+    }, {})
+
+    var duplicates = Object.keys(uniq).filter((a) => uniq[a] > 1)
+
+    msg.channel.createMessage({
+        embed: {
+            title: `Duplicate Members: [${duplicates.length}]`,
+            description: `${duplicates.join(", ")}`
+        }
+    });
+}

@@ -367,7 +367,16 @@ async function startAfk(message, args, CHANNELOBJECT) {
             }
         })
 
-        CONSTANTS.bot.createMessage(CHANNELOBJECT.LocationChannelID, `Location for ${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run: \`${location.join(" ")}\``)
+        CONSTANTS.bot.createMessage(CHANNELOBJECT.LocationChannelID, `Location for ${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run: \`${location.join(" ")}\``).catch(() => {});
+        if (message.guildID == CONSTANTS.STDGuildID && dungeonType.includes("o3") && CHANNELOBJECT == CONFIG.SystemConfig.servers[message.guildID].channels.Main) {
+            let terraformMessage = await CONSTANTS.bot.createMessage("847337861967642634", `<@&847337364191707146>`);
+            terraformMessage.edit({
+                embed: {
+                    description: `Attention Terraformers! \n${message.member.nick?message.member.nick:message.member.username} has started an ${RAIDCONSTANTS.runTypeTitleText[index]} run! \n\n**Head to the location and begin clearing!** \nThe location is:   \`${location.join(" ")}\``,
+                    color: 0xf79058
+                }
+            }).catch(() => {})
+        }
         message.addReaction(RAIDCONSTANTS.checkReaction);
 
         let allEarlyReactedUserIDs = [];
@@ -533,10 +542,18 @@ async function startAfk(message, args, CHANNELOBJECT) {
 
                     let hasChangedLoc = false;
 
-                    collector.on("collect", (msg) => {
+                    collector.on("collect", async (msg) => {
                         hasChangedLoc = true;
                         location = msg.content.split(" ");
-                        CONSTANTS.bot.createMessage(CHANNELOBJECT.LocationChannelID, `Changed Location for ${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run:   \`${location.join(" ")}\``);
+                        CONSTANTS.bot.createMessage(CHANNELOBJECT.LocationChannelID, `Changed Location for ${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run:   \`${location.join(" ")}\``).catch(() => {});
+                        if (message.guildID == CONSTANTS.STDGuildID && dungeonType.includes("o3") && CHANNELOBJECT == CONFIG.SystemConfig.servers[message.guildID].channels.Main) {
+                            let terraformMessage = await CONSTANTS.bot.createMessage("847337861967642634", `<@&847337364191707146>`);
+                            terraformMessage.edit({
+                                embed: {
+                                    description: `Attention Terraformers! \n**The location for ${message.member.nick?message.member.nick:message.member.username}'s run has changed to:**   \`${location.join(" ")}\``,
+                                    color: 0xf79058
+                                }
+                            }).catch(() => {})                        }
 
                         allEarlyReactedUserIDs.forEach(async id => {
                             let newlocDmChannel = await CONSTANTS.bot.getDMChannel(id);

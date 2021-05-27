@@ -1397,6 +1397,15 @@ CONSTANTS.bot.registerCommand("fetchguilds", function(msg, args) {
     }
 })
 
+CONSTANTS.bot.registerCommand('checkduplicates', verify.check, {
+    caseInsensitive: true,
+    requirements: {
+        custom: function(msg) {
+            return msg.author.id == "211959423847890945";
+        }
+    }
+});
+
 exports.guildCache = {};
 
 CONSTANTS.bot.on("error", console.log);
