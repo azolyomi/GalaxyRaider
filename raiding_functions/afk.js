@@ -372,7 +372,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
             let terraformMessage = await CONSTANTS.bot.createMessage("847337861967642634", `<@&847337364191707146>`);
             terraformMessage.edit({
                 embed: {
-                    description: `Attention Terraformers! \n${message.member.nick?message.member.nick:message.member.username} has started an ${RAIDCONSTANTS.runTypeTitleText[index]} run! \n\n**Head to the location and begin clearing!** \nThe location is:   \`${location.join(" ")}\``,
+                    description: `**__Attention Terraformers!__** \n${message.member.nick?message.member.nick:message.member.username} has started an ${RAIDCONSTANTS.runTypeTitleText[index]} run! \n\n**Head to the location and begin clearing!** \nThe location is:   \`${location.join(" ")}\``,
                     color: 0xf79058
                 }
             }).catch(() => {})
@@ -550,7 +550,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                             let terraformMessage = await CONSTANTS.bot.createMessage("847337861967642634", `<@&847337364191707146>`);
                             terraformMessage.edit({
                                 embed: {
-                                    description: `Attention Terraformers! \n**The location for ${message.member.nick?message.member.nick:message.member.username}'s run has changed to:**   \`${location.join(" ")}\``,
+                                    description: `**__Attention Terraformers!__** \n**The location for ${message.member.nick?message.member.nick:message.member.username}'s run has changed to:**   \`${location.join(" ")}\``,
                                     color: 0xf79058
                                 }
                             }).catch(() => {})                        }
