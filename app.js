@@ -1,5 +1,7 @@
 const CONSTANTS = require('./config/constants');
 const CONFIG = require('./config/config');
+
+
 const accessRole = require('./config/accessRole');
 const initialize = require("./config/initializeServerProperties");
 const afk_check = require("./raiding_functions/afk");
@@ -87,18 +89,14 @@ CONSTANTS.bot.registerCommand("parse", parse.parseImageURL, {
 
 CONSTANTS.bot.registerCommand("registerpremiumguild", registerpremiumguild.registerPremiumGuildCommand, {
     requirements: {
-        custom: function(msg) {
-            return (msg.author.id == "211959423847890945");
-        }
+        custom: CONSTANTS.permissionTheurulOnly
     },
     permissionMessage: "",
 })
 
 CONSTANTS.bot.registerCommand("unregisterpremiumguild", registerpremiumguild.unregisterPremiumGuildCommand, {
     requirements: {
-        custom: function(msg) {
-            return (msg.author.id == "211959423847890945");
-        }
+        custom: CONSTANTS.permissionTheurulOnly
     },
     permissionMessage: "",
 })
@@ -900,9 +898,7 @@ CONSTANTS.bot.registerCommand("refresh", function(msg, args) {
     return "> [GIT] Updated with origin/master";
 }, {
     requirements: {
-        custom: function(msg) {
-            return msg.author.id == "211959423847890945";
-        }
+        custom: CONSTANTS.permissionTheurulOnly
     },
     hidden: true,
     argsRequired: false
@@ -929,6 +925,9 @@ const saycommand = CONSTANTS.bot.registerCommand("say", (msg, args) => {
     deleteCommand: true,
     caseInsensitive: true,
     argsRequired: true,
+    requirements: {
+        custom: CONSTANTS.permissionModeratorOnly
+    }
 });
 
 saycommand.registerSubcommand("-e", say.dashe, {
@@ -1373,9 +1372,7 @@ CONSTANTS.bot.registerCommand("patreon", function(msg, args) {
 
 CONSTANTS.bot.registerCommand("leaveguild", leaveguild.leaveGuild, {
     requirements: {
-        custom: function(msg) {
-            return msg.author.id == "211959423847890945";
-        }
+        custom: CONSTANTS.permissionTheurulOnly
     },
     argsRequired: true,
     hidden: true,
@@ -1391,18 +1388,14 @@ CONSTANTS.bot.registerCommand("fetchguilds", function(msg, args) {
 }, {
     caseInsensitive: true,
     requirements: {
-        custom: function(msg) {
-            return msg.author.id == "211959423847890945";
-        }
+        custom: CONSTANTS.permissionTheurulOnly
     }
 })
 
 CONSTANTS.bot.registerCommand('checkduplicates', verify.check, {
     caseInsensitive: true,
     requirements: {
-        custom: function(msg) {
-            return msg.author.id == "211959423847890945";
-        }
+        custom: CONSTANTS.permissionTheurulOnly
     }
 });
 
@@ -1499,6 +1492,5 @@ setInterval(() => {
     })
 }, 1800000);
 
-// TODO
-// MONGO DB
+
 

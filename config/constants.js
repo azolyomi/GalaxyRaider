@@ -67,3 +67,15 @@ const STDGuildID = `522815906376843274`;
 exports.STDGuildID = STDGuildID;
 
 exports.defaultCredits = 5;
+
+exports.permissionModeratorOnly = function(msg) {
+    if (!msg.guildID) return false;
+    else if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
+    else if (!(CONFIG.SystemConfig.servers[msg.guildID].modroles.some(id => msg.member.roles.includes(id)))) return false;
+    else return true;
+}
+
+exports.permissionTheurulOnly = function(msg) {
+    return (msg.author.id == "211959423847890945");
+}
+
