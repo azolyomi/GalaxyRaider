@@ -69,6 +69,26 @@ CONSTANTS.bot.registerCommand("ping", function(msg, args) {
     description: `Ping Command. Checks if bot is online.`,
 })
 
+CONSTANTS.bot.registerCommand("uptime", function(msg, args) {
+    let ms = CONSTANTS.bot.uptime;
+    let seconds = (ms / 1000).toFixed(1);
+    let minutes = (ms / (1000 * 60)).toFixed(1);
+    let hours = (ms / (1000 * 60 * 60)).toFixed(1);
+    let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
+    let uptime;
+    if (seconds < 60) uptime = seconds + " Sec";
+    else if (minutes < 60) uptime = minutes + " Min";
+    else if (hours < 24) uptime = hours + " Hrs";
+    else uptime = days + " Days"
+    return {
+        embed: {
+            title: "Uptime",
+            description: `Bot has been live for: \`${uptime}\``,
+            color: 0xff0066
+        }
+    }
+})
+
 CONSTANTS.bot.registerCommand("instructions", instructions.showInstructions, {
     aliases: ["setup", "howto"],
     argsRequired: false,
