@@ -33,6 +33,13 @@ async function manualVerifyVet(msg, args) {
             })
             try {
                 CONSTANTS.bot.deleteMessage(msg.channel.id, msg.id);
+                CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                    embed: {
+                        title: "Manual Veteran Verification",
+                        description: `${msg.member.mention} just veteran verified ${member.mention}. \nRoles added: ${rolesToAdd.map(roleid => `<@&${roleid}>`).join(", ")}`,
+                        color: 0x011ca2
+                    }
+                })
             }
             catch(e) {}
         }

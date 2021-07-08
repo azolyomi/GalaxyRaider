@@ -19,11 +19,21 @@ async function manualVerify(msg, args) {
             if (nick) await member.edit({
                 nick: nick
             });
-            CONSTANTS.bot.deleteMessage(msg.channel.id, msg.id);
+            try {
+                CONSTANTS.bot.deleteMessage(msg.channel.id, msg.id);
+                CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                    embed: {
+                        title: "Manual Verification",
+                        description: `${msg.member.mention} just manually verified ${member.mention}. \nRoles added: ${CONFIG.SystemConfig.servers[msg.guildID].nonstaff.memberaccess.map(roleid => `<@&${roleid}>`).join(", ")}`,
+                        color: 0x6e99d7
+                    }
+                })
+            }
+            catch(e) {}
         }
     }
     catch (e) {
-        CONSTANTS.bot.createMessage(msg.channel.id, "Something went wrong with that, and it didn't fully complete. Make sure your member roles all exist, are properly configured, and that the bot's highest role is higher than them. You cannot modify user nicknames if they rank higher than the bot.");
+        CONSTANTS.bot.createMessage(msg.channel.id, "Something went wrong with that, and it didn't fully complete. Make sure your member roles all exist, are properly configured, and that the bot's highest role is higher than them. You cannot modify user nicknames if they rank higher than the bot. Also ensure that the log channel is properly set up.");
     }
 }
 
