@@ -122,22 +122,26 @@ exports.addGuildConfigEntry = function(guildID, guildName, suspendrole, staffrol
                 "novice" : {
                         "enabled" : false,
                         "id" : "",
-                        "points" : 0
+                        "points" : 0,
+                        "prefix": "",
                 },
                 "apprentice" : {
                         "enabled" : false,
                         "id" : "",
-                        "points" : 0
+                        "points" : 0,
+                        "prefix": ""
                 },
                 "adept" : {
                         "enabled" : false,
                         "id" : "",
-                        "points" : 0
+                        "points" : 0,
+                        "prefix": ""
                 },
                 "master" : {
                         "enabled" : false,
                         "id" : "",
-                        "points" : 0
+                        "points" : 0,
+                        "prefix": ""
                 }
           }
       }

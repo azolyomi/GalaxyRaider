@@ -75,53 +75,115 @@ async function logitem(msg, args) {
                     }
                 }).catch(() => {})
 
+                if (!found[0].roles) found[0] = await CONSTANTS.bot.getRESTGuildMember(msg.guildID, found[0].id);
+
                 if (CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.enabled && queryObject.points >= CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.points) {
-                    found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.id).catch(e => {
-                        console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
-                        CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
-                            embed: {
-                                title: "Error with Auto-Key Popper Role Assignment",
-                                description: `Failed to give ${found[0].mention} the <@&${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.id}> role`,
-                                color: 0xff0000
-                            }
-                        }).catch(() => {})
-                    });
+                    if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.id)) {
+                        found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.id).catch(e => {
+                            console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: "Error with Auto-Key Popper Role Assignment",
+                                    description: `Failed to give ${found[0].mention} the <@&${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.id}> role`,
+                                    color: 0xff0000
+                                }
+                            }).catch(() => {})
+                        });
+                        found[0].edit({
+                            nick: `${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.prefix}${found[0].nick?found[0].nick:found[0].username}`
+                        }).catch(e => {
+                            console.log("> [AUTO KEY POPPER NICK EDIT FAILURE]" + e);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: "Error with Auto-Key Popper Nickname Edition",
+                                    description: `Failed to edit ${found[0].mention}'s nickname to ${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.prefix}${found[0].nick?found[0].nick:found[0].username}`,
+                                    color: 0xff0000
+                                }
+                            }).catch(() => {})
+                        });
+
+                    }
                 }
                 else if (CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.enabled && queryObject.points >= CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.points) {
-                    found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.id).catch(e => {
-                        console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
-                        CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
-                            embed: {
-                                title: "Error with Auto-Key Popper Role Assignment",
-                                description: `Failed to give ${found[0].mention} the <@&${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.id}> role`,
-                                color: 0xff0000
-                            }
-                        }).catch(() => {})
-                    });
+                    if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.id)) {
+                        found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.id).catch(e => {
+                            console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: "Error with Auto-Key Popper Role Assignment",
+                                    description: `Failed to give ${found[0].mention} the <@&${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.id}> role`,
+                                    color: 0xff0000
+                                }
+                            }).catch(() => {})
+                        });
+
+                        found[0].edit({
+                            nick: `${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.prefix}${found[0].nick?found[0].nick:found[0].username}`
+                        }).catch(e => {
+                            console.log("> [AUTO KEY POPPER NICK EDIT FAILURE]" + e);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: "Error with Auto-Key Popper Nickname Edition",
+                                    description: `Failed to edit ${found[0].mention}'s nickname to ${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.prefix}${found[0].nick?found[0].nick:found[0].username}`,
+                                    color: 0xff0000
+                                }
+                            }).catch(() => {})
+                        });
+                    }
                 }
                 else if (CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.enabled && queryObject.points >= CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.points) {
-                    found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.id).catch(e => {
-                        console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
-                        CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
-                            embed: {
-                                title: "Error with Auto-Key Popper Role Assignment",
-                                description: `Failed to give ${found[0].mention} the <@&${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.id}> role`,
-                                color: 0xff0000
-                            }
-                        }).catch(() => {})
-                    });
+                    if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.id)) {
+                        found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.id).catch(e => {
+                            console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: "Error with Auto-Key Popper Role Assignment",
+                                    description: `Failed to give ${found[0].mention} the <@&${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.id}> role`,
+                                    color: 0xff0000
+                                }
+                            }).catch(() => {})
+                        });
+
+                        found[0].edit({
+                            nick: `${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.prefix}${found[0].nick?found[0].nick:found[0].username}`
+                        }).catch(e => {
+                            console.log("> [AUTO KEY POPPER NICK EDIT FAILURE]" + e);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: "Error with Auto-Key Popper Nickname Edition",
+                                    description: `Failed to edit ${found[0].mention}'s nickname to ${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.prefix}${found[0].nick?found[0].nick:found[0].username}`,
+                                    color: 0xff0000
+                                }
+                            }).catch(() => {})
+                        });
+                    }
                 }
                 else if (CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.enabled && queryObject.points >= CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.points) {
-                    found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.id).catch(e => {
-                        console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
-                        CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
-                            embed: {
-                                title: "Error with Auto-Key Popper Role Assignment",
-                                description: `Failed to give ${found[0].mention} the <@&${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.id}> role`,
-                                color: 0xff0000
-                            }
-                        }).catch(() => {})
-                    });
+                    if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.id)) {
+                        found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.id).catch(e => {
+                            console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: "Error with Auto-Key Popper Role Assignment",
+                                    description: `Failed to give ${found[0].mention} the <@&${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.id}> role`,
+                                    color: 0xff0000
+                                }
+                            }).catch(() => {})
+                        });
+
+                        found[0].edit({
+                            nick: `${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.prefix}${found[0].nick?found[0].nick:found[0].username}`
+                        }).catch(e => {
+                            console.log("> [AUTO KEY POPPER NICK EDIT FAILURE]" + e);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: "Error with Auto-Key Popper Nickname Edition",
+                                    description: `Failed to edit ${found[0].mention}'s nickname to ${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.prefix}${found[0].nick?found[0].nick:found[0].username}`,
+                                    color: 0xff0000
+                                }
+                            }).catch(() => {})
+                        });
+                    }
                 }
                 db.close();
             }
@@ -165,52 +227,112 @@ async function logitem(msg, args) {
                 if (!found[0].roles) found[0] = await CONSTANTS.bot.getRESTGuildMember(msg.guildID, found[0].id);
 
                 if (CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.enabled && queryObject.points >= CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.points) {
-                    if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.id)) found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.id).catch(e => {
-                        console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
-                        CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
-                            embed: {
-                                title: "Error with Auto-Key Popper Role Assignment",
-                                description: `Failed to give ${found[0].mention} the <@&${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.id}> role`,
-                                color: 0xff0000
-                            }
-                        }).catch(() => {})
-                    });
+                    if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.id)) {
+                        found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.id).catch(e => {
+                            console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: "Error with Auto-Key Popper Role Assignment",
+                                    description: `Failed to give ${found[0].mention} the <@&${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.id}> role`,
+                                    color: 0xff0000
+                                }
+                            }).catch(() => {})
+                        });
+                        found[0].edit({
+                            nick: `${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.master.prefix}${found[0].nick?found[0].nick:found[0].username}`
+                        }).catch(e => {
+                            console.log("> [AUTO KEY POPPER NICK EDIT FAILURE]" + e);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: "Error with Auto-Key Popper Nickname Edition",
+                                    description: `Failed to edit ${found[0].mention}'s nickname to ${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.prefix}${found[0].nick?found[0].nick:found[0].username}`,
+                                    color: 0xff0000
+                                }
+                            }).catch(() => {})
+                        });
+
+                    }
                 }
                 else if (CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.enabled && queryObject.points >= CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.points) {
-                    if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.id)) found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.id).catch(e => {
-                        console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
-                        CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
-                            embed: {
-                                title: "Error with Auto-Key Popper Role Assignment",
-                                description: `Failed to give ${found[0].mention} the <@&${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.id}> role`,
-                                color: 0xff0000
-                            }
-                        }).catch(() => {})
-                    });
+                    if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.id)) {
+                        found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.id).catch(e => {
+                            console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: "Error with Auto-Key Popper Role Assignment",
+                                    description: `Failed to give ${found[0].mention} the <@&${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.id}> role`,
+                                    color: 0xff0000
+                                }
+                            }).catch(() => {})
+                        });
+
+                        found[0].edit({
+                            nick: `${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.prefix}${found[0].nick?found[0].nick:found[0].username}`
+                        }).catch(e => {
+                            console.log("> [AUTO KEY POPPER NICK EDIT FAILURE]" + e);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: "Error with Auto-Key Popper Nickname Edition",
+                                    description: `Failed to edit ${found[0].mention}'s nickname to ${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.adept.prefix}${found[0].nick?found[0].nick:found[0].username}`,
+                                    color: 0xff0000
+                                }
+                            }).catch(() => {})
+                        });
+                    }
                 }
                 else if (CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.enabled && queryObject.points >= CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.points) {
-                    if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.id)) found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.id).catch(e => {
-                        console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
-                        CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
-                            embed: {
-                                title: "Error with Auto-Key Popper Role Assignment",
-                                description: `Failed to give ${found[0].mention} the <@&${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.id}> role`,
-                                color: 0xff0000
-                            }
-                        }).catch(() => {})
-                    });
+                    if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.id)) {
+                        found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.id).catch(e => {
+                            console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: "Error with Auto-Key Popper Role Assignment",
+                                    description: `Failed to give ${found[0].mention} the <@&${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.id}> role`,
+                                    color: 0xff0000
+                                }
+                            }).catch(() => {})
+                        });
+
+                        found[0].edit({
+                            nick: `${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.prefix}${found[0].nick?found[0].nick:found[0].username}`
+                        }).catch(e => {
+                            console.log("> [AUTO KEY POPPER NICK EDIT FAILURE]" + e);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: "Error with Auto-Key Popper Nickname Edition",
+                                    description: `Failed to edit ${found[0].mention}'s nickname to ${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.apprentice.prefix}${found[0].nick?found[0].nick:found[0].username}`,
+                                    color: 0xff0000
+                                }
+                            }).catch(() => {})
+                        });
+                    }
                 }
                 else if (CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.enabled && queryObject.points >= CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.points) {
-                    if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.id)) found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.id).catch(e => {
-                        console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
-                        CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
-                            embed: {
-                                title: "Error with Auto-Key Popper Role Assignment",
-                                description: `Failed to give ${found[0].mention} the <@&${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.id}> role`,
-                                color: 0xff0000
-                            }
-                        }).catch(() => {})
-                    });
+                    if (!found[0].roles.includes(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.id)) {
+                        found[0].addRole(CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.id).catch(e => {
+                            console.log("> [AUTO KEY POPPER ROLE ADDITION FAILURE]" + e);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: "Error with Auto-Key Popper Role Assignment",
+                                    description: `Failed to give ${found[0].mention} the <@&${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.id}> role`,
+                                    color: 0xff0000
+                                }
+                            }).catch(() => {})
+                        });
+
+                        found[0].edit({
+                            nick: `${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.prefix}${found[0].nick?found[0].nick:found[0].username}`
+                        }).catch(e => {
+                            console.log("> [AUTO KEY POPPER NICK EDIT FAILURE]" + e);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel, {
+                                embed: {
+                                    title: "Error with Auto-Key Popper Nickname Edition",
+                                    description: `Failed to edit ${found[0].mention}'s nickname to ${CONFIG.SystemConfig.servers[msg.guildID].keypoproles.novice.prefix}${found[0].nick?found[0].nick:found[0].username}`,
+                                    color: 0xff0000
+                                }
+                            }).catch(() => {})
+                        });
+                    }
                 }
                 db.close();
             }

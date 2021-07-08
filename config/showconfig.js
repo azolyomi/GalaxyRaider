@@ -385,13 +385,13 @@ function showConfigKeyRoles(msg, args) {
             description: 
             `**Key Role Configuration**:
 
-            **Novice Tier**: ${server.keypoproles.novice.enabled?`<@&${server.keypoproles.novice.id}>\n**Required Points**: \`${server.keypoproles.novice.points}\``:`\`disabled\``}
+            **Novice Tier**: ${server.keypoproles.novice.enabled?`<@&${server.keypoproles.novice.id}>\n**Required Points**: \`${server.keypoproles.novice.points}\`\n**Prefix:**\`${server.keypoproles.novice.prefix?server.keypoproles.novice.prefix:"NO PREFIX"}\``:`\`disabled\``}
 
-            **Apprentice Tier**: ${server.keypoproles.apprentice.enabled?`<@&${server.keypoproles.apprentice.id}>\n**Required Points**: \`${server.keypoproles.apprentice.points}\``:`\`disabled\``}
+            **Apprentice Tier**: ${server.keypoproles.apprentice.enabled?`<@&${server.keypoproles.apprentice.id}>\n**Required Points**: \`${server.keypoproles.apprentice.points}\`\n**Prefix:**\` ${server.keypoproles.apprentice.prefix?server.keypoproles.apprentice.prefix:"NO PREFIX"}\``:`\`disabled\``}
 
-            **Adept Tier**: ${server.keypoproles.adept.enabled?`<@&${server.keypoproles.adept.id}>\n**Required Points**: \`${server.keypoproles.adept.points}\``:`\`disabled\``}
+            **Adept Tier**: ${server.keypoproles.adept.enabled?`<@&${server.keypoproles.adept.id}>\n**Required Points**: \`${server.keypoproles.adept.points}\`\n**Prefix:**\` ${server.keypoproles.adept.prefix?server.keypoproles.adept.prefix:"NO PREFIX"}\``:`\`disabled\``}
 
-            **Master Tier**: ${server.keypoproles.master.enabled?`<@&${server.keypoproles.master.id}>\n**Required Points**: \`${server.keypoproles.master.points}\``:`\`disabled\``}
+            **Master Tier**: ${server.keypoproles.master.enabled?`<@&${server.keypoproles.master.id}>\n**Required Points**: \`${server.keypoproles.master.points}\`\n**Prefix:**\` ${server.keypoproles.master.prefix?server.keypoproles.master.prefix:"NO PREFIX"}\``:`\`disabled\``}
             `,
             color: 3145463
         }
