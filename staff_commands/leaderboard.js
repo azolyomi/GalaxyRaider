@@ -48,7 +48,7 @@ function staffleaderboard(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "You first have to configurate the server. Type \`.instructions\` for help.";
 
     let type = "runpoints";
-    let acceptableTypes = ["void", "cult", "shatters", "nest", "fungal", "oryx3", "misc", "currentCycle"];
+    let acceptableTypes = ["void", "cult", "shatters", "nest", "fungal", "o3", "misc", "currentCycle"];
     if (args[0] && acceptableTypes.includes(args[0])) type = args[0];
 
     MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
