@@ -354,7 +354,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                     name: `A ${RAIDCONSTANTS.runTypeTitleText[index]} run has been started in ${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run`,
                     icon_url: message.author.avatarURL
                 },
-                description: "To join this " + RAIDCONSTANTS.runTypeEmoji[index] + " run, **connect to the voice channel located below lounge**. \n" + RAIDCONSTANTS.AFKCheckDescriptionsForRunTypes[index], 
+                description: "To join this " + RAIDCONSTANTS.runTypeEmoji[index] + " run, **__click__** <#" + activeChannel.id + ">. \n" + RAIDCONSTANTS.AFKCheckDescriptionsForRunTypes[index], 
                 image: {
                     url: imageurl?imageurl:CONFIG.SystemConfig.servers[message.guildID].defaultreqsheets[index],
                 },
