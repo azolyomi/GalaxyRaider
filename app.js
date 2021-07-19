@@ -36,6 +36,7 @@ const RAIDCONSTANTS = require("./raiding_functions/RAIDCONSTANTS");
 const pingroles = require("./config/pingroles");
 const keyroles = require("./config/registerkeypopperrole");
 const postraidlogging = require("./config/postraidlogging");
+const keyqueue = require("./config/keyqueue");
 
 
 //Custom Server Command Requires
@@ -1177,6 +1178,8 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
 
         **${CONSTANTS.botPrefix}keyrole** – Configure automatic key popper role addition
         **${CONSTANTS.botPrefix}resetkeyroles** – Reset key roles
+
+        **${CONSTANTS.botPrefix}keyqueue** - Setup a key queue.
         
         Do ${CONSTANTS.botPrefix}help <command> for more information on that command`,
         color: 3145463,
@@ -1194,6 +1197,33 @@ CONSTANTS.bot.registerCommand("confighelp", function(msg, args) {
 
 
 // SEPARATOR: <CUSTOM>
+
+const keyqueueCommand = CONSTANTS.bot.registerCommand("keyqueue", function(msg, args) {
+    return `Type .help keyqueue for more information`;
+}, {
+    caseInsensitive: true,
+    aliases: ["kq"],
+    requirements: {
+        permissions: {
+            "administrator": true
+        }
+    },
+    fullDescription: `
+    **Key Queue Command**
+    
+    Used to configure the key queue.`
+
+})
+
+keyqueueCommand.registerSubcommand("toggle", keyqueue.toggleKeyQueue, {
+    fullDescription: keyqueue.toggleKeyQueueHelpMessage,
+    description: `Toggles the key queue on/off`
+});
+
+keyqueueCommand.registerSubcommand("setup", keyqueue.setupKeyQueueMessage, {
+    fullDescription: keyqueue.setupKeyQueueMessageHelpMessage,
+    description: `Sets up the key queue message (with reactions).`
+});
 
 
 // // // STD // // // 
@@ -1440,11 +1470,22 @@ CONSTANTS.bot.on("guildMemberAdd", function(guild, member) {
 CONSTANTS.bot.on("messageReactionAdd", function(message, emoji, reactor) {
     if (!message.guildID) return;
     else if (!reactor.guild) return;
+    else if (reactor.bot) return;
     else if (!CONFIG.SystemConfig.servers[message.guildID]) return;
-    else if (!CONFIG.SystemConfig.servers[message.guildID].pings.pingmessageid) return;
+    else if (!CONFIG.SystemConfig.servers[message.guildID].pings.pingmessageid && !CONFIG.SystemConfig.servers[message.guildID].keyqueue.messageid) return;
 
-    if (message.id == CONFIG.SystemConfig.servers[message.guildID].pings.pingmessageid) {
+    if (CONFIG.SystemConfig.servers[message.guildID].pings.pingmessageid && message.id == CONFIG.SystemConfig.servers[message.guildID].pings.pingmessageid) {
         pingroles.pingReacted(message, reactor, emoji, true);
+        return;
+    }
+
+    if (CONFIG.SystemConfig.servers[message.guildID].keyqueue.enabled &&
+        CONFIG.SystemConfig.servers[message.guildID].keyqueue.messageid && 
+        CONFIG.SystemConfig.servers[message.guildID].keyqueue.channelid &&
+        message.id == CONFIG.SystemConfig.servers[message.guildID].keyqueue.messageid &&
+        message.channel.id == CONFIG.SystemConfig.servers[message.guildID].keyqueue.channelid) {
+        keyqueue.keyqueueReacted(message, emoji, reactor);
+        return;
     }
 })
 

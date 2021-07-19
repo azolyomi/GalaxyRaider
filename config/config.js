@@ -143,6 +143,11 @@ exports.addGuildConfigEntry = function(guildID, guildName, suspendrole, staffrol
                         "points" : 0,
                         "prefix": ""
                 }
+          }, 
+          "keyqueue": {
+            "enabled": false,
+            "messageid": "",
+            "channelid": ""
           }
       }
     exports.SystemConfig.servers[guildID] = newEntry;
