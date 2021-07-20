@@ -37,7 +37,7 @@ cron.schedule("0 * * * *", () => {
                 }
             }).catch(() => {})
             await keyqueueMessage.removeReactions().catch(() => {});
-            reactions.forEach(async reaction => await keyQueueMessage.addReaction(reaction).catch(() => {}))
+            reactions.forEach(async reaction => await keyqueueMessage.addReaction(reaction).catch(() => {}))
         }
     })
 })
@@ -215,7 +215,8 @@ exports.keyqueueReacted = async function(msg, emoji, member) {
                                 title: kqembed.title,
                                 description: kqembed.description,
                                 fields: fields,
-                                footer: kqembed.footer
+                                footer: kqembed.footer,
+                                color: 0x00ab30
                             }
                         })
                         dmChannel.createMessage({
@@ -287,7 +288,8 @@ exports.keyqueueReacted = async function(msg, emoji, member) {
                             title: kqembed.title,
                             description: kqembed.description,
                             fields: fields,
-                            footer: kqembed.footer
+                            footer: kqembed.footer,
+                            color: 0x00ab30
                         }
                     })
                     dmChannel.createMessage({
