@@ -39,7 +39,16 @@ const postraidlogging = require("./config/postraidlogging");
 const keyqueue = require("./config/keyqueue");
 
 
+const helperOrStaffPermissions = function(msg) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) {
+        CONSTANTS.bot.createMessage(msg.channel.id, "The bot has not been configurated in this server yet. Type .instructions to get started.")
+        return false;
+    }
+    return (msg.member.roles.some((role, index) => CONFIG.SystemConfig.servers[msg.guildID].helperroles.includes(role) || CONFIG.SystemConfig.servers[msg.guildID].staffroles.includes(role)));
+}
 //Custom Server Command Requires
+
+
 
 //STD
 const STD_fuck = require("./custom_commands/STD/fuck");
@@ -105,7 +114,10 @@ CONSTANTS.bot.registerCommand("instructions", instructions.showInstructions, {
 
 CONSTANTS.bot.registerCommand("parse", parse.parseImageURL, {
     aliases: ["parseurl", "parseimage"],
-    fullDescription: parse.helpCommand
+    fullDescription: parse.helpCommand,
+    requirements: {
+        custom: helperOrStaffPermissions
+    }
 })
 
 CONSTANTS.bot.registerCommand("registerpremiumguild", registerpremiumguild.registerPremiumGuildCommand, {
@@ -216,6 +228,17 @@ showconfigcommand.registerSubcommand("modroles", showconfig.showConfigModRoles, 
     caseInsensitive: true,
     fullDescription: "Print current Moderator roles configurated in bot server.",
     aliases: ["admin", "mod"],
+})
+
+showconfigcommand.registerSubcommand("helperroles", showconfig.showConfigHelperRoles, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    }, 
+    caseInsensitive: true,
+    fullDescription: "Print current Helper roles configurated in bot server.",
+    aliases: ["helper"],
 })
 
 showconfigcommand.registerSubcommand("securityroles", showconfig.showConfigSecurityRoles, {

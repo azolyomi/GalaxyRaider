@@ -56,6 +56,7 @@ exports.addGuildConfigEntry = function(guildID, guildName, suspendrole, staffrol
           "staffroles": staffroles,
           "modroles": [],
           "securityroles": [],
+          "helperroles": [],
           "afkaccess": afkaccess,
           "postraidpanelenabled": false,
           "channels": channels,

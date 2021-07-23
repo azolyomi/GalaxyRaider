@@ -15,18 +15,20 @@ function showConfigDefault(msg, args) {
 
             **Log Channel**: <#${CONFIG.SystemConfig.servers[msg.guildID].logchannel}>
             **Suspended Role**: <@&${CONFIG.SystemConfig.servers[msg.guildID].suspendrole}>
-            **Staff Roles**: [${server.staffroles.length} entries...] (do \`.showconfig staffroles\` for more)
-            **Mod Roles**" [${server.modroles.length} entries...] (do \`.showconfig modroles\` for more)
-            **Security Roles**: [${server.securityroles.length} entries...] (do \`.showconfig securityroles\` for more)
+            **Staff Roles**: \`[${server.staffroles.length} entries]\` (do \`.showconfig staffroles\` for more)
+            **Mod Roles**: \`[${server.modroles.length} entries]\` (do \`.showconfig modroles\` for more)
+
+            **Helper Roles**: \`[${server.helperroles.length} entries]\` (do \`.showconfig helperroles\` for more)
+            **Security Roles**: \`[${server.securityroles.length} entries]\` (do \`.showconfig securityroles\` for more)
             **AFK Access**: (do \`.showconfig afkaccess\` for more)
 
             **Verification Enabled**: \`${server.verification.enabled}\`
             **Verification Star Requirement**: \`${server.verification.minrank}\`
             **Verification Hidden Loc Required?**: \`${server.verification.hiddenloc}\`
 
-            **Member Roles**: [${server.nonstaff.memberaccess.length} entries...] (do \`.showconfig memberroles\` for more)
-            **Veteran Roles**: [${server.nonstaff.vetaccess.length} entries...] (do \`.showconfig vetroles\` for more)
-            **Booster Roles**: [${server.nonstaff.boosteraccess.length} entries...] (do \`.showconfig boosterroles\` for more)
+            **Member Roles**: \`[${server.nonstaff.memberaccess.length} entries]\` (do \`.showconfig memberroles\` for more)
+            **Veteran Roles**: \`[${server.nonstaff.vetaccess.length} entries]\` (do \`.showconfig vetroles\` for more)
+            **Booster Roles**: \`[${server.nonstaff.boosteraccess.length} entries]\` (do \`.showconfig boosterroles\` for more)
             **Streaming Roles**: [${server.streamingperms.length} entries...] (do \`.showconfig streamingperms\` for more)
             **Ping Configuration**: (do \`.showconfig pings\` for more)
             **Configurated Channels**: (do \`.showconfig channels\` for more)
@@ -84,6 +86,24 @@ function showConfigModRoles(msg, args) {
     }
 }
 exports.showConfigModRoles = showConfigModRoles;
+
+function showConfigHelperRoles(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "There is no config entry for this server in the database. Type \`.config\` and try again.";
+    let server = CONFIG.SystemConfig.servers[msg.guildID];
+    return {
+        embed: {
+            title: "Server Configuration",
+            description: 
+            `**List of Helper Roles**:
+            [${server.helperroles.map((roleid, index) => {
+                return `<@&${roleid}>`
+            }).join(", ")}]
+            `,
+            color: 3145463
+        }
+    }
+}
+exports.showConfigHelperRoles = showConfigHelperRoles;
 
 function showConfigSecurityRoles(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "There is no config entry for this server in the database. Type \`.config\` and try again.";
