@@ -9,7 +9,6 @@ async function manualVerify(msg, args) {
     args = args.filter(arg => !arg.includes(msg.mentions[0].id));
     if (!(args.length > 0)) return `Specify the nickname of the user.`;
     try {
-        console.log(args);
         let member = await CONSTANTS.bot.getRESTGuildMember(msg.guildID, msg.mentions[0].id).catch(() => {
             CONSTANTS.bot.createMessage(msg.channel.id, `That mention doesn't match a member in your server.`);
             return undefined;
@@ -34,9 +33,16 @@ async function manualVerify(msg, args) {
             }
             catch(e) {}
         }
+
+        if (msg.guildID == CONSTANTS.STDGuildID) {
+            (await msg.channel.getMessages(10, msg.id, "821438827423203349")).forEach(message => {
+                if (message.author.id == msg.mentions[0].id) message.delete();
+            })
+        }
     }
     catch (e) {
         CONSTANTS.bot.createMessage(msg.channel.id, "Something went wrong with that, and it didn't fully complete. Make sure your member roles all exist, are properly configured, and that the bot's highest role is higher than them. You cannot modify user nicknames if they rank higher than the bot. Also ensure that the log channel is properly set up.");
+        console.log(e);
     }
 }
 
