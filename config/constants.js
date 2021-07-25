@@ -65,6 +65,7 @@ exports.botCommandOptions = commandOptions;
 exports.botPrefix = botPrefix;
 const STDGuildID = `522815906376843274`;
 exports.STDGuildID = STDGuildID;
+exports.STDNitroPrefix = `^`;
 
 exports.defaultCredits = 5;
 

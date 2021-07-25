@@ -1051,7 +1051,10 @@ CONSTANTS.bot.registerCommand("log", log.logitem, {
     caseInsensitive: true,
     fullDescription: log.helpMessage,
     aliases: ["l", "logitem"],
-    argsRequired: true
+    argsRequired: true,
+    requirements: {
+        custom: helperOrStaffPermissions
+    }
 });
 
 CONSTANTS.bot.registerCommand("resetitems", log.resetitems, {
@@ -1398,6 +1401,10 @@ const helpCommand = CONSTANTS.bot.registerCommand("help", function(msg, args) {
                     color: 3145463
                 }
         }    
+}, {
+    requirements: {
+        custom: helperOrStaffPermissions
+    }
 })
 
 CONSTANTS.bot.registerCommand("patreon", function(msg, args) {
@@ -1531,6 +1538,27 @@ CONSTANTS.bot.on("messageDelete", async function(message) {
     
     if (message.id == CONFIG.SystemConfig.servers[message.guildID].pings.pingmessageid) {
         pingroles.pingmessagedeleted(message);
+    }
+})
+
+CONSTANTS.bot.on("guildMemberUpdate", async function(guild, member, oldMember) {
+    if (guild.id != CONSTANTS.STDGuildID) return;
+    if (oldMember.premiumSince == member.premiumSince) return;
+    if (!oldMember.premiumSince) {
+        try {
+            return member.edit({
+                nick: `${CONSTANTS.STDNitroPrefix}${oldMember.nick}`
+            })
+        }
+        catch(e) {}
+    }
+    if (!member.premiumSince) {
+        try {
+            if (oldMember.nick.startsWith(CONSTANTS.STDNitroPrefix)) return member.edit({
+                nick: `${oldMember.nick.substring(CONSTANTS.STDNitroPrefix.length)}`
+            })
+        }
+        catch(e) {}
     }
 })
 
