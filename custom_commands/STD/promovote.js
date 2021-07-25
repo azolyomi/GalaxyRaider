@@ -73,6 +73,12 @@ function getPermissionOverwriteArray(type) {
         case "event":
             return [
                 {
+                    id: CONSTANTS.STDGuildID,
+                    type: 0,
+                    allow: 0,
+                    deny: 523328,
+                },
+                {
                     id: ROLEINFO.Roles.SuspendedID,
                     type: 0,
                     allow: 0,
@@ -159,6 +165,12 @@ function getPermissionOverwriteArray(type) {
             ];
         case "halls":
             return [
+                {
+                    id: CONSTANTS.STDGuildID,
+                    type: 0,
+                    allow: 0,
+                    deny: 523328,
+                },
                 {
                     id: ROLEINFO.Roles.SuspendedID,
                     type: 0,
@@ -247,6 +259,12 @@ function getPermissionOverwriteArray(type) {
         case "oryx":
             return [
                 {
+                    id: CONSTANTS.STDGuildID,
+                    type: 0,
+                    allow: 0,
+                    deny: 523328,
+                },
+                {
                     id: ROLEINFO.Roles.SuspendedID,
                     type: 0,
                     allow: 0,
@@ -333,6 +351,12 @@ function getPermissionOverwriteArray(type) {
             ];
         case "fullskip":
             return [
+                {
+                    id: CONSTANTS.STDGuildID,
+                    type: 0,
+                    allow: 0,
+                    deny: 523328,
+                },
                 {
                     id: ROLEINFO.Roles.SuspendedID,
                     type: 0,
@@ -427,6 +451,12 @@ function getPermissionOverwriteArray(type) {
         case "exalted":
             return [
                 {
+                    id: CONSTANTS.STDGuildID,
+                    type: 0,
+                    allow: 0,
+                    deny: 523328,
+                },
+                {
                     id: ROLEINFO.Roles.SuspendedID,
                     type: 0,
                     allow: 0,
@@ -513,6 +543,12 @@ function getPermissionOverwriteArray(type) {
             ];
         case "officer":
             return [
+                {
+                    id: CONSTANTS.STDGuildID,
+                    type: 0,
+                    allow: 0,
+                    deny: 523328,
+                },
                 {
                     id: ROLEINFO.Roles.SuspendedID,
                     type: 0,
