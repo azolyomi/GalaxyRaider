@@ -54,6 +54,7 @@ const helperOrStaffPermissions = function(msg) {
 const STD_fuck = require("./custom_commands/STD/fuck");
 const STD_promovote = require("./custom_commands/STD/promovote");
 const STD_gamble = require("./custom_commands/STD/gamble");
+const STD_editrole = require("./custom_commands/STD/addrole");
 
 //USE
 const USE_ban = require("./custom_commands/USE/ban");
@@ -1311,6 +1312,36 @@ CONSTANTS.bot.registerCommand("gamble", STD_gamble.gamble, {
             if (!msg.guildID) return false;
             else if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
             else if (!(CONFIG.SystemConfig.servers[msg.guildID].staffroles.some(id => msg.member.roles.includes(id)))) return false;
+            else return true;
+        }
+    }
+});
+
+CONSTANTS.bot.registerCommand("addrole", STD_editrole.addrole, {
+    caseInsensitive: true,
+    fullDescription: STD_editrole.STDrolehelpmessage,
+    aliases: ["ar"],
+    argsRequired: false,
+    requirements: {
+        custom: function(msg) {
+            if (!msg.guildID) return false;
+            else if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
+            else if (!(CONFIG.SystemConfig.servers[msg.guildID].modroles.some(id => msg.member.roles.includes(id)))) return false;
+            else return true;
+        }
+    }
+});
+
+CONSTANTS.bot.registerCommand("removerole", STD_editrole.removerole, {
+    caseInsensitive: true,
+    fullDescription: STD_editrole.STDrolehelpmessage,
+    aliases: ["rr"],
+    argsRequired: false,
+    requirements: {
+        custom: function(msg) {
+            if (!msg.guildID) return false;
+            else if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
+            else if (!(CONFIG.SystemConfig.servers[msg.guildID].modroles.some(id => msg.member.roles.includes(id)))) return false;
             else return true;
         }
     }
