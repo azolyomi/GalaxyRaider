@@ -27,7 +27,7 @@ exports.addrole = addrole
 
 async function removerole(msg, args) {
     if (msg.guildID != CONSTANTS.STDGuildID) return;
-    if (!(msg.member.roles.includes(officerID))) return `You need the <@&${officerID}> role to do that.`;
+    if (!(msg.member.roles.includes(officerID) || msg.member.roles.includes(headLeaderID))) return `You need the <@&${officerID}> or <@&${headLeaderID}> role to do that.`;
     if (!(msg.mentions.length > 0)) return `Mention a user for that.`
     let roleMentions = msg.roleMentions.filter(id => editableRoleIDs.includes(id));
     if (!(roleMentions.length > 0)) return `You didn't mention any roles you are capable of editing.`;
