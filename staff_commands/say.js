@@ -12,14 +12,14 @@ async function say(msg, args) {
             let titleIndex = text.indexOf(titleText);
             let textRange = text.substring(titleIndex + titleText.length, text.indexOf("\"", titleIndex + titleText.length));
             if (textRange == titleText) return "You're missing a \" somewhere!";
-            title = textRange.replace("\\n", "\n");
+            title = textRange.replace(/\\n/g, "\n");
         }
         else if (args[i].startsWith("-description:\"")) {
             let descriptionText = "-description:\"";
             let descriptionIndex = text.indexOf(descriptionText);
             let textRange = text.substring(descriptionIndex + descriptionText.length, text.indexOf("\"", descriptionIndex + descriptionText.length));
             if (textRange == descriptionText) return "You're missing a \" somewhere!";
-            description = textRange.replace("\\n", "\n");
+            description = textRange.replace(/\\n/g, "\n");
         }
         else if (args[i].startsWith("-image:")) {
             let parseImage = args[i].substring(7);
@@ -91,7 +91,7 @@ async function say(msg, args) {
             }
         }
     }
-    if (!title && !description && !color) return {embed:{description: text.replace("\\n", "\n")}};
+    if (!title && !description && !color) return {embed:{description: text.replace(/\\n/g, "\n")}};
     else if (!title && !description && color) return "You can't just specify a color! Tell me what to write with the -title or -description flag!";
     return {
         embed: {
