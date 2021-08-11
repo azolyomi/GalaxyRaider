@@ -12,14 +12,14 @@ async function say(msg, args) {
             let titleIndex = text.indexOf(titleText);
             let textRange = text.substring(titleIndex + titleText.length, text.indexOf("\"", titleIndex + titleText.length));
             if (textRange == titleText) return "You're missing a \" somewhere!";
-            title = textRange;
+            title = textRange.replace("\\n", "\n");
         }
         else if (args[i].startsWith("-description:\"")) {
             let descriptionText = "-description:\"";
             let descriptionIndex = text.indexOf(descriptionText);
             let textRange = text.substring(descriptionIndex + descriptionText.length, text.indexOf("\"", descriptionIndex + descriptionText.length));
             if (textRange == descriptionText) return "You're missing a \" somewhere!";
-            description = textRange;
+            description = textRange.replace("\\n", "\n");
         }
         else if (args[i].startsWith("-image:")) {
             let parseImage = args[i].substring(7);
