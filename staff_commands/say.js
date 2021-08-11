@@ -91,7 +91,7 @@ async function say(msg, args) {
             }
         }
     }
-    if (!title && !description && !color) return {embed:{description: text}};
+    if (!title && !description && !color) return {embed:{description: text.replace("\\n", "\n")}};
     else if (!title && !description && color) return "You can't just specify a color! Tell me what to write with the -title or -description flag!";
     return {
         embed: {
