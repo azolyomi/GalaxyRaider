@@ -60,31 +60,37 @@ async function headcount(message, args, CHANNELOBJECT) {
 
         if (!message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].modroles.includes(item))) {
             if (CHANNELOBJECT == CONFIG.SystemConfig.servers[message.guildID].channels.Main) {
-                if ((dungeonType.includes("void") || dungeonType.includes("fullskip") || dungeonType.includes("fullclear") || dungeonType.includes("cult")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.halls.includes(item)))) {
+                if ((dungeonType.includes("void") || dungeonType.includes("fullskip") || dungeonType.includes("fullclear")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.halls.includes(item)))) {
                     return "You must have a \`Halls Leading Role\` configured with the bot to start this afk check.";
                 }
-                else if ((dungeonType === "o3" || dungeonType === "o3-highreqs" ) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.oryx.includes(item)))) {
+                else if ((dungeonType.includes("o3")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.oryx.includes(item)))) {
                     return "You must have a \`Oryx Leading Role\` configured with the bot to start this afk check.";
                 } // Same for the other two
-                else if ((dungeonType === "misc" || dungeonType === "misc-highreqs" ) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.misc.includes(item)))) {
+                else if ((dungeonType.includes("misc")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.misc.includes(item)))) {
                     return "You must have a \`Misc Leading Role\` configured with the bot to start this afk check.";
                 }
-                else if ((dungeonType === "shatters" || dungeonType === "shatters-highreqs" || dungeonType === "nest" || dungeonType === "nest-highreqs" || dungeonType === "fungal" || dungeonType === "fungal-highreqs") && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.exaltation.includes(item)))) {
+                else if ((dungeonType.includes("shatters") || dungeonType.includes("nest") || dungeonType.includes("fungal") || dungeonType.includes("cult")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.exaltation.includes(item)))) {
                     return "You must have an \`Exaltation Leading Role\` configured with the bot to start this afk check.";
+                }
+                else if (dungeonType.includes("highreqs") && (message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.denyhighreqs.includes(item)))) {
+                    return `You have a role that prevents you from leading \`High Requirements\` raids. First have this role removed before starting this afk check.`
                 }
             }
             if (CHANNELOBJECT == CONFIG.SystemConfig.servers[message.guildID].channels.Veteran) {
                 if ((dungeonType.includes("void") || dungeonType.includes("fullskip") || dungeonType.includes("fullclear") || dungeonType.includes("cult")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vethalls.includes(item)))) {
                     return "You must have a \`Veteran Halls Leading Role\` configured with the bot to start this afk check.";
                 }
-                else if ((dungeonType === "o3" || dungeonType === "o3-highreqs" ) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetoryx.includes(item)))) {
+                else if ((dungeonType.includes("o3")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetoryx.includes(item)))) {
                     return "You must have a \`Veteran Oryx Leading Role\` configured with the bot to start this afk check.";
                 } // Same for the other two
-                else if ((dungeonType === "misc" || dungeonType === "misc-highreqs" ) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetmisc.includes(item)))) {
+                else if ((dungeonType.includes("misc")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetmisc.includes(item)))) {
                     return "You must have a \`Veteran Misc Leading Role\` configured with the bot to start this afk check.";
                 }
-                else if ((dungeonType === "shatters" || dungeonType === "shatters-highreqs" || dungeonType === "nest" || dungeonType === "nest-highreqs" || dungeonType === "fungal" || dungeonType === "fungal-highreqs") && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetexaltation.includes(item)))) {
+                else if ((dungeonType.includes("shatters") || dungeonType.includes("nest") || dungeonType.includes("fungal")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetexaltation.includes(item)))) {
                     return "You must have an \`Veteran Exaltation Leading Role\` configured with the bot to start this afk check.";
+                }
+                else if (dungeonType.includes("highreqs") && (message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.denyhighreqs.includes(item)))) {
+                    return `You have a role that prevents you from leading \`High Requirements\` raids. First have this role removed before starting this afk check.`
                 }
             }
         }
