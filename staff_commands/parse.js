@@ -11,13 +11,15 @@ async function parseImageURL(msg, args) {
     if (args[0]) url = args[0];
     else if (msg.attachments.length > 0) url = msg.attachments[0].url;
     else return `You must attach either an image or URL to scan.`;
-    if (!await isImageURL(url)) return {
+    if (!(await isImageURL(url))) {
+        return {
         embed: {
             title: `Parse Failed`,
             description: `The string \`${url}\` is not a valid image URL. Image URLs should end in .png or .jpg for best performance.`,
             color: 0xff0000
         }
     }
+}
     let voiceChannel = msg.member.voiceState.channelID ? CONSTANTS.bot.getChannel(msg.member.voiceState.channelID) : null;
     if (!voiceChannel) {
         return {
@@ -35,14 +37,14 @@ async function parseImageURL(msg, args) {
                 color: 3145463
             }
         })
-        request(process.env.OCRAPIURL + process.env.OCRAPIKEY + "&url=" + url, {json:true}, async (err, res, body) => {
-            if (err) {
+        request(process.env.OCRAPIURL + process.env.OCRAPIKEY + "&filetype=png&url=" + url, {json:true}, async (err, res, body) => {
+            if (err || body.IsErroredOnProcessing) {
                 CONSTANTS.bot.createMessage(msg.channel.id, `Something went wrong with that operation [1]`);
                 console.log("> [PARSE ERROR] ");
-                console.log(err);
+                console.log(err?err:body);
                 return;
             }
-            else if (body.error || !body.ParsedResults[0]) {
+            else if (body.error || (!body.ParsedResults || !body.ParsedResults[0])) {
                 CONSTANTS.bot.createMessage(msg.channel.id, `Something went wrong with that operation [2]`);
                 console.log("> [PARSE ERROR] ");
                 console.log(body.error?body.error:body.ParsedResults);
