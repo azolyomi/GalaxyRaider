@@ -381,7 +381,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                     everyone: true,
                 },
                 author: { 
-                    name: `A ${RAIDCONSTANTS.runTypeTitleText[index]} run ${grade ? `(${grade})` : ""}has been started in ${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run`,
+                    name: `A ${RAIDCONSTANTS.runTypeTitleText[index]} run ${grade ? `(${grade}) ` : ""}has been started in ${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run`,
                     icon_url: message.author.avatarURL
                 },
                 description: "To join this " + RAIDCONSTANTS.runTypeEmoji[index] + " run, **__click__** <#" + activeChannel.id + ">. \n" + RAIDCONSTANTS.AFKCheckDescriptionsForRunTypes[index], 
@@ -438,7 +438,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                     let a = await CONSTANTS.bot.createMessage(dmChannel.id, {
                         embed: {
                             title: message.guild.name + " Reaction Confirmation",
-                            description: "Did you react with <:" + event.emoji.name + ":" + event.emoji.id + ">" + grade ? `**(${grade})** ?` : " ?", 
+                            description: `Did you react with <:${event.emoji.name}:${event.emoji.id}> ${(grade ? `**(${grade})** ?` : " ?")}`, 
                             color: 4,
                             timestamp: new Date().toISOString(),
                             footer: {
