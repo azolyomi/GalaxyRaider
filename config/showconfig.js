@@ -139,6 +139,9 @@ async function showConfigAFKAccess(msg, args) {
             Oryx Configured Roles: [${server.afkaccess.oryx.map((roleid, index) => {
                 return `<@&${roleid}>`
             }).join(", ")}]
+            Shatters Configured Roles: [${server.afkaccess.shatters.map((roleid, index) => {
+                return `<@&${roleid}>`
+            }).join(", ")}]
             Exaltation Dungeons Configured Roles: [${server.afkaccess.exaltation.map((roleid, index) => {
                 return `<@&${roleid}>`
             }).join(", ")}]
@@ -158,6 +161,9 @@ async function showConfigAFKAccess(msg, args) {
                 return `<@&${roleid}>`
             }).join(", ")}]
             Oryx Configured Roles: [${server.afkaccess.vetoryx.map((roleid, index) => {
+                return `<@&${roleid}>`
+            }).join(", ")}]
+            Shatters Configured Roles: [${server.afkaccess.vetshatters.map((roleid, index) => {
                 return `<@&${roleid}>`
             }).join(", ")}]
             Exaltation Dungeons Configured Roles: [${server.afkaccess.vetexaltation.map((roleid, index) => {

@@ -34,10 +34,12 @@ async function initialize(msg, args) {
     let afkaccess = {
         "halls": [hallsRole.id],
         "oryx": [oryxRole.id],
+        "shatters": [],
         "exaltation": [exaltRole.id],
         "misc": [miscRole.id],
         "vethalls": [hallsRole.id],
         "vetoryx": [oryxRole.id],
+        "vetshatters": [],
         "vetexaltation": [exaltRole.id],
         "vetmisc": [miscRole.id],
         "denyhighreqs": []

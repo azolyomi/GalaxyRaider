@@ -20,6 +20,7 @@ exports.COMMAND_AFKCheckFullDescription = `AFK Check Command.
         _- To set VC Cap, use the flag \`-cap:<channelcap>\` where \`<channelcap>\` is an integer between 0 and 99 Default cap = 65 or 35._
         _- To set VC Time Limit, use the flag \`-time:<limit>\` where \`<limit>\` is an integer number of hours from 1 to 8._
         _- To set AFK Check Image (req sheet), use the flag \`-image:<url>\` where \`<url>\` is a valid image url. To get the image url of one of our discord req sheets, right click the image and click "Copy link"._
+        _- To specify the grade of the dungeon, use the flag \`-grade:<letter>\` where \`<letter>\` is one of \`[D, C, B, A, S]\`_
         _– To start the AFK check in a prespecified voice channel, use the flag \`-vcid:<id>\` where \`<id>\` is the id of the voice channel you'd like to use._
 
 Examples: 
@@ -27,8 +28,8 @@ Examples:
         \`${CONSTANTS.botPrefix}afk o3 ussw ogre -cap:37 -time:2\` creates a channel with userlimit 37 and timelimit 2 hours.
         \`${CONSTANTS.botPrefix}afk o3 ussw ogre -image:https://tinyurl.com/stdfullskip\` starts afk with the specified image.`;
 
-exports.COMMAND_BalerAFKCheckFullDescription = `Baler AFK Check Command. 
-**Usage:** \`${CONSTANTS.botPrefix}bafk <DungeonType> <Location> <?flags>\`
+exports.COMMAND_BalerAFKCheckFullDescription = `Veteran AFK Check Command. 
+**Usage:** \`${CONSTANTS.botPrefix}vafk <DungeonType> <Location> <?flags>\`
 
 **<DungeonType>:** \`${RAIDCONSTANTS.acceptableRunTypes.join(", ")}\`
 
@@ -38,11 +39,13 @@ exports.COMMAND_BalerAFKCheckFullDescription = `Baler AFK Check Command.
     _To set VC Cap, use the flag \`-cap:<channelcap>\` where \`<channelcap>\` is an integer between 0 and 99. Default cap = 65 or 35._
     _To set VC Time Limit, use the flag \`-time:<limit>\` where \`<limit>\` is an integer number of hours from 1 to 8._
     _To set AFK Check Image (req sheet), use the flag \`-image:<url>\` where \`<url>\` is a valid image url. **To get the image url of one of our discord req sheets, right click the image and click "Copy link".**_
+    _- To specify the grade of the dungeon, use the flag \`-grade:<letter>\` where \`<letter>\` is one of \`[D, C, B, A, S]\`_
+    _– To start the AFK check in a prespecified voice channel, use the flag \`-vcid:<id>\` where \`<id>\` is the id of the voice channel you'd like to use._
 
 Examples: 
-        \`${CONSTANTS.botPrefix}bafk o3 ussw ogre\` default AFK check without flags. 
-        \`${CONSTANTS.botPrefix}bafk o3 ussw ogre -cap:37 -time:2\` creates a channel with userlimit 37 and timelimit 2 hours.
-        \`${CONSTANTS.botPrefix}afk o3 test -image:https://tinyurl.com/stdfullskip\` starts afk with the specified image.`;
+        \`${CONSTANTS.botPrefix}vafk o3 ussw ogre\` default AFK check without flags. 
+        \`${CONSTANTS.botPrefix}vafk o3 ussw ogre -cap:37 -time:2\` creates a channel with userlimit 37 and timelimit 2 hours.
+        \`${CONSTANTS.botPrefix}vafk o3 test -image:https://tinyurl.com/stdfullskip\` starts afk with the specified image.`;
 
 async function afkCheck(message, args) {
     if (!CONFIG.SystemConfig.servers[message.guildID]) {
@@ -83,6 +86,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
         for (argument of args) {
             if (argument.startsWith("-cap:")) {
                 let parseCap = argument.substring(5);
+                if (!parseCap) return `Please specify a voice cap.`;
                 if (isNaN(parseCap)) return "The voice cap must be an integer. e.g. -cap:20";
                 else if (parseCap < 0 || parseCap > 99) return "The voice cap must be between 0 and 99";
                 else {
@@ -98,6 +102,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
         for (argument of args) {
             if (argument.startsWith("-time:")) {
                 let parseLimit = argument.substring(6);
+                if (!parseLimit) return `Please specify a time limit.`;
                 if (isNaN(parseLimit)) return "The time limit must be an integer number of hours. e.g. \`-timelimit:3\` = 3 hours";
                 else if (parseLimit < 1 || parseLimit > 8) return "The time limit must be between 1h and 8h";
                     timelimit = 3600000 * parseFloat(parseLimit);
@@ -111,6 +116,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
         for (argument of args) {
             if (argument.startsWith("-image:")) {
                 let parseImage = argument.substring(7);
+                if (!parseImage) return `Please specify an image.`;
                 if (!await isImageURL(parseImage)) return "The image must be a valid image url. e.g. \`https://via.placeholder.com/300/09f/fff.png\`";
                 else {   
                     imageurl = parseImage;
@@ -125,9 +131,27 @@ async function startAfk(message, args, CHANNELOBJECT) {
         for (argument of args) {
             if (argument.startsWith("-vcid:")) {
                 let parseVc = argument.substring(6);
+                if (!parseVc) return `Please specify a vc id.`;
                 if (!message.guild.channels.some(channel => (channel.id == parseVc && channel.type == 2))) return `Error: either \`${parseVc}\` is not a valid channel id, or the specified channel is not a voice channel.`;
                 else {   
                     voicechannel = CONSTANTS.bot.getChannel(parseVc);
+                    let index = args.indexOf(argument);
+                    args.splice(index, 1);
+                    break;
+                }
+            }
+        }
+
+        let grade;
+        const possGrades = ["D", "C", "B", "A", "S"];
+        for (argument of args) {
+            if (argument.startsWith("-grade:")) {
+                let parseGrade = argument.substring(7);
+                if (!parseGrade) return `Please specify a grade.`;
+                parseGrade = parseGrade.toUpperCase();
+                if (!possGrades.includes(parseGrade)) return `Error: grade must be one of \`[${possGrades.join(", ")}]\``;
+                else {   
+                    grade = parseGrade;
                     let index = args.indexOf(argument);
                     args.splice(index, 1);
                     break;
@@ -149,10 +173,13 @@ async function startAfk(message, args, CHANNELOBJECT) {
                 else if ((dungeonType.includes("o3")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.oryx.includes(item)))) {
                     return "You must have a \`Oryx Leading Role\` configured with the bot to start this afk check.";
                 } // Same for the other two
+                else if ((dungeonType.includes("shatters")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.shatters.includes(item)))) {
+                    return "You must have a \`Shatters Leading Role\` configured with the bot to start this afk check.";
+                } // Same for the other two
                 else if ((dungeonType.includes("misc")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.misc.includes(item)))) {
                     return "You must have a \`Misc Leading Role\` configured with the bot to start this afk check.";
                 }
-                else if ((dungeonType.includes("shatters") || dungeonType.includes("nest") || dungeonType.includes("fungal") || dungeonType.includes("cult")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.exaltation.includes(item)))) {
+                else if ((dungeonType.includes("nest") || dungeonType.includes("fungal") || dungeonType.includes("cult")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.exaltation.includes(item)))) {
                     return "You must have an \`Exaltation Leading Role\` configured with the bot to start this afk check.";
                 }
                 else if (dungeonType.includes("highreqs") && (message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.denyhighreqs.includes(item)))) {
@@ -166,10 +193,13 @@ async function startAfk(message, args, CHANNELOBJECT) {
                 else if ((dungeonType.includes("o3")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetoryx.includes(item)))) {
                     return "You must have a \`Veteran Oryx Leading Role\` configured with the bot to start this afk check.";
                 } // Same for the other two
+                else if ((dungeonType.includes("shatters")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetshatters.includes(item)))) {
+                    return "You must have a \`Veteran Oryx Leading Role\` configured with the bot to start this afk check.";
+                } // Same for the other two
                 else if ((dungeonType.includes("misc")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetmisc.includes(item)))) {
                     return "You must have a \`Veteran Misc Leading Role\` configured with the bot to start this afk check.";
                 }
-                else if ((dungeonType.includes("shatters") || dungeonType.includes("nest") || dungeonType.includes("fungal")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetexaltation.includes(item)))) {
+                else if ((dungeonType.includes("nest") || dungeonType.includes("fungal")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetexaltation.includes(item)))) {
                     return "You must have an \`Veteran Exaltation Leading Role\` configured with the bot to start this afk check.";
                 }
                 else if (dungeonType.includes("highreqs") && (message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.denyhighreqs.includes(item)))) {
@@ -351,7 +381,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                     everyone: true,
                 },
                 author: { 
-                    name: `A ${RAIDCONSTANTS.runTypeTitleText[index]} run has been started in ${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run`,
+                    name: `A ${RAIDCONSTANTS.runTypeTitleText[index]} run ${grade ? `(${grade})` : ""}has been started in ${message.member.nick?message.member.nick:message.member.username}'s ${RAIDCONSTANTS.runTypeTitleText[index]} run`,
                     icon_url: message.author.avatarURL
                 },
                 description: "To join this " + RAIDCONSTANTS.runTypeEmoji[index] + " run, **__click__** <#" + activeChannel.id + ">. \n" + RAIDCONSTANTS.AFKCheckDescriptionsForRunTypes[index], 
@@ -408,7 +438,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                     let a = await CONSTANTS.bot.createMessage(dmChannel.id, {
                         embed: {
                             title: message.guild.name + " Reaction Confirmation",
-                            description: "Did you react with <:" + event.emoji.name + ":" + event.emoji.id + ">" + " ?", 
+                            description: "Did you react with <:" + event.emoji.name + ":" + event.emoji.id + ">" + grade ? `**(${grade})** ?` : " ?", 
                             color: 4,
                             timestamp: new Date().toISOString(),
                             footer: {

@@ -45,7 +45,7 @@ function addStaffAccess(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
     else if (!(msg.roleMentions.length > 0)) return "You need to mention a role for that!";
 
-    let acceptableAccessTypes = ["moderator", "helper", "security", "halls", "oryx", "exaltation", "misc", "vethalls", "vetoryx", "vetexaltation", "vetmisc", "allreg", "allvet"]; // all different access types you can add (determined by config.json structure)
+    let acceptableAccessTypes = ["moderator", "helper", "security", "halls", "oryx", "shatters", "exaltation", "misc", "vethalls", "vetoryx", "vetshatters", "vetexaltation", "vetmisc", "allreg", "allvet"]; // all different access types you can add (determined by config.json structure)
     let accessTypes = []; // store dict for the inputted access types
 
     acceptableAccessTypes.forEach((string, index) => {
@@ -64,11 +64,13 @@ function addStaffAccess(msg, args) {
             if (accessTypes.includes("security") && !CONFIG.SystemConfig.servers[msg.guildID].securityroles.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].securityroles.push(roleID);
             if ((accessTypes.includes("halls") || accessTypes.includes("allreg")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.halls.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.halls.push(roleID);
             if ((accessTypes.includes("oryx") || accessTypes.includes("allreg")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.oryx.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.oryx.push(roleID);
+            if ((accessTypes.includes("shatters") || accessTypes.includes("allreg")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.shatters.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.shatters.push(roleID);
             if ((accessTypes.includes("exaltation") || accessTypes.includes("allreg")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.exaltation.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.exaltation.push(roleID);
             if ((accessTypes.includes("misc") || accessTypes.includes("allreg")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.misc.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.misc.push(roleID);
 
             if ((accessTypes.includes("vethalls") || accessTypes.includes("allvet")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vethalls.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vethalls.push(roleID);
             if ((accessTypes.includes("vetoryx") || accessTypes.includes("allvet")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetoryx.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetoryx.push(roleID);
+            if ((accessTypes.includes("vetshatters") || accessTypes.includes("allvet")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetshatters.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetshatters.push(roleID);
             if ((accessTypes.includes("vetexaltation") || accessTypes.includes("allvet")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetexaltation.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetexaltation.push(roleID);
             if ((accessTypes.includes("vetmisc") || accessTypes.includes("allvet")) && !CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetmisc.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetmisc.push(roleID);
         })
@@ -139,7 +141,7 @@ function removeStaffAccess(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
     else if (!(msg.roleMentions.length > 0)) return "You need to mention a role for that!";
 
-    let acceptableAccessTypes = ["moderator", "helper", "security", "halls", "oryx", "exaltation", "misc", "vethalls", "vetoryx", "vetexaltation", "vetmisc", "allreg", "allvet", "all"]; // all different access types you can add (determined by config.json structure)
+    let acceptableAccessTypes = ["moderator", "helper", "security", "halls", "oryx", "shatters", "exaltation", "misc", "vethalls", "vetoryx", "vetshatters", "vetexaltation", "vetmisc", "allreg", "allvet", "all"]; // all different access types you can add (determined by config.json structure)
     let accessTypes = []; // store dict for the inputted access types
 
     acceptableAccessTypes.forEach((string, index) => {
@@ -157,11 +159,13 @@ function removeStaffAccess(msg, args) {
             if ((accessTypes.includes("security")) && CONFIG.SystemConfig.servers[msg.guildID].securityroles.includes(roleID)) CONFIG.SystemConfig.servers[msg.guildID].securityroles = CONFIG.SystemConfig.servers[msg.guildID].securityroles.filter(id => id != roleID);
             if ((accessTypes.includes("halls") || accessTypes.includes("allreg") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.halls = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.halls.filter(id => id != roleID);
             if ((accessTypes.includes("oryx") || accessTypes.includes("allreg") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.oryx = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.oryx.filter(id => id != roleID);
+            if ((accessTypes.includes("shatters") || accessTypes.includes("allreg") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.shatters = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.shatters.filter(id => id != roleID);
             if ((accessTypes.includes("exaltation") || accessTypes.includes("allreg") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.exaltation = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.exaltation.filter(id => id != roleID);
             if ((accessTypes.includes("misc") || accessTypes.includes("allreg") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.misc = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.misc.filter(id => id != roleID);
 
             if ((accessTypes.includes("vethalls") || accessTypes.includes("allvet") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vethalls = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vethalls.filter(id => id != roleID);
             if ((accessTypes.includes("vetoryx") || accessTypes.includes("allvet") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetoryx = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetoryx.filter(id => id != roleID);
+            if ((accessTypes.includes("vetshatters") || accessTypes.includes("allvet") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetshatters = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetshatters.filter(id => id != roleID);
             if ((accessTypes.includes("vetexaltation") || accessTypes.includes("allvet") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetexaltation = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetexaltation.filter(id => id != roleID);
             if ((accessTypes.includes("vetmisc") || accessTypes.includes("allvet") || accessTypes.includes("all"))) CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetmisc = CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetmisc.filter(id => id != roleID);
 
@@ -169,10 +173,12 @@ function removeStaffAccess(msg, args) {
                 (!CONFIG.SystemConfig.servers[msg.guildID].securityroles.includes(roleID)) &&
                 (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.halls.includes(roleID)) && 
                 (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.oryx.includes(roleID)) &&
+                (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.shatters.includes(roleID)) &&
                 (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.exaltation.includes(roleID)) &&
                 (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.misc.includes(roleID)) &&
                 (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vethalls.includes(roleID)) &&
                 (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetoryx.includes(roleID)) &&
+                (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetshatters.includes(roleID)) &&
                 (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetexaltation.includes(roleID)) &&
                 (!CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetmisc.includes(roleID))) CONFIG.SystemConfig.servers[msg.guildID].staffroles = CONFIG.SystemConfig.servers[msg.guildID].staffroles.filter(id => id != roleID);
         })

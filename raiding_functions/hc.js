@@ -36,6 +36,8 @@ exports.COMMAND_HeadcountFullDescription = `Headcount Command.
 **Usage:** \`${CONSTANTS.botPrefix}headcount <DungeonType> <Location>\`
 **<DungeonType>:** \`${RAIDCONSTANTS.acceptableRunTypes.join(", ")}\`
 **<Location>:** The location to confirm runes (e.g. USSW Left Bazaar)
+**<Flags>:** The flags to use in your headcount
+    _- Use \`-grade:<letter>\` to specify a desired *grade* for the dungeon (one of \`[${["D", "C", "B", "A", "S"].join(", ")}]\`)
 _Example:_ \`${CONSTANTS.botPrefix}hc o3 ussw left baz\``;
 
 exports.COMMAND_BalerHeadcountFullDescription = `Baler Headcount Command. 
@@ -57,6 +59,22 @@ async function headcount(message, args, CHANNELOBJECT) {
         let dungeonType = args.shift();
         if (!RAIDCONSTANTS.acceptableRunTypes.includes(dungeonType)) return CONSTANTS.bot.createMessage(message.channel.id, `Acceptable Run Types: \`${RAIDCONSTANTS.acceptableRunTypes.join(", ")}\``);
 
+        let grade;
+        const possGrades = ["D", "C", "B", "A", "S"];
+        for (argument of args) {
+            if (argument.startsWith("-grade:")) {
+                let parseGrade = argument.substring(7);
+                if (!parseGrade) return `Please specify a grade.`;
+                parseGrade = parseGrade.toUpperCase();
+                if (!possGrades.includes(parseGrade)) return `Error: grade must be one of \`[${possGrades.join(", ")}]\``;
+                else {   
+                    grade = parseGrade;
+                    let index = args.indexOf(argument);
+                    args.splice(index, 1);
+                    break;
+                }
+            }
+        }
 
         if (!message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].modroles.includes(item))) {
             if (CHANNELOBJECT == CONFIG.SystemConfig.servers[message.guildID].channels.Main) {
@@ -108,6 +126,7 @@ async function headcount(message, args, CHANNELOBJECT) {
         //     return "You must have an \`Exaltation Leading Role\` configured with the bot to start this headcount.";
         // }
 
+        
         let location = args;
         let index = RAIDCONSTANTS.acceptableRunTypes.indexOf(dungeonType);
         const raidReactionsEarly = RAIDCONSTANTS.HCReactionlistForRunTypes[index];
@@ -161,7 +180,7 @@ async function headcount(message, args, CHANNELOBJECT) {
                     everyone: true,
                 },
                 author: { 
-                    name: `Headcount for ${RAIDCONSTANTS.runTypeTitleText[index]}, started by ${message.member.nick?message.member.nick:message.member.username}`,
+                    name: `Headcount for ${RAIDCONSTANTS.runTypeTitleText[index]}${grade ? ` (${grade})` : ""}, started by ${message.member.nick?message.member.nick:message.member.username}`,
                     icon_url: message.author.avatarURL
                 },
                 description: RAIDCONSTANTS.HCDescriptionsForRunTypes[index],
@@ -214,7 +233,7 @@ async function headcount(message, args, CHANNELOBJECT) {
                     let a = await CONSTANTS.bot.createMessage(dmChannel.id, {
                         embed: {
                             title: message.guild.name + " Reaction Confirmation",
-                            description: "Did you react with <:" + event.emoji.name + ":" + event.emoji.id + ">" + " ?", 
+                            description: "Did you react with <:" + event.emoji.name + ":" + event.emoji.id + ">" + grade ? `**(${grade})** ?` : " ?", 
                             color: 4,
                             footer: {
                                 text: CONFIG.SystemConfig.servers[message.guildID].premium?message.guild.name:"d.gg/STD",
