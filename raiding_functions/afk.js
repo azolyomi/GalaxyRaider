@@ -194,7 +194,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                     return "You must have a \`Veteran Oryx Leading Role\` configured with the bot to start this afk check.";
                 } // Same for the other two
                 else if ((dungeonType.includes("shatters")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetshatters.includes(item)))) {
-                    return "You must have a \`Veteran Oryx Leading Role\` configured with the bot to start this afk check.";
+                    return "You must have a \`Veteran Shatters Leading Role\` configured with the bot to start this afk check.";
                 } // Same for the other two
                 else if ((dungeonType.includes("misc")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetmisc.includes(item)))) {
                     return "You must have a \`Veteran Misc Leading Role\` configured with the bot to start this afk check.";
