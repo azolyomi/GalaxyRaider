@@ -438,7 +438,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                     let a = await CONSTANTS.bot.createMessage(dmChannel.id, {
                         embed: {
                             title: message.guild.name + " Reaction Confirmation",
-                            description: `Did you react with <:${event.emoji.name}:${event.emoji.id}> ${(grade ? `**(${grade})** ?` : " ?")}`, 
+                            description: `Did you react with <:${event.emoji.name}:${event.emoji.id}>${event.emoji.name.includes("key")?(grade ? ` **(${grade})** ?` : "?"):"?"}`, 
                             color: 4,
                             timestamp: new Date().toISOString(),
                             footer: {
