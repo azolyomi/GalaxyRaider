@@ -187,7 +187,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                 }
             }
             if (CHANNELOBJECT == CONFIG.SystemConfig.servers[message.guildID].channels.Veteran) {
-                if ((dungeonType.includes("void") || dungeonType.includes("fullskip") || dungeonType.includes("fullclear") || dungeonType.includes("cult")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vethalls.includes(item)))) {
+                if ((dungeonType.includes("void") || dungeonType.includes("fullskip") || dungeonType.includes("fullclear")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vethalls.includes(item)))) {
                     return "You must have a \`Veteran Halls Leading Role\` configured with the bot to start this afk check.";
                 }
                 else if ((dungeonType.includes("o3")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetoryx.includes(item)))) {
@@ -199,7 +199,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                 else if ((dungeonType.includes("misc")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetmisc.includes(item)))) {
                     return "You must have a \`Veteran Misc Leading Role\` configured with the bot to start this afk check.";
                 }
-                else if ((dungeonType.includes("nest") || dungeonType.includes("fungal")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetexaltation.includes(item)))) {
+                else if ((dungeonType.includes("nest") || dungeonType.includes("fungal") || dungeonType.includes("cult")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetexaltation.includes(item)))) {
                     return "You must have an \`Veteran Exaltation Leading Role\` configured with the bot to start this afk check.";
                 }
                 else if (dungeonType.includes("highreqs") && (message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.denyhighreqs.includes(item)))) {
