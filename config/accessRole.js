@@ -255,7 +255,6 @@ function clearAccessBooster(msg, args) {
 
 function clearNonstaffAccess(msg, args, type) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
-    else if (!CONFIG.SystemConfig.servers[msg.guildID].premium) return `Your server must be registered with the bot as a premium server to use that feature.`;
 
     let acceptableNonstaffAccessTypes = ["member", "vet", "booster"];
     if (!type || !acceptableNonstaffAccessTypes.includes(type)) return `Not a valid access type, must be one of \`${acceptableNonstaffAccessTypes.join(", ")}\``;
@@ -279,6 +278,38 @@ function clearNonstaffAccess(msg, args, type) {
     }
 }
 
+function clearAfkAccess(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
+
+    let acceptableNonstaffAccessTypes = ["main", "veteran"];
+    let type = args.shift();
+    if (!type || !acceptableNonstaffAccessTypes.includes(type)) return `Not a valid access type, must be one of \`${acceptableNonstaffAccessTypes.join(", ")}\``;
+
+    try {
+        if (type === "main") {
+            CONFIG.SystemConfig.servers[msg.guildID].afkaccess.halls = [];
+            CONFIG.SystemConfig.servers[msg.guildID].afkaccess.oryx = [];
+            CONFIG.SystemConfig.servers[msg.guildID].afkaccess.misc = [];
+            CONFIG.SystemConfig.servers[msg.guildID].afkaccess.exaltation = [];
+            CONFIG.SystemConfig.servers[msg.guildID].afkaccess.shatters = [];
+        }
+        else if (type === "veteran") {
+            CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vethalls = [];
+            CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetoryx = [];
+            CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetmisc = [];
+            CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetexaltation = [];
+            CONFIG.SystemConfig.servers[msg.guildID].afkaccess.vetshatters = [];
+        }
+        
+        CONFIG.updateConfig(msg.guildID);
+        return `Successfully removed all \`${type}\` roles from the bot afk access.`;
+    }
+    catch(e) {
+        throw e;
+    }
+}
+
+exports.clearAfkAccess = clearAfkAccess;
 exports.clearAccessMember = clearAccessMember;
 exports.clearAccessVet = clearAccessVet;
 exports.clearAccessBooster = clearAccessBooster;

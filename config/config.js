@@ -168,12 +168,12 @@ exports.deleteGuildRole = function(guild, role) {
     exports.SystemConfig.servers[guild.id].afkaccess.oryx = exports.SystemConfig.servers[guild.id].afkaccess.oryx.filter(roleID => roleID != role.id);
     exports.SystemConfig.servers[guild.id].afkaccess.exaltation = exports.SystemConfig.servers[guild.id].afkaccess.exaltation.filter(roleID => roleID != role.id);
     exports.SystemConfig.servers[guild.id].afkaccess.misc = exports.SystemConfig.servers[guild.id].afkaccess.misc.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].afkaccess.shatters = exports.SystemConfig.servers[guild.id].afkaccess.shatters.filter(roleID => roleID != role.id);
     exports.SystemConfig.servers[guild.id].afkaccess.vethalls = exports.SystemConfig.servers[guild.id].afkaccess.vethalls.filter(roleID => roleID != role.id);
     exports.SystemConfig.servers[guild.id].afkaccess.vetoryx = exports.SystemConfig.servers[guild.id].afkaccess.vetoryx.filter(roleID => roleID != role.id);
     exports.SystemConfig.servers[guild.id].afkaccess.vetexaltation = exports.SystemConfig.servers[guild.id].afkaccess.vetexaltation.filter(roleID => roleID != role.id);
     exports.SystemConfig.servers[guild.id].afkaccess.vetmisc = exports.SystemConfig.servers[guild.id].afkaccess.vetmisc.filter(roleID => roleID != role.id);
-    exports.SystemConfig.servers[guild.id].afkaccess.halls = exports.SystemConfig.servers[guild.id].afkaccess.halls.filter(roleID => roleID != role.id);
-    exports.SystemConfig.servers[guild.id].afkaccess.oryx = exports.SystemConfig.servers[guild.id].afkaccess.oryx.filter(roleID => roleID != role.id);
+    exports.SystemConfig.servers[guild.id].afkaccess.vetshatters = exports.SystemConfig.servers[guild.id].afkaccess.vetshatters.filter(roleID => roleID != role.id);
     exports.SystemConfig.servers[guild.id].afkaccess.denyhighreqs = exports.SystemConfig.servers[guild.id].afkaccess.denyhighreqs.filter(roleID => roleID != role.id);
     exports.SystemConfig.servers[guild.id].afkaccess.exaltation = exports.SystemConfig.servers[guild.id].afkaccess.exaltation.filter(roleID => roleID != role.id);
     exports.SystemConfig.servers[guild.id].nonstaff.memberaccess = exports.SystemConfig.servers[guild.id].nonstaff.memberaccess.filter(roleID => roleID != role.id);

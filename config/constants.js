@@ -6,7 +6,7 @@ require('dotenv').config();
 
 
 // Bot Setup:
-const botPrefix = ".";
+const botPrefix = ",;";
 const botToken = process.env.BOT_TOKEN;
 
 const clientOptions = {

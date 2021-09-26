@@ -697,6 +697,21 @@ removeAccessRoleCommand.registerSubcommand("booster", accessRole.removeAccessBoo
     argsRequired: true
 });
 
+CONSTANTS.bot.registerCommand("clearafkaccess", accessRole.clearAfkAccess, {
+    requirements: {
+        permissions: {
+            "administrator": true,
+        }
+    },
+    caseInsensitive: true,
+    aliases: ["cafkaccess"],
+    fullDescription: 
+    `Used to clear access from either of \`main\` or \`veteran\` afk access roles.
+    
+    This should **__never__** happen, but if you need to clear a broken staff role that appears as "undefined" in your config, do this before running the \`.reconfig\` command.
+    **Note: Reconfiguration will revert the server configuration (including staff access) and recreate all auto-generated channels/roles. Use this sparingly.**`
+})
+
 const clearaccessrolecommand = CONSTANTS.bot.registerCommand("clearaccessrole", function(msg, args) {
     return {
         embed: {
