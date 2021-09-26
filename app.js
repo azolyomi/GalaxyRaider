@@ -1506,11 +1506,22 @@ CONSTANTS.bot.registerCommand("leaveguild", leaveguild.leaveGuild, {
 })
 
 CONSTANTS.bot.registerCommand("fetchguilds", function(msg, args) {
+    let numGuilds = 0, numMembers = 0; 
+    CONSTANTS.bot.guilds.forEach(guild => {
+        numGuilds++; 
+        numMembers += guild.memberCount;
+    })
+    msg.channel.createMessage({embed: {
+        title: `Guilds as of ${new Date().toUTCString()}`,
+        description: `Total Guilds: \`${numGuilds}\`. Total Members: \`${numMembers}\`.`,
+        color: 3145463
+    }});
+
     return {embed: {
         title: `Guilds as of ${new Date().toUTCString()}`,
-        description: `${CONSTANTS.bot.guilds.map(guild => `**NAME**: \`${guild.name}\`, **ID:** \`${guild.id}\`, **#**: \`${guild.memberCount}\`]`).join("\n")}`,
+        description: `${CONSTANTS.bot.guilds.map(guild => `[NAME: ${guild.name}, ID: ${guild.id}, #: ${guild.memberCount}]`).join("\n")}`,
         color: 3145463
-    }};
+    }}
 }, {
     caseInsensitive: true,
     requirements: {
