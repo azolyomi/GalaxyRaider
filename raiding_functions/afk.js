@@ -325,6 +325,17 @@ async function startAfk(message, args, CHANNELOBJECT) {
                 deny: 0
             })
 
+            
+            if (message.guildID == CONSTANTS.STDGuildID) {
+                // The Big Bang STD Role
+                activeChannelPermissions.push({
+                    id: "890311217900568636",
+                    type: 0,
+                    allow: 1049600, // view connect
+                    deny: 31458048, // speak screenshare etc
+                })
+            }
+
             activeChannel = await CONSTANTS.bot.createChannel(message.guildID, `${RAIDCONSTANTS.runTypeTitleText[index]} | ${message.member.nick?message.member.nick:message.member.username}`, 2, {
                 parentID: CHANNELOBJECT.RaidCategoryID,
                 userLimit: userlimit?userlimit:RAIDCONSTANTS.runTypeChannelCap[index],

@@ -1315,6 +1315,34 @@ STDCreditsCommand.registerSubcommand("port", STD_gamble.credits_port, {
     }
 })
 
+CONSTANTS.bot.registerCommand("givecredits", STD_gamble.give_credits, {
+    caseInsensitive: true,
+    fullDescription: "Give credits to a user. Usage: \`.givecredits <#credits> <user>\`",
+    aliases: ["gc"],
+    argsRequired: true,
+    requirements: {
+        custom: function(msg) {
+            if (msg.guildID != CONSTANTS.STDGuildID) return false;
+            else if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
+            else return CONFIG.SystemConfig.servers[msg.guildID].modroles.some(modroleID => msg.member.roles.includes(modroleID));
+        }
+    }
+})
+
+CONSTANTS.bot.registerCommand("lbcredits", STD_gamble.lbcredits, {
+    caseInsensitive: true,
+    aliases: ["lbcreds", "lbc", "leaderboardcredits"],
+    fullDescription: "Fetch current credit leaderboard",
+    argsRequired: false,
+    requirements: {
+        custom: function(msg) {
+            if (msg.guildID != CONSTANTS.STDGuildID) return false;
+            else if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
+            else return CONFIG.SystemConfig.servers[msg.guildID].modroles.some(modroleID => msg.member.roles.includes(modroleID));
+        }
+    }
+})
+
 
 
 CONSTANTS.bot.registerCommand("gamble", STD_gamble.gamble, {

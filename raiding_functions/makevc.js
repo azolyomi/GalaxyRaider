@@ -183,13 +183,23 @@ async function makevc(message, args) {
 		deny: 0,
 	});
 
+	if (message.guildID == CONSTANTS.STDGuildID) {
+		// The Big Bang STD Role
+		activeChannelPermissions.push({
+			id: "890311217900568636",
+			type: 0,
+			allow: 1049600, // view connect
+			deny: 31458048, // speak screenshare etc
+		})
+	}
+
 	let activeChannel = await CONSTANTS.bot.createChannel(message.guildID, channelname, 2, {
 		parentID: CHANNELOBJECT.RaidCategoryID,
 		userLimit: userlimit,
 		permissionOverwrites: activeChannelPermissions,
 	});
 	while (!CONSTANTS.bot.getChannel(activeChannel.id)) await sleep(100);
-	activeChannel.editPosition(1);
+	//activeChannel.editPosition(29);
 
 	return "Channel successfully created, permissions successfully assigned. Don't forget to delete the channel when done!";
 }

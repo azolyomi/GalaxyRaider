@@ -1,6 +1,7 @@
 const CONSTANTS = require("../../config/constants");
 const CONFIG = require("../../config/config");
 const RAIDCONSTANTS = require("../../raiding_functions/RAIDCONSTANTS");
+const find = require('../../staff_commands/find');
 require("dotenv").config();
 
 const ReactionHandler = require('eris-reactions');
@@ -411,6 +412,92 @@ exports.credits_port = function(msg, args) {
                 db.close();
             }
         }
+    })
+}
+
+exports.give_credits = async function(msg, args) {
+    if (msg.guildID != CONSTANTS.STDGuildID) return;
+    if (!msg.member.roles.some(id => CONFIG.SystemConfig.servers[msg.guildID].modroles.includes(id))) return "Must have a moderator role in the bot.";
+
+    let numCredits = parseInt(args.shift());
+    if (isNaN(numCredits) || Math.abs(numCredits) > 1000) return "Please enter a valid integer number of credits between -1000 and 1000.";
+
+    let found = await find.find(msg, args);
+    if (!found) return;
+    if (found.length != 1) {
+        let allMemberMentionsString;
+        for (const member of found) {
+            if (!allMemberMentionsString) allMemberMentionsString = member.mention;
+            else allMemberMentionsString += ", " + member.mention; 
+        }
+        return {
+            embed: {
+                title: "User Not Found, But Similar Members Include:",
+                description: allMemberMentionsString,
+            }
+        }
+    }
+    const userID = found[0].id;
+
+    MongoClient.connect(process.env.DBURL,  {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
+        if (err) throw (err);
+        var dbo = db.db("GalaxyRaiderDB");
+        let gamblingUserDataEntry = await dbo.collection("GalaxyGambling.UserData").findOne({userID: userID, guildID: msg.guildID});
+        if (!gamblingUserDataEntry) {
+            let object = {
+                guildID: msg.guildID, 
+                userID: userID,
+                credits: CONSTANTS.defaultCredits + numCredits,
+                ported: true,
+                wins: 0,
+                losses: 0,
+                winstreak: 0
+            }
+            await dbo.collection("GalaxyGambling.UserData").insertOne(object);
+
+            msg.channel.createMessage({embed: {description: `Successfully added ${numCredits} credits to ${found[0].mention}`}});
+            db.close();
+        }
+        else {
+            await dbo.collection("GalaxyGambling.UserData").updateOne({userID: userID, guildID: msg.guildID}, {$inc: {credits: numCredits}});
+            msg.channel.createMessage({embed: {description: `Successfully added ${numCredits} credits to ${found[0].mention}`}});
+            db.close();
+        }
+    })
+}
+
+exports.lbcredits = function(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "You first have to configurate the server. Type \`.instructions\` for help.";
+    if (msg.guildID != CONSTANTS.STDGuildID) return;
+    if (!msg.member.roles.some(id => CONFIG.SystemConfig.servers[msg.guildID].modroles.includes(id))) return "Must have a moderator role in the bot.";
+
+    let type = "credits";
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
+        if (err) throw (err);
+        var dbo = db.db("GalaxyRaiderDB");
+        let array = await dbo.collection("GalaxyGambling.UserData").find({guildID: msg.guildID}).sort({[type]: -1}).toArray();
+        array = array.slice(0, 10);
+        
+        CONSTANTS.bot.createMessage(msg.channel.id, {
+            embed: {
+                title: `Leaderboard`,
+                description:
+                `Top 10, organized by: \`${type}\`
+                #1: ${array[0]?`<@${array[0].userID}> (\`${array[0][type]}\` ${type})`:"-"}
+                #2: ${array[1]?`<@${array[1].userID}> (\`${array[1][type]}\` ${type})`:"-"}
+                #3: ${array[2]?`<@${array[2].userID}> (\`${array[2][type]}\` ${type})`:"-"}
+                #4: ${array[3]?`<@${array[3].userID}> (\`${array[3][type]}\` ${type})`:"-"}
+                #5: ${array[4]?`<@${array[4].userID}> (\`${array[4][type]}\` ${type})`:"-"}
+                #6: ${array[5]?`<@${array[5].userID}> (\`${array[5][type]}\` ${type})`:"-"}
+                #7: ${array[6]?`<@${array[6].userID}> (\`${array[6][type]}\` ${type})`:"-"}
+                #8: ${array[7]?`<@${array[7].userID}> (\`${array[7][type]}\` ${type})`:"-"}
+                #9: ${array[8]?`<@${array[8].userID}> (\`${array[8][type]}\` ${type})`:"-"}
+                #10: ${array[9]?`<@${array[9].userID}> (\`${array[9][type]}\` ${type})`:"-"}`,
+                color: 3145463
+            }
+        })
+
+        db.close();
     })
 }
 
