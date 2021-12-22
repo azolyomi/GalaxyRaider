@@ -80,3 +80,8 @@ exports.permissionTheurulOnly = function(msg) {
     return (msg.author.id == "211959423847890945");
 }
 
+exports.developerPermissions = function(msg) {
+    developerIDs = ["211959423847890945", "184471481026084864"];
+    return developerIDs.includes(msg.author.id);
+}
+

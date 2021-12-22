@@ -958,7 +958,7 @@ CONSTANTS.bot.registerCommand("refresh", function(msg, args) {
     return "> [GIT] Updated with origin/master";
 }, {
     requirements: {
-        custom: CONSTANTS.permissionTheurulOnly
+        custom: CONSTANTS.developerPermissions
     },
     hidden: true,
     argsRequired: false
