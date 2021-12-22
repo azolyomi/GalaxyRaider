@@ -958,9 +958,7 @@ CONSTANTS.bot.registerCommand("refresh", function(msg, args) {
     return "> [GIT] Updated with origin/master";
 }, {
     requirements: {
-        custom: function(msg) {
-            return (["211959423847890945", "184471481026084864"].includes(msg.author.id));
-        }
+        custom: CONSTANTS.developerPermissions
     },
     hidden: true,
     argsRequired: false
