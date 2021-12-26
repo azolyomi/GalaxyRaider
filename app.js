@@ -1564,6 +1564,26 @@ CONSTANTS.bot.registerCommand('checkduplicates', verify.check, {
     }
 });
 
+CONSTANTS.bot.registerCommand('fetchmembers', async function (msg, args) {
+    msg.channel.createMessage(`Working...`);
+    const currentGuild = CONSTANTS.bot.guilds.find(guild => guild.id === msg.guildID);
+    if (!currentGuild || currentGuild === undefined) return `Sorry, guild not found.`;
+    try {
+        exports.guildCache[currentGuild.id] = await currentGuild.fetchMembers();
+        return `Successfully cached members.`;
+    }
+    catch (e) {
+        console.log("fetchmembers error: ", e);
+        return `${e.name.substr(0, 100)}: ${e.message.substr(0, 1900)}`;
+    }
+}, {
+    caseInsensitive: true,
+    aliases: ['findfetch', 'findrestart', 'findbroke'],
+    requirements: {
+        custom: CONSTANTS.permissionModeratorOnly,
+    }
+})
+
 exports.guildCache = {};
 
 CONSTANTS.bot.on("error", console.log);
