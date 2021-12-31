@@ -3,7 +3,7 @@
 
 [Support my Patreon!](https://patreon.com/Theurul)
 
-[Setup Instructions](https://github.com/theurul/RobinHood/blob/master/README.md#setup-instructions)
+[Setup Instructions](https://github.com/azolyomi/GalaxyRaider/blob/master/README.md#setup-instructions)
 
 # What Is Galaxy Raider? #
 
@@ -13,7 +13,7 @@ It enables servers to quickly and easily set up a community that provides access
 ### Free Galaxy Raider features include... ###
 1. Automatic verification and customizeable requirements (`Star Count`, `Hidden Location`, etc.)
 2. Suspension and automatic unsuspension 
-> Robin Hood uses an authentic database to manage all user information!
+> Galaxy Raider uses an authentic database to manage all user information!
 3. Ability to track contributions of `members` 
 > Using the integrated database, you can log items for users, fetch information like their suspension history, etc.
 4. Ability to start custom-built AFK checks for each Exaltation Dungeon runtype, as well as the `miscellaneous` category.
