@@ -305,7 +305,7 @@ exports.runTypeColor =
 exports.MainReactionListForRunTypes = [
     [losthallsReaction, lhkeyReaction, vialReaction, warriorReaction, paladinReaction, knightReaction, ogmurReaction, msealReaction, fungalTomeReaction, boosterReaction, redXReaction],
     [losthallsReaction, lhkeyReaction, vialReaction, warriorReaction, paladinReaction, knightReaction, ogmurReaction, msealReaction, fungalTomeReaction, boosterReaction, redXReaction],//void highreqs
-    [losthallsReaction, lhkeyReaction, vialReaction, warriorReaction, paladinReaction, knightReaction, ogmurReaction, msealReaction, brainReaction, mysticReaction, boosterReaction, redXReaction],
+    [losthallsReaction, lhkeyReaction, vialReaction, warriorReaction, paladinReaction, knightReaction, mysticReaction, ogmurReaction, msealReaction, brainReaction, boosterReaction, redXReaction],
     [losthallsReaction, lhkeyReaction, vialReaction, mushroomspellReaction, wizardReaction, fungalTomeReaction, boosterReaction, redXReaction],
     [losthallsReaction, lhkeyReaction, vialReaction, mushroomspellReaction, wizardReaction, fungalTomeReaction, boosterReaction, redXReaction], // fullclear highreqs
     [losthallsReaction, lhkeyReaction, warriorReaction, paladinReaction, knightReaction, rusherReaction, boosterReaction, redXReaction],
@@ -325,7 +325,7 @@ exports.MainReactionListForRunTypes = [
 exports.EarlyReactionlistForRunTypes = [
     [lhkeyReaction, vialReaction, fungalTomeReaction, boosterReaction],
     [lhkeyReaction, vialReaction, fungalTomeReaction, boosterReaction], // void highreqs
-    [lhkeyReaction, vialReaction, brainReaction, mysticReaction, boosterReaction],
+    [lhkeyReaction, vialReaction, brainReaction, mysticReaction, knightReaction, boosterReaction],
     [lhkeyReaction, vialReaction, fungalTomeReaction, mushroomspellReaction, boosterReaction],
     [lhkeyReaction, vialReaction, fungalTomeReaction, mushroomspellReaction, boosterReaction], // fullclear highreqs
     [lhkeyReaction, rusherReaction, boosterReaction],
@@ -345,7 +345,7 @@ exports.EarlyReactionlistForRunTypes = [
 exports.AFKCheckDescriptionsForRunTypes = [
     `React with the ${lhkeyEmoji} if you are willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${fungalTomeEmoji} if you will bring a fungal tome to the run.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
     `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${lhkeyEmoji} if you are willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${fungalTomeEmoji} if you will bring a fungal tome to the run.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // void-highreqs
-    `React with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with ${brainEmoji}  if you\'re bringing a trickster\nReact with ${mysticEmoji}  if you\'re bringing a mystic.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you\'re bringing to the run.\n`,
+    `React with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with ${brainEmoji}  if you\'re bringing a trickster\nReact with ${mysticEmoji}  if you\'re bringing a mystic.\nReact with ${knightEmoji}  if you\'re bringing a knight.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you\'re bringing to the run.\n`,
     `React with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard\nReact with the ${fungalTomeEmoji} if you will bring a fungal tome to the run.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
     `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard\nReact with the ${fungalTomeEmoji} if you will bring a fungal tome to the run.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // fullclear highreqs
     `React with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji}  if you're willing to rush.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
@@ -365,7 +365,7 @@ exports.AFKCheckDescriptionsForRunTypes = [
 exports.HCReactionlistForRunTypes = [
     [losthallsReaction, lhkeyReaction, vialReaction],
     [losthallsReaction, lhkeyReaction, vialReaction], // void highreqs
-    [losthallsReaction, lhkeyReaction, vialReaction, brainReaction, mysticReaction],
+    [losthallsReaction, lhkeyReaction, vialReaction, brainReaction, mysticReaction, knightReaction],
     [losthallsReaction, lhkeyReaction, vialReaction, mushroomspellReaction],
     [losthallsReaction, lhkeyReaction, vialReaction, mushroomspellReaction], // fullclear highreqs
     [losthallsReaction, lhkeyReaction, rusherReaction],
@@ -385,7 +385,7 @@ exports.HCReactionlistForRunTypes = [
 exports.HCDescriptionsForRunTypes = [
     `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you are willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.`, // Void
     `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you are willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.`, // Highreqs Void
-    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with ${brainEmoji}  if you\'re bringing a trickster\nReact with ${mysticEmoji}  if you\'re bringing a mystic.`, // Fullskip
+    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with ${brainEmoji}  if you\'re bringing a trickster\nReact with ${mysticEmoji}  if you\'re bringing a mystic.\nReact with ${knightEmoji}  if you\'re bringing a knight.`, // Fullskip
     `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard.`, // Fullclear
     `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard.`, // Fullclear Highreqs
     `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji}  if you're willing to rush.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Cult
@@ -404,7 +404,7 @@ exports.HCDescriptionsForRunTypes = [
 exports.EarlyReactionNumberForRunTypes = [
     [2, 3, 2, 5], // Void
     [2, 3, 2, 5], // Void Highreqs
-    [2, 3, 2, 3, 5], // Fullskip
+    [2, 3, 2, 2, 5], // Fullskip
     [2, 3, 4, 2, 5],
     [2, 3, 4, 2, 5], // Fullclear Highreq
     [2, 4, 5],
@@ -424,7 +424,7 @@ exports.EarlyReactionNumberForRunTypes = [
 exports.HeadcountReactionNumberForRunTypes = [
     [null, 2, 3], // Void
     [null, 2, 3], // Void Highreqs
-    [null, 2, 3, 3, 3], // Fullskip
+    [null, 2, 3, 3, 3, 2], // Fullskip
     [null, 2, 3, 4],
     [null, 2, 3, 4], // Fullclear Highreqs
     [null, 2, 4],

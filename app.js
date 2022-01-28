@@ -1553,14 +1553,14 @@ CONSTANTS.bot.registerCommand("fetchguilds", function(msg, args) {
 }, {
     caseInsensitive: true,
     requirements: {
-        custom: CONSTANTS.permissionTheurulOnly
+        custom: CONSTANTS.developerPermissions
     }
 })
 
 CONSTANTS.bot.registerCommand('checkduplicates', verify.check, {
     caseInsensitive: true,
     requirements: {
-        custom: CONSTANTS.permissionTheurulOnly
+        custom: CONSTANTS.developerPermissions
     }
 });
 
@@ -1682,6 +1682,7 @@ process.on('uncaughtException', (err) => {
     if (err.name == "MongoNetworkError") {
         CONSTANTS.bot.getDMChannel("235241036388106241").then(dmChannel => CONSTANTS.bot.createMessage(dmChannel.id, `\n\n\n[UNCAUGHT EXCEPTION PROCESS TERMINATED]\n\n\n` + err)).catch(() => {});
         CONSTANTS.bot.getDMChannel("211959423847890945").then(dmChannel => CONSTANTS.bot.createMessage(dmChannel.id, `\n\n\n[UNCAUGHT EXCEPTION PROCESS TERMINATED]\n\n\n` + err)).catch(() => {});
+        CONSTANTS.bot.getDMChannel("184471481026084864").then(dmChannel => CONSTANTS.bot.createMessage(dmChannel.id, `\n\n\n[UNCAUGHT EXCEPTION PROCESS TERMINATED]\n\n\n` + err)).catch(() => {});
     }
 })
 
