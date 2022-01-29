@@ -139,6 +139,7 @@ CONSTANTS.bot.registerCommand("unregisterpremiumguild", registerpremiumguild.unr
 
 CONSTANTS.bot.registerCommand("makevc", makevc.execute, {
     aliases: ["mkvc", "makevoice", "makevoicechannel"],
+    deleteCommand: true,
     argsRequired: true,
     description: `Make Voice Channel Command. Use this when you are chaining, and don't want to ping for a new AFK.`,
     fullDescription: makevc.COMMAND_MkVcFullDescription
@@ -146,6 +147,7 @@ CONSTANTS.bot.registerCommand("makevc", makevc.execute, {
 
 CONSTANTS.bot.registerCommand("afk", afk_check.executeRegular, {
     aliases: ["afkcheck", "startafk"],
+    deleteCommand: true,
     argsRequired: true,
     description: `AFK Check Command.`,
     fullDescription: afk_check.COMMAND_AFKCheckFullDescription,
@@ -153,6 +155,7 @@ CONSTANTS.bot.registerCommand("afk", afk_check.executeRegular, {
 
 CONSTANTS.bot.registerCommand("vetafk", afk_check.executeVeteran, {
     aliases: ["vafkcheck", "vafk"],
+    deleteCommand: true,
     argsRequired: true,
     description: `AFK Check Command.`,
     fullDescription: afk_check.COMMAND_AFKCheckFullDescription,
@@ -161,6 +164,7 @@ CONSTANTS.bot.registerCommand("vetafk", afk_check.executeVeteran, {
 
 CONSTANTS.bot.registerCommand("headcount", headcount.executeRegular, {
     aliases: ["hc"],
+    deleteCommand: true,
     argsRequired: true,
     description: `Headcount Command.`,
     fullDescription: headcount.COMMAND_HeadcountFullDescription,
@@ -168,6 +172,7 @@ CONSTANTS.bot.registerCommand("headcount", headcount.executeRegular, {
 
 CONSTANTS.bot.registerCommand("vetheadcount", headcount.executeVeteran, {
     aliases: ["vhc", "vethc"],
+    deleteCommand: true,
     argsRequired: true,
     fullDescription: headcount.COMMAND_BalerHeadcountFullDescription,
     permissionMessage: "You need to have a \`Veteran Leading Role\` configured with the bot!!"
