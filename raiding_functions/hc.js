@@ -198,7 +198,7 @@ async function headcount(message, args, CHANNELOBJECT) {
                 }
             }
         })
-        message.addReaction(RAIDCONSTANTS.checkReaction);
+
 
         CONSTANTS.bot.createMessage(CHANNELOBJECT.ActiveRaidsChannelID, {
             embed: {
@@ -309,7 +309,7 @@ async function headcount(message, args, CHANNELOBJECT) {
                     }
                     });
                     if (await CONSTANTS.bot.getMessage(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id)) await CONSTANTS.bot.removeMessageReactions(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id);
-                    if (await CONSTANTS.bot.getMessage(message.channel.id, message.id)) await CONSTANTS.bot.deleteMessage(message.channel.id, message.id)
+
                 }
             });
         
