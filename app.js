@@ -1599,9 +1599,9 @@ CONSTANTS.bot.on("guildRoleDelete", function(guild, role) {
 CONSTANTS.bot.on("channelDelete", function(channel) {
     if (channel.id) CONFIG.deleteChannel(channel);
 })
-CONSTANTS.bot.on("guildDelete", function(guild) {
-    deleteGuildConfig.deleteGuildConfig(guild.id);
-})
+// CONSTANTS.bot.on("guildDelete", function(guild) {
+//     deleteGuildConfig.deleteGuildConfig(guild.id);
+// })
 
 CONSTANTS.bot.on("guildMemberAdd", function(guild, member) {
     suspend.rolePersist(guild, member);
