@@ -1688,6 +1688,7 @@ process.on('uncaughtException', (err) => {
         CONSTANTS.bot.getDMChannel("235241036388106241").then(dmChannel => CONSTANTS.bot.createMessage(dmChannel.id, `\n\n\n[UNCAUGHT EXCEPTION PROCESS TERMINATED]\n\n\n` + err)).catch(() => {});
         CONSTANTS.bot.getDMChannel("211959423847890945").then(dmChannel => CONSTANTS.bot.createMessage(dmChannel.id, `\n\n\n[UNCAUGHT EXCEPTION PROCESS TERMINATED]\n\n\n` + err)).catch(() => {});
         CONSTANTS.bot.getDMChannel("184471481026084864").then(dmChannel => CONSTANTS.bot.createMessage(dmChannel.id, `\n\n\n[UNCAUGHT EXCEPTION PROCESS TERMINATED]\n\n\n` + err)).catch(() => {});
+        CONSTANTS.bot.getDMChannel("942320785287184464").then(dmChannel => CONSTANTS.bot.createMessage(dmChannel.id, `\n\n\n[UNCAUGHT EXCEPTION PROCESS TERMINATED]\n\n\n` + err)).catch(() => {});
     }
 })
 

@@ -418,7 +418,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                 }
             }).catch(() => {})
         }
-        //message.addReaction(RAIDCONSTANTS.checkReaction); (removed as it bugs since it can't find the message when it gets removed)
+
 
         let allEarlyReactedUserIDs = [];
 
@@ -659,7 +659,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                     }
                 }
                 });
-                //CONSTANTS.bot.deleteMessage(message.channel.id, message.id); (removed as it bugs since it can't find the message when it gets removed)
+           
                 if (await CONSTANTS.bot.getMessage(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id)) await CONSTANTS.bot.removeMessageReactions(CHANNELOBJECT.RaidStatusChannelID, raidStatusMessage.id);
                 if (CONFIG.SystemConfig.servers[message.guildID].postraidpanelenabled) autolog.execute(CHANNELOBJECT, message, index);
                 return;
