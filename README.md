@@ -1,5 +1,5 @@
 # Galaxy Raider #
-[Add Galaxy Raider to your Discord Server!](https://discord.com/api/oauth2/authorize?client_id=784842269378609152&permissions=8&scope=bot)
+[Add Galaxy Raider to your Discord Server!](https://discord.com/api/oauth2/authorize?client_id=942323868654256169&permissions=8&scope=bot)
 
 [Support my Patreon!](https://patreon.com/Theurul)
 
