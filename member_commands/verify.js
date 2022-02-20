@@ -118,7 +118,7 @@ in your realmeye description.
                     });
                     return;
                 }
-                request('https://nullafind.com/rotmg/api/?player=' + ign + "&filter=desc1+desc2+desc3+player_last_seen+rank", {json: true}, async (err, res, body) => {
+                request('?player=' + ign + "&filter=desc1+desc2+desc3+player_last_seen+rank", {json: true}, async (err, res, body) => {
                     if (err) {
                         try {
                             await CONSTANTS.bot.createMessage(dmChannel.id, `Something went wrong with that operation.`);
