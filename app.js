@@ -1267,6 +1267,21 @@ keyqueueCommand.registerSubcommand("toggle", keyqueue.toggleKeyQueue, {
     description: `Toggles the key queue on/off`
 });
 
+keyqueueCommand.registerSubcommand("toggleKeyPing", keyqueue.toggleKeyPing, {
+    fullDescription: keyqueue.toggleKeyPingHelpMessage,
+    description: `Toggles the key ping on/off`
+});
+
+keyqueueCommand.registerSubcommand("setPingChannel", keyqueue.setPingChannel, {
+    fullDescription: keyqueue.setPingChannelHelp,
+    description: `Sets the channel to ping in when a key is added to the queue`
+})
+
+keyqueueCommand.registerSubcommand("setPingRole", keyqueue.setPingRole, {
+    fullDescription: keyqueue.setPingRoleHelp,
+    description: `Sets the role to ping when a key is added to the queue`
+})
+
 keyqueueCommand.registerSubcommand("setup", keyqueue.setupKeyQueueMessage, {
     fullDescription: keyqueue.setupKeyQueueMessageHelpMessage,
     description: `Sets up the key queue message (with reactions).`
