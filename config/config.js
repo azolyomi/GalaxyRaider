@@ -191,7 +191,7 @@ exports.deleteGuildRole = function(guild, role) {
       exports.SystemConfig.servers[guild.id].keyqueue.pingrole = undefined;
       exports.SystemConfig.servers[guild.id].keyqueue.keyping = false;
 
-      CONSTANTS.bot.createMessage(exports.SystemConfig.servers[channel.guild.id].logchannel, "The key queue pinging feature has been automatically disabled as the role has been deleted.").catch({});
+      CONSTANTS.bot.createMessage(exports.SystemConfig.servers[guild.id].logchannel, "The key queue pinging feature has been automatically disabled as the role has been deleted.").catch({});
     }
 
     CONSTANTS.bot.createMessage(exports.SystemConfig.servers[guild.id].logchannel, `The ${role.name} role was deleted, and as such it has been removed from all configurations.`).catch({});
