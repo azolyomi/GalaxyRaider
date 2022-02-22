@@ -88,9 +88,11 @@ async function setPingChannel(msg, args) {
     else if (!(msg.channelMentions.length > 0)) return "You need to mention a channel for that!";
     
     let pingChannel = msg.channelMentions[0];
-    if (CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingchannel != pingChannel) CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingchannel = pingChannel;
-
-    CONFIG.updateConfig(msg.guildID);
+    
+    if (CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingchannel != pingChannel) {
+        CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingchannel = pingChannel;
+        CONFIG.updateConfig(msg.guildID);
+    }
 
     return `Successfully set channel <#${pingChannel}> as the key ping channel.`;
 }
@@ -114,9 +116,11 @@ async function setPingRole(msg, args) {
     else if (!(msg.roleMentions.length > 0)) return "You need to mention a role for that!";
     
     let pingRole = msg.roleMentions[0];
-    if (CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingrole != pingRole) CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingrole = pingRole;
-
-    CONFIG.updateConfig(msg.guildID);
+    
+    if (CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingrole != pingRole) {
+        CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingrole = pingRole;
+        CONFIG.updateConfig(msg.guildID);
+    }
 
     return `Successfully set role <@&${pingRole}> as the key ping role.`;
 }
@@ -302,10 +306,17 @@ exports.keyqueueReacted = async function(msg, emoji, member) {
                         });
 
                         if (CONFIG.SystemConfig.servers[msg.guildID].keyqueue.keyping) {
-                            let pingChannel = await CONSTANTS.bot.getChannel(CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingchannel);
                             let pingRole = CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingrole;
 
-                            await pingChannel.createMessage(`<@&${pingRole}> ${member.mention} has ${numItems} <:${emojiText}> to pop!`);
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingchannel,
+                                `<@&${pingRole}> ${member.mention} has ${numItems} <:${emojiText}> to pop!`
+                            ).catch((e) => {
+                                console.log("> [ERROR SENDING KEY PING MESSAGE] " + e);
+
+                                CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel,
+                                    "Error: An error occurred while trying to send the key ping message"
+                                ).catch((e) => { console.log("> [ERROR SENDING MESSAGE TO LOG CHANNEL] " + e) });
+                            });
                         }
                     })   
                     setTimeout(() => {
@@ -382,10 +393,17 @@ exports.keyqueueReacted = async function(msg, emoji, member) {
                     });
 
                     if (CONFIG.SystemConfig.servers[msg.guildID].keyqueue.keyping) {
-                        let pingChannel = await CONSTANTS.bot.getChannel(CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingchannel);
                         let pingRole = CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingrole;
 
-                        await pingChannel.createMessage(`<@&${pingRole}> ${member.mention} has ${numItems} <:${emojiText}> to pop!`);
+                        CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingchannel, 
+                            `<@&${pingRole}> ${member.mention} has ${numItems} <:${emojiText}> to pop!`
+                        ).catch((e) => {
+                            console.log("> [ERROR SENDING KEY PING MESSAGE] " + e);
+
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel,
+                                "Error: An error occurred while trying to send the key ping message"
+                            ).catch((e) => { console.log("> [ERROR SENDING MESSAGE TO LOG CHANNEL] " + e) });
+                        });
                     }
                 })
                 
