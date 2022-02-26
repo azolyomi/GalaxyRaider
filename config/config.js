@@ -185,6 +185,15 @@ exports.deleteGuildRole = function(guild, role) {
     exports.SystemConfig.servers[guild.id].quotaEnabledRoles = exports.SystemConfig.servers[guild.id].quotaEnabledRoles.filter(roleID => roleID != role.id);
     exports.SystemConfig.servers[guild.id].quotaOverrideRoles = exports.SystemConfig.servers[guild.id].quotaOverrideRoles.filter(roleID => roleID != role.id);
 
+    if (exports.SystemConfig.servers[guild.id].keyqueue.pingrole == role.id) {
+      // Disable the key pinging message if the key ping role has been deleted
+      
+      exports.SystemConfig.servers[guild.id].keyqueue.pingrole = undefined;
+      exports.SystemConfig.servers[guild.id].keyqueue.keyping = false;
+
+      CONSTANTS.bot.createMessage(exports.SystemConfig.servers[guild.id].logchannel, "The key queue pinging feature has been automatically disabled as the role has been deleted.").catch({});
+    }
+
     CONSTANTS.bot.createMessage(exports.SystemConfig.servers[guild.id].logchannel, `The ${role.name} role was deleted, and as such it has been removed from all configurations.`).catch({});
     updateConfig(guild.id);
     return;
@@ -215,6 +224,16 @@ exports.deleteChannel = function(channel) {
       if (exports.SystemConfig.servers[channel.guild.id].channels.Veteran.ActiveRaidsChannelID == channel.id) exports.SystemConfig.servers[channel.guild.id].channels.Veteran.ActiveRaidsChannelID = undefined;
       if (exports.SystemConfig.servers[channel.guild.id].channels.Veteran.LocationChannelID == channel.id) exports.SystemConfig.servers[channel.guild.id].channels.Veteran.LocationChannelID = undefined;
       if (exports.SystemConfig.servers[channel.guild.id].channels.Veteran.EarlyReactionsLogChannelID == channel.id) exports.SystemConfig.servers[channel.guild.id].channels.Veteran.EarlyReactionsLogChannelID = undefined;
+      channelWasInConfig = true;
+    }
+    if (exports.SystemConfig.servers[channel.guild.id].keyqueue.pingchannel == channel.id) {
+      // Disable the key pinging message if the key ping channel has been deleted
+
+      exports.SystemConfig.servers[channel.guild.id].keyqueue.pingchannel = undefined;
+      exports.SystemConfig.servers[channel.guild.id].keyqueue.keyping = false;
+
+      CONSTANTS.bot.createMessage(exports.SystemConfig.servers[channel.guild.id].logchannel, "The key queue pinging feature has been automatically disabled as the channel has been deleted.").catch({});
+
       channelWasInConfig = true;
     }
     if (channelWasInConfig) {

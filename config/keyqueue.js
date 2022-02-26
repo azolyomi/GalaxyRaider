@@ -59,6 +59,84 @@ Toggles the automated key queue handling on/off.
 
 **Usage**: \`${CONSTANTS.botPrefix}keyqueue toggle\``
 
+async function toggleKeyPing(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
+    else if (!CONFIG.SystemConfig.servers[msg.guildID].premium) return "Error: That's a premium only service.";
+    else if (!CONFIG.SystemConfig.servers[msg.guildID].keyqueue.enabled) return "Error: The key queue needs to be enabled first. Run `.keyqueue toggle`."
+    else if (!CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingchannel) return "Error: The ping channel needs to be set first. Run `.keyqueue setPingChannel <#channel>`.";
+    else if (!CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingrole) return "Error: The ping role needs to be set first. Run `.keyqueue setPingRole <@role>`.";
+
+    CONFIG.SystemConfig.servers[msg.guildID].keyqueue.keyping = !(CONFIG.SystemConfig.servers[msg.guildID].keyqueue.keyping);
+    CONFIG.updateConfig(msg.guildID);
+
+    return `Key Ping Toggled To: \`${CONFIG.SystemConfig.servers[msg.guildID].keyqueue.keyping}\``;
+}
+
+exports.toggleKeyPing = toggleKeyPing;
+
+exports.toggleKeyPingHelpMessage = `
+**Key Queue toggleKeyPing Command**
+
+Toggles the automatic pinging when someone adds a key to the key queue.
+
+**Usage**: \`${CONSTANTS.botPrefix}keyqueue toggleKeyPing\``;
+
+async function setPingChannel(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
+    else if (!CONFIG.SystemConfig.servers[msg.guildID].premium) return "Error: That's a premium only service.";
+    else if (!CONFIG.SystemConfig.servers[msg.guildID].keyqueue.enabled) return "Error: The key queue needs to be enabled first. Run `.keyqueue toggle`."
+    else if (!(msg.channelMentions.length > 0)) return "You need to mention a channel for that!";
+    
+    let pingChannel = msg.channelMentions[0];
+    
+    if (CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingchannel != pingChannel) {
+        CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingchannel = pingChannel;
+        CONFIG.updateConfig(msg.guildID);
+    }
+
+    return `Successfully set channel <#${pingChannel}> as the key ping channel.`;
+}
+
+exports.setPingChannel = setPingChannel;
+
+exports.setPingChannelHelp = `
+**Set Key Queue Ping Channel**
+
+Sets the channel for the bot to ping in when someone adds a key to the queue.
+
+**Usage**: \`${CONSTANTS.botPrefix}keyqueue setPingChannel <#channel>\`
+
+**<#channel>**: A mention of the channel you would like to set for this type. To mention a channel, do <#channelID>.
+`;
+
+async function setPingRole(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
+    else if (!CONFIG.SystemConfig.servers[msg.guildID].premium) return "Error: That's a premium only service.";
+    else if (!CONFIG.SystemConfig.servers[msg.guildID].keyqueue.enabled) return "Error: The key queue needs to be enabled first. Run `.keyqueue toggle`."
+    else if (!(msg.roleMentions.length > 0)) return "You need to mention a role for that!";
+    
+    let pingRole = msg.roleMentions[0];
+    
+    if (CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingrole != pingRole) {
+        CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingrole = pingRole;
+        CONFIG.updateConfig(msg.guildID);
+    }
+
+    return `Successfully set role <@&${pingRole}> as the key ping role.`;
+}
+
+exports.setPingRole = setPingRole;
+
+exports.setPingRoleHelp = `
+**Set Key Queue Ping Role**
+
+Sets the role for the bot to ping when someone adds a key to the queue.
+
+**Usage**: \`${CONSTANTS.botPrefix}keyqueue setPingRole <@role>\`
+
+**<@role>**: A mention of the role you would like to set for this type. To mention a channel, do <@role>.
+`;
+
 async function setupKeyQueueMessage(msg, args) {
     if (!CONFIG.SystemConfig.servers[msg.guildID]) return "Run the `.config` command first.";
     else if (!CONFIG.SystemConfig.servers[msg.guildID].premium) return "Error: That's a premium only service.";
@@ -226,6 +304,20 @@ exports.keyqueueReacted = async function(msg, emoji, member) {
                                 color: 0x00ab30
                             }
                         });
+
+                        if (CONFIG.SystemConfig.servers[msg.guildID].keyqueue.keyping) {
+                            let pingRole = CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingrole;
+
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingchannel,
+                                `<@&${pingRole}> ${member.mention} has ${numItems} <:${emojiText}> to pop!`
+                            ).catch((e) => {
+                                console.log("> [ERROR SENDING KEY PING MESSAGE] " + e);
+
+                                CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel,
+                                    "Error: An error occurred while trying to send the key ping message"
+                                ).catch((e) => { console.log("> [ERROR SENDING MESSAGE TO LOG CHANNEL] " + e) });
+                            });
+                        }
                     })   
                     setTimeout(() => {
                         if (!hasMsged) {
@@ -299,6 +391,20 @@ exports.keyqueueReacted = async function(msg, emoji, member) {
                             color: 0x00ab30
                         }
                     });
+
+                    if (CONFIG.SystemConfig.servers[msg.guildID].keyqueue.keyping) {
+                        let pingRole = CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingrole;
+
+                        CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].keyqueue.pingchannel, 
+                            `<@&${pingRole}> ${member.mention} has ${numItems} <:${emojiText}> to pop!`
+                        ).catch((e) => {
+                            console.log("> [ERROR SENDING KEY PING MESSAGE] " + e);
+
+                            CONSTANTS.bot.createMessage(CONFIG.SystemConfig.servers[msg.guildID].logchannel,
+                                "Error: An error occurred while trying to send the key ping message"
+                            ).catch((e) => { console.log("> [ERROR SENDING MESSAGE TO LOG CHANNEL] " + e) });
+                        });
+                    }
                 })
                 
                 setTimeout(() => {

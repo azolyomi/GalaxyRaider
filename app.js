@@ -1263,11 +1263,31 @@ const keyqueueCommand = CONSTANTS.bot.registerCommand("keyqueue", function(msg, 
 })
 
 keyqueueCommand.registerSubcommand("toggle", keyqueue.toggleKeyQueue, {
+    caseInsensitive: true,
     fullDescription: keyqueue.toggleKeyQueueHelpMessage,
     description: `Toggles the key queue on/off`
 });
 
+keyqueueCommand.registerSubcommand("toggleKeyPing", keyqueue.toggleKeyPing, {
+    caseInsensitive: true,
+    fullDescription: keyqueue.toggleKeyPingHelpMessage,
+    description: `Toggles the key ping on/off`
+});
+
+keyqueueCommand.registerSubcommand("setPingChannel", keyqueue.setPingChannel, {
+    caseInsensitive: true, 
+    fullDescription: keyqueue.setPingChannelHelp,
+    description: `Sets the channel to ping in when a key is added to the queue`
+})
+
+keyqueueCommand.registerSubcommand("setPingRole", keyqueue.setPingRole, {
+    caseInsensitive: true, 
+    fullDescription: keyqueue.setPingRoleHelp,
+    description: `Sets the role to ping when a key is added to the queue`
+})
+
 keyqueueCommand.registerSubcommand("setup", keyqueue.setupKeyQueueMessage, {
+    caseInsensitive: true, 
     fullDescription: keyqueue.setupKeyQueueMessageHelpMessage,
     description: `Sets up the key queue message (with reactions).`
 });

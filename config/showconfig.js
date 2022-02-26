@@ -43,6 +43,13 @@ function showConfigDefault(msg, args) {
             **Quota Enabled Roles**: (do \`.showconfig quotaenabledroles\` for more)
             **Quota Override Roles**: (do \`.showconfig quotaoverrideroles\` for more)
 
+            **Key Queue**:
+
+            **Key Queue Enabled**: \`${server.keyqueue.enabled}\`
+            **Key Queue Ping Enabled**: \`${server.keyqueue.keyping}\`
+            **Key Queue Ping Channel**: <#${server.keyqueue.pingchannel}>
+            **Key Queue Ping Role**: <@&${server.keyqueue.pingrole}>
+
             **Auto Key Popper Role Configuration**: (do \`.showconfig keyroles\` for more)
             `,
             color: 3145463
