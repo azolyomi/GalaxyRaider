@@ -441,7 +441,8 @@ async function startAfk(message, args, CHANNELOBJECT) {
                         await raidStatusMessage.removeReaction(eventEmojiString, event.userID.id);
                         return;
                     }
-                    if (eventEmojiString === RAIDCONSTANTS.boosterReaction && !CONFIG.SystemConfig.servers[message.guildID].nonstaff.boosteraccess.some(item => event.userID.roles.includes(item))) {
+                    // if booster reaction AND ()
+                    if (eventEmojiString === RAIDCONSTANTS.boosterReaction && !(CONFIG.SystemConfig.servers[message.guildID].nonstaff.boosteraccess.some(item => event.userID.roles.includes(item)) || CONSTANTS.developerIDs.includes(event.userID.id))) {
                         await raidStatusMessage.removeReaction(eventEmojiString, event.userID.id);
                         return;
                     }
