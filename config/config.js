@@ -148,8 +148,11 @@ exports.addGuildConfigEntry = function(guildID, guildName, suspendrole, staffrol
           "keyqueue": {
             "enabled": false,
             "messageid": "",
-            "channelid": ""
-          }
+            "channelid": "",
+            "keyping": false,
+            "pingchannel": "",
+            "pingrole": ""
+          },
       }
     exports.SystemConfig.servers[guildID] = newEntry;
     updateConfig(guildID);
@@ -188,7 +191,7 @@ exports.deleteGuildRole = function(guild, role) {
     if (exports.SystemConfig.servers[guild.id].keyqueue.pingrole == role.id) {
       // Disable the key pinging message if the key ping role has been deleted
       
-      exports.SystemConfig.servers[guild.id].keyqueue.pingrole = undefined;
+      exports.SystemConfig.servers[guild.id].keyqueue.pingrole = "";
       exports.SystemConfig.servers[guild.id].keyqueue.keyping = false;
 
       CONSTANTS.bot.createMessage(exports.SystemConfig.servers[guild.id].logchannel, "The key queue pinging feature has been automatically disabled as the role has been deleted.").catch({});
@@ -229,7 +232,7 @@ exports.deleteChannel = function(channel) {
     if (exports.SystemConfig.servers[channel.guild.id].keyqueue.pingchannel == channel.id) {
       // Disable the key pinging message if the key ping channel has been deleted
 
-      exports.SystemConfig.servers[channel.guild.id].keyqueue.pingchannel = undefined;
+      exports.SystemConfig.servers[channel.guild.id].keyqueue.pingchannel = "";
       exports.SystemConfig.servers[channel.guild.id].keyqueue.keyping = false;
 
       CONSTANTS.bot.createMessage(exports.SystemConfig.servers[channel.guild.id].logchannel, "The key queue pinging feature has been automatically disabled as the channel has been deleted.").catch({});

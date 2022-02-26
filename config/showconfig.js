@@ -47,8 +47,8 @@ function showConfigDefault(msg, args) {
 
             **Key Queue Enabled**: \`${server.keyqueue.enabled}\`
             **Key Queue Ping Enabled**: \`${server.keyqueue.keyping}\`
-            **Key Queue Ping Channel**: <#${server.keyqueue.pingchannel}>
-            **Key Queue Ping Role**: <@&${server.keyqueue.pingrole}>
+            **Key Queue Ping Channel**: ${server.keyqueue.pingchannel ? `<#${server.keyqueue.pingchannel}>` : `\`none\``}
+            **Key Queue Ping Role**: ${server.keyqueue.pingrole ? `<@&${server.keyqueue.pingrole}>` : `\`none\``}
 
             **Auto Key Popper Role Configuration**: (do \`.showconfig keyroles\` for more)
             `,
