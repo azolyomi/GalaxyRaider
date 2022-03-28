@@ -374,6 +374,55 @@ exports.credits = function(msg, args) {
     })
 }
 
+exports.claim = async function(msg, args) {
+    if (!CONFIG.SystemConfig.servers[msg.guildID]) return "You first have to configurate the server. Type \`.instructions\` for help.";
+    if (msg.guildID != CONSTANTS.STDGuildID) return;
+    
+    MongoClient.connect(process.env.DBURL, {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
+        if (err) throw (err);
+        var dbo = db.db("GalaxyRaiderDB");
+        let foundEntry = await dbo.collection("GalaxyGambling.UserData").findOne({userID: msg.author.id, guildID: msg.guildID});
+        let object;
+        if (!foundEntry) {
+            object = {
+                guildID: msg.guildID, 
+                userID: msg.author.id,
+                credits: CONSTANTS.defaultCredits + 10,
+                ported: false,
+                wins: 0,
+                losses: 0,
+                winstreak: 0,
+                lastClaim: new Date()
+            }
+
+            await dbo.collection("GalaxyGambling.UserData").insertOne(object);
+
+            msg.channel.createMessage({embed: {description: `Successfully claimed 10 daily credits for ${msg.author.mention}`}});
+        } else {
+            if (foundEntry.hasOwnProperty('lastClaim')) {
+                let currDate = new Date();
+
+                if (foundEntry.lastClaim.getUTCDate() == currDate.getUTCDate() && foundEntry.lastClaim.getUTCMonth() == currDate.getUTCMonth() && foundEntry.lastClaim.getUTCFullYear() == currDate.getUTCFullYear()) {
+                    msg.channel.createMessage({embed: {description: `You already claimed your credits for today`}});
+                } else {
+                    // this needs to be two seperate update calls because it didn't work in the one and i don't know why
+                    await dbo.collection("GalaxyGambling.UserData").updateOne({userID: msg.author.id, guildID: msg.guildID}, {$inc: {credits: 10}});
+                    await dbo.collection("GalaxyGambling.UserData").updateOne({userID: msg.author.id, guildID: msg.guildID}, {$set: {lastClaim: new Date()}});
+
+                    msg.channel.createMessage({embed: {description: `Successfully claimed 10 daily credits for ${msg.author.mention}`}});
+                }
+            } else {
+                await dbo.collection("GalaxyGambling.UserData").updateOne({userID: msg.author.id, guildID: msg.guildID}, {$inc: {credits: 10}});
+                await dbo.collection("GalaxyGambling.UserData").updateOne({userID: msg.author.id, guildID: msg.guildID}, {$set: {lastClaim: new Date()}});
+
+                msg.channel.createMessage({embed: {description: `Successfully claimed 10 daily credits for ${msg.author.mention}`}});
+            }
+        }
+
+        db.close();
+    })
+}
+
 exports.credits_port = function(msg, args) {
     if (msg.guildID != CONSTANTS.STDGuildID) return;
     MongoClient.connect(process.env.DBURL,  {useUnifiedTopology: true, useNewUrlParser: true}, async function(err, db) {
