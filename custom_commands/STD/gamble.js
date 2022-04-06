@@ -349,7 +349,7 @@ exports.credits = function(msg, args) {
                     **Wins**: ${object.wins}
                     **Losses**: ${object.losses}
                     **Win Streak**: ${object.winstreak}
-                    **Claim Streak: 0`,
+                    **Claim Streak**: 0`,
                     color: 3145463
                 }
             })
@@ -401,7 +401,7 @@ exports.claim = async function(msg, args) {
 
                 await dbo.collection("GalaxyGambling.UserData").insertOne(object);
 
-                msg.channel.createMessage({embed: {description: `Successfully claimed ${toAdd} (+${toAdd - 10} from your streak) daily credits for ${msg.author.mention}`}});
+                msg.channel.createMessage({embed: {description: `Successfully claimed 10 (+0 from your streak) daily credits for ${msg.author.mention}`}});
             } else {
                 if (foundEntry.hasOwnProperty('lastClaim')) {
                     let currDate = new Date();
@@ -438,7 +438,7 @@ exports.claim = async function(msg, args) {
                     await dbo.collection("GalaxyGambling.UserData").updateOne({userID: msg.author.id, guildID: msg.guildID}, {$inc: {credits: 10}});
                     await dbo.collection("GalaxyGambling.UserData").updateOne({userID: msg.author.id, guildID: msg.guildID}, {$set: {lastClaim: new Date(), claimStreak: 0}});
 
-                    msg.channel.createMessage({embed: {description: `Successfully claimed ${toAdd} (+${toAdd - 10} from your streak) daily credits for ${msg.author.mention}`}});
+                    msg.channel.createMessage({embed: {description: `Successfully claimed 10 (+0 from your streak) daily credits for ${msg.author.mention}`}});
                 }
             }
 
