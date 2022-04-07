@@ -348,7 +348,8 @@ exports.credits = function(msg, args) {
                     `**Credits**: ${object.credits}
                     **Wins**: ${object.wins}
                     **Losses**: ${object.losses}
-                    **Win Streak**: ${object.winstreak}`,
+                    **Win Streak**: ${object.winstreak}
+                    **Claim Streak: 0`,
                     color: 3145463
                 }
             })
@@ -364,7 +365,8 @@ exports.credits = function(msg, args) {
                     `**Credits**: ${object.credits}
                     **Wins**: ${object.wins}
                     **Losses**: ${object.losses}
-                    **Win Streak**: ${object.winstreak}`,
+                    **Win Streak**: ${object.winstreak}
+                    **Claim Streak**: ${object.hasOwnProperty('claimStreak') ? object.claimStreak : '0'}`,
                     color: 3145463
                 }
             })
@@ -392,12 +394,13 @@ exports.claim = async function(msg, args) {
                 wins: 0,
                 losses: 0,
                 winstreak: 0,
-                lastClaim: new Date()
+                lastClaim: new Date(),
+                claimStreak: 0,
             }
 
             await dbo.collection("GalaxyGambling.UserData").insertOne(object);
 
-            msg.channel.createMessage({embed: {description: `Successfully claimed 10 daily credits for ${msg.author.mention}`}});
+            msg.channel.createMessage({embed: {description: `Successfully claimed ${toAdd} (+${toAdd - 10} from your streak) daily credits for ${msg.author.mention}`}});
         } else {
             if (foundEntry.hasOwnProperty('lastClaim')) {
                 let currDate = new Date();
@@ -405,17 +408,36 @@ exports.claim = async function(msg, args) {
                 if (foundEntry.lastClaim.getUTCDate() == currDate.getUTCDate() && foundEntry.lastClaim.getUTCMonth() == currDate.getUTCMonth() && foundEntry.lastClaim.getUTCFullYear() == currDate.getUTCFullYear()) {
                     msg.channel.createMessage({embed: {description: `You already claimed your credits for today`}});
                 } else {
-                    // this needs to be two seperate update calls because it didn't work in the one and i don't know why
-                    await dbo.collection("GalaxyGambling.UserData").updateOne({userID: msg.author.id, guildID: msg.guildID}, {$inc: {credits: 10}});
-                    await dbo.collection("GalaxyGambling.UserData").updateOne({userID: msg.author.id, guildID: msg.guildID}, {$set: {lastClaim: new Date()}});
+                    let streak = 0;
 
-                    msg.channel.createMessage({embed: {description: `Successfully claimed 10 daily credits for ${msg.author.mention}`}});
+                    if (foundEntry.hasOwnProperty('claimStreak')) {
+                        streak = foundEntry.claimStreak;
+
+                        // Check if the last claim was 'yesterday' to update the streak
+                        let yesterday = new Date();
+                        yesterday.setDate(yesterday.getDate() - 1);
+
+                        if (foundEntry.lastClaim.getUTCDate() == yesterday.getUTCDate() && foundEntry.lastClaim.getUTCMonth() == yesterday.getUTCMonth() && foundEntry.lastClaim.getUTCFullYear() == yesterday.getUTCFullYear()) {
+                            streak += 1;
+                        } else {
+                            streak = 0;
+                        }
+                    }
+                    
+                    // Add the streak to the base amount, up to +5 for 5 days
+                    let toAdd = streak <= 5 ? 10 + streak : 15;
+
+                    // this needs to be two seperate update calls because it didn't work in the one and i don't know why
+                    await dbo.collection("GalaxyGambling.UserData").updateOne({userID: msg.author.id, guildID: msg.guildID}, {$inc: {credits: toAdd}});
+                    await dbo.collection("GalaxyGambling.UserData").updateOne({userID: msg.author.id, guildID: msg.guildID}, {$set: {lastClaim: new Date(), claimStreak: streak}});
+
+                    msg.channel.createMessage({embed: {description: `Successfully claimed ${toAdd} (+${toAdd - 10} from your streak) daily credits for ${msg.author.mention}`}});
                 }
             } else {
                 await dbo.collection("GalaxyGambling.UserData").updateOne({userID: msg.author.id, guildID: msg.guildID}, {$inc: {credits: 10}});
-                await dbo.collection("GalaxyGambling.UserData").updateOne({userID: msg.author.id, guildID: msg.guildID}, {$set: {lastClaim: new Date()}});
+                await dbo.collection("GalaxyGambling.UserData").updateOne({userID: msg.author.id, guildID: msg.guildID}, {$set: {lastClaim: new Date(), claimStreak: 0}});
 
-                msg.channel.createMessage({embed: {description: `Successfully claimed 10 daily credits for ${msg.author.mention}`}});
+                msg.channel.createMessage({embed: {description: `Successfully claimed ${toAdd} (+${toAdd - 10} from your streak) daily credits for ${msg.author.mention}`}});
             }
         }
 

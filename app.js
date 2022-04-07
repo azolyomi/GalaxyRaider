@@ -1328,7 +1328,7 @@ const STDCreditsCommand = CONSTANTS.bot.registerCommand("credits", STD_gamble.cr
 
 CONSTANTS.bot.registerCommand("claim", STD_gamble.claim, {
     caseInsensitive: true,
-    fullDescription: "Claim your 10 daily credits!",
+    fullDescription: "Claim your 10 daily credits!\nClaim every day to get a streak and earn an extra credit per day in your streak (max of 5 extra credits)",
     argsRequired: false,
     requirements: {
         custom: function(msg) {
