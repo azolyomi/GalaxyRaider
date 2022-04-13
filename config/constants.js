@@ -77,7 +77,7 @@ exports.permissionModeratorOnly = function(msg) {
 }
 
 exports.permissionTheurulOnly = function(msg) {
-    return (msg.author.id == "211959423847890945");
+    return (msg.author.id == "942320785287184464");
 }
 
 exports.developerIDs = ["942320785287184464", "206087747276898304", "425393975155752973", "313351237632262155", "184471481026084864"];
