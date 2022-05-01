@@ -66,6 +66,7 @@ CONSTANTS.bot.setMaxListeners(200);
 
 const leaveguild = require("./config/leaveguild");
 const { CommandClient } = require('eris');
+const { constants } = require('buffer');
 
 CONSTANTS.bot.registerCommand("ping", function(msg, args) {
     return {
@@ -592,9 +593,7 @@ CONSTANTS.bot.registerCommand("togglepostraidpanel", postraidlogging.togglePostR
 
 CONSTANTS.bot.registerCommand("executeQuota", quota.executeQuotaFromDiscordCommand, {
     requirements: {
-        custom: function(msg) {
-            return (["235241036388106241", "211959423847890945"].includes(msg.author.id));
-        }
+        custom: CONSTANTS.permissionTheurulOnly
     }, 
     caseInsensitive: true,
     //fullDescription: quota.removeQuotaRoleHelpCommand,
