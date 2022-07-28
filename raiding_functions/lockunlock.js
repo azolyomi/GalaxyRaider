@@ -10,7 +10,9 @@ exports.COMMAND_LockFullDescription = `Lock Channel Command.
 Edits permissions of the voice channel you are **currently connected to**.
 Stops non-staff from being able to join.
 
-**Usage:** \`${CONSTANTS.botPrefix}lock\`
+**Usage:** \`${CONSTANTS.botPrefix}lock <?limit>\`
+
+**<limit>**: (optional) An integer to set the channel cap to.
 
 **Note:** You must be \`connected\` to a voice channel to use this command.
 `
@@ -19,11 +21,13 @@ exports.COMMAND_UnlockFullDescription = `Unlock Channel Command.
 Edits permissions of the voice channel you are **currently connected to**.
 Enables members / veterans to join the channel.
 
-**Usage:** \`${CONSTANTS.botPrefix}lock\`
+**Usage:** \`${CONSTANTS.botPrefix}unlock <?limit>\`
+
+**<limit>**: (optional) An integer to set the channel cap to.
 
 **Note:** You must be \`connected\` to a voice channel to use this command.
-If you run this command in a \`veteran bot commands\` channel, it will assume you are in a \`veteran voice channel\`.
-If you run this command in a \`regular bot commands\` channel, it will assume you are in a \`regular voice channel\`.
+If you run this command in a \`veteran bot commands\` channel, it will assign permission as if you were in a \`veteran voice channel\`.
+If you run this command in a \`regular bot commands\` channel, it will assign permission as if you were in a \`regular voice channel\`.
 `
 
 const getLockedVCPermissions = (message) => {
@@ -101,7 +105,18 @@ async function lock(message, args) {
         if (message.channel.id == CONFIG.SystemConfig.servers[message.guildID].channels.Main.RaidCommandsChannelID) channel = "main";
         else if (message.channel.id == CONFIG.SystemConfig.servers[message.guildID].channels.Veteran.RaidCommandsChannelID) channel = "vet";
         else return `You must do that in a \`raid bot commands\` channel. \nUse <#${mainRaidCommandsChannelID}> for main raids, <#${vetRaidCommandsChannelID}> for veteran raids.`;
-    
+        
+        let voiceChannelID = message.member.voiceState.channelID;
+        if (!voiceChannelID) return `You must be connected to a voice channel to \`lock\` that voice channel.`;
+
+        const vc = CONSTANTS.bot.getChannel(voiceChannelID);
+
+        if (channel == "main" && vc.parentID != CONFIG.SystemConfig.servers[message.guildID].channels.Main.RaidCategoryID) {
+            return `You must be in a \`regular\` raid VC to use this command.`;
+        }
+        else if (channel == "vet" && vc.parentID != CONFIG.SystemConfig.servers[message.guildID].channels.Veteran.RaidCategoryID) {
+            return `You must be in a \`veteran\` raid VC to use this command.`;
+        }
         if (!message.member.roles.some(role => CONFIG.SystemConfig.servers[message.guildID].modroles.includes(role))) {
             if (channel == "main") {
                 if (!message.member.roles.some(role => CONFIG.SystemConfig.servers[message.guildID].afkaccess.halls.includes(role))
@@ -122,11 +137,12 @@ async function lock(message, args) {
                 }
             }
         }
-        let voiceChannelID = message.member.voiceState.channelID;
-        if (!voiceChannelID) return `You must be connected to a voice channel to \`lock\` that voice channel.`;
+
+        let limit = args[0];
+        if (!limit || isNaN(limit)) limit = 1;
     
         CONSTANTS.bot.editChannel(voiceChannelID, {
-            userLimit: 1
+            userLimit: limit,
         })
     
         CONSTANTS.bot.createMessage(message.channel.id, "Locking voice channel. This may take a minute...")
@@ -159,6 +175,18 @@ async function unlock(message, args) {
         else if (message.channel.id == CONFIG.SystemConfig.servers[message.guildID].channels.Veteran.RaidCommandsChannelID) channel = "vet";
         else return `You must do that in a \`raid bot commands\` channel. \nUse <#${mainRaidCommandsChannelID}> for main raids, <#${vetRaidCommandsChannelID}> for veteran raids.`;
     
+        let voiceChannelID = message.member.voiceState.channelID;
+        if (!voiceChannelID) return `You must be connected to a voice channel to \`unlock\` that voice channel.`;
+
+        const vc = CONSTANTS.bot.getChannel(voiceChannelID);
+
+        if (channel == "main" && vc.parentID != CONFIG.SystemConfig.servers[message.guildID].channels.Main.RaidCategoryID) {
+            return `You must be in a \`regular\` raid VC to use this command.`;
+        }
+        else if (channel == "vet" && vc.parentID != CONFIG.SystemConfig.servers[message.guildID].channels.Veteran.RaidCategoryID) {
+            return `You must be in a \`veteran\` raid VC to use this command.`;
+        }
+
         if (!message.member.roles.some(role => CONFIG.SystemConfig.servers[message.guildID].modroles.includes(role))) {
             if (channel == "main") {
                 if (!message.member.roles.some(role => CONFIG.SystemConfig.servers[message.guildID].afkaccess.halls.includes(role))
@@ -179,11 +207,12 @@ async function unlock(message, args) {
                 }
             }
         }
-        let voiceChannelID = message.member.voiceState.channelID;
-        if (!voiceChannelID) return `You must be connected to a voice channel to \`unlock\` that voice channel.`;
+
+        let limit = args[0];
+        if (!limit || isNaN(limit)) limit = 50;
     
         CONSTANTS.bot.editChannel(voiceChannelID, {
-            userLimit: 70,
+            userLimit: limit,
         })
     
         CONSTANTS.bot.createMessage(message.channel.id, "Unlocking voice channel. This may take a minute...")
