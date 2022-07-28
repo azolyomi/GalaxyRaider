@@ -122,7 +122,7 @@ async function lock(message, args) {
                 }
             }
         }
-        let voiceChannelID = message.member.voiceState.channelID ?? null;
+        let voiceChannelID = message.member.voiceState.channelID;
         if (!voiceChannelID) return `You must be connected to a voice channel to \`lock\` that voice channel.`;
     
         CONSTANTS.bot.editChannel(voiceChannelID, {
@@ -179,7 +179,7 @@ async function unlock(message, args) {
                 }
             }
         }
-        let voiceChannelID = message.member.voiceState.channelID ?? null;
+        let voiceChannelID = message.member.voiceState.channelID;
         if (!voiceChannelID) return `You must be connected to a voice channel to \`unlock\` that voice channel.`;
     
         CONSTANTS.bot.editChannel(voiceChannelID, {
