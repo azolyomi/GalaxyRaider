@@ -17,6 +17,7 @@ const suspend = require("./staff_commands/suspend");
 const suspendlist = require("./staff_commands/suspendlist");
 const log = require("./raiding_functions/logitem");
 const changereqsheet = require("./raiding_functions/changereqsheet");
+const lockunlock = require('./raiding_functions/lockunlock');
 const getinfo = require("./staff_commands/getinfo");
 const stats = require("./member_commands/stats");
 const setpoints = require("./config/setpoints");
@@ -101,7 +102,9 @@ CONSTANTS.bot.registerCommand("uptime", function(msg, args) {
     }
 })
 
-CONSTANTS.bot.registerCommand("instructions", instructions.showInstructions, {
+CONSTANTS.bot.registerCommand("instructions", async function(message, args) {
+    return `https://github.com/azolyomi/GalaxyRaider#setup-instructions`;
+}, {
     aliases: ["setup", "howto"],
     argsRequired: false,
     description: `Detailed instructions for bot setup. [Your average help guide :)]`,
@@ -152,6 +155,22 @@ CONSTANTS.bot.registerCommand("afk", afk_check.executeRegular, {
     argsRequired: true,
     description: `AFK Check Command.`,
     fullDescription: afk_check.COMMAND_AFKCheckFullDescription,
+})
+
+CONSTANTS.bot.registerCommand("lock", lockunlock.lock, {
+    aliases: ["lockvc"],
+    caseInsensitive: true,
+    argsRequired: false,
+    description: `Lock VC Command.`,
+    fullDescription: lockunlock.COMMAND_LockFullDescription,
+})
+
+CONSTANTS.bot.registerCommand("unlock", lockunlock.unlock, {
+    aliases: ["unlockvc"],
+    caseInsensitive: true,
+    argsRequired: false,
+    description: `Unlock VC Command.`,
+    fullDescription: lockunlock.COMMAND_UnlockFullDescription,
 })
 
 CONSTANTS.bot.registerCommand("vetafk", afk_check.executeVeteran, {
