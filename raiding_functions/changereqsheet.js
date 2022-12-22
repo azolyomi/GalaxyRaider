@@ -24,6 +24,8 @@ function changereqsheet(msg, args) {
             `https://cdn.discordapp.com/attachments/826194483992461383/826194535188135936/Exaltations.png`, //nest highreqs
             `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`,
             `https://cdn.discordapp.com/attachments/826194483992461383/826194535188135936/Exaltations.png`, //fungal highreqs 
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`,
+            `https://cdn.discordapp.com/attachments/826194483992461383/826194535188135936/Exaltations.png`, //steamworks highreqs 
             `https://cdn.discordapp.com/attachments/826194483992461383/826194539169579038/O3.png`, 
             `https://cdn.discordapp.com/attachments/826194483992461383/826194539169579038/O3.png`,  // o3 highreqs
             `https://cdn.discordapp.com/attachments/826194483992461383/826194537847193715/Useful_Swapouts.png`,

@@ -11,6 +11,7 @@ const fieldReactions = [
     [RAIDCONSTANTS.shieldruneReaction, RAIDCONSTANTS.swordruneReaction, RAIDCONSTANTS.helmruneReaction],
     [RAIDCONSTANTS.shatterskeyReaction],
     [RAIDCONSTANTS.fungalkeyReaction],
+    [RAIDCONSTANTS.steamworksKeyReaction],
     [RAIDCONSTANTS.nestkeyReaction],
     [RAIDCONSTANTS.legendarykeyReaction]
 ]
@@ -18,7 +19,8 @@ const fields = [
     {name:`Lost Halls`, value:"\u200b"}, // ${RAIDCONSTANTS.lhkeyEmoji}${RAIDCONSTANTS.vialEmoji}
     {name:`Oryx 3`, value:"\u200b"}, // ${RAIDCONSTANTS.swordruneEmoji}${RAIDCONSTANTS.shieldruneEmoji}${RAIDCONSTANTS.helmruneEmoji}
     {name:`Shatters`, value:"\u200b"}, // ${RAIDCONSTANTS.shatterskeyEmoji}
-    {name:`Fungal`, value:"\u200b"}, // ${RAIDCONSTANTS.fungalkeyEmoji}
+    {name:`Fungal`, value:"\u200b"},
+    {name:`Steamworks`, value:"\u200b"}, // ${RAIDCONSTANTS.fungalkeyEmoji}
     {name:`Nest`, value:"\u200b"}, // ${RAIDCONSTANTS.nestkeyEmoji}
     {name:`Miscellaneous`, value:"\u200b"}, // ${RAIDCONSTANTS.legendarykeyEmoji}
 ]

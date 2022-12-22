@@ -11,7 +11,7 @@ async function logrun(msg, args) {
         return "Server is not configurated yet. Type \`.config\` to configurate it.";
     }
     
-    let acceptabletypes = ["void", "cult", "fullskip", "shatters", "nest", "fungal", "o3", "misc"];
+    let acceptabletypes = ["void", "cult", "fullskip", "shatters", "nest", "fungal", "steamworks", "o3", "misc"];
     let runtype = args.shift();
     if (!acceptabletypes.includes(runtype)) return `Dungeontype must be one of \`[${acceptabletypes.join(", ")}]\``;
     let numruns = parseInt(args.shift());
@@ -38,6 +38,7 @@ async function logrun_programmatically(memberToLogFor, channelID, guildID, runty
                 shatters: 0,
                 nest: 0,
                 fungal: 0,
+                steamworks: 0,
                 o3: 0,
                 misc: 0,
                 runpoints: 0,
@@ -119,7 +120,7 @@ Used to log runs for a leader. Doing this automatically updates the user's point
 
 **Usage**: \`.logrun <type> <number> \`
 
-**<type>**: The type of run to log, one of \`[void, cult, fullskip, shatters, nest, fungal, o3, misc]\`
+**<type>**: The type of run to log, one of \`[void, cult, fullskip, shatters, nest, fungal, steamworks, o3, misc]\`
 
 **<number>**: The number of items to log (positive or negative). Cannot exceed 20.
 
@@ -151,6 +152,7 @@ async function resetruns(msg, args) {
                 shatters: 0,
                 nest: 0,
                 fungal: 0,
+                steamworks: 0,
                 o3: 0,
                 misc: 0,
                 runpoints: 0,

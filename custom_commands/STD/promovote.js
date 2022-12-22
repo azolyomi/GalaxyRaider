@@ -21,6 +21,7 @@ const ROLEINFO = {
         ShattersPing: "791828751314976800",
         NestPing: "791828862300454913",
         FungalPing: "791828982022012939",
+        SteamworksPing: "1055547523554627625",
         O3Ping: "791829025055834124",
         MiscPing: "791829177376047104",
     },

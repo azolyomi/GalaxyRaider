@@ -1,61 +1,65 @@
-const Eris = require('eris');
+const Eris = require("eris");
 const CONFIG = require("./config");
-require('pluris')(Eris);
-require('dotenv').config();
-
-
+require("pluris")(Eris);
+require("dotenv").config();
 
 // Bot Setup:
 const botPrefix = ".";
 const botToken = process.env.BOT_TOKEN;
 
 const clientOptions = {
-    allowedMentions: {
-        everyone: true,
-        roles: true,
-        users: true
-    },
-    intents: [
-        "guilds",
-        "guildMembers", 
-        "guildBans",
-        "guildEmojis",
-        "guildIntegrations",
-        "guildWebhooks",
-        "guildInvites",
-        "guildVoiceStates",
-        "guildPresences",
-        "guildMessages",
-        "guildMessageReactions",
-        "guildMessageTyping",
-        "directMessages",
-        "directMessageReactions",
-        "directMessageTyping",
-    ],
-    restMode: true,
-    getAllUsers: true //without this events might not fire until the user does something else
+  allowedMentions: {
+    everyone: true,
+    roles: true,
+    users: true,
+  },
+  intents: [
+    "guilds",
+    "guildMembers",
+    "guildBans",
+    "guildEmojis",
+    "guildIntegrations",
+    "guildWebhooks",
+    "guildInvites",
+    "guildVoiceStates",
+    "guildPresences",
+    "guildMessages",
+    "guildMessageReactions",
+    "guildMessageTyping",
+    "directMessages",
+    "directMessageReactions",
+    "directMessageTyping",
+  ],
+  restMode: true,
+  getAllUsers: true, //without this events might not fire until the user does something else
 };
 
 const commandOptions = {
-    defaultHelpCommand: false,
-    description: "Multi-purpose ROTMG Raiding Bot",
-    owner: "Theurul",
-    prefix: botPrefix,
-    defaultCommandOptions: {
-        caseInsensitive: true,
-        guildOnly: true,
-        permissionMessage: "You don't have the permissions to execute that command.",
-        requirements: {
-            custom: function(msg) {
-                if (!CONFIG.SystemConfig.servers[msg.guildID]) {
-                    bot.createMessage(msg.channel.id, "The bot has not been configurated in this server yet. Type .instructions to get started.")
-                    return false;
-                }
-                else return (msg.member.roles.some((role, index) => CONFIG.SystemConfig.servers[msg.guildID].staffroles.includes(role)));
-            }
-        }
-    }
-}
+  defaultHelpCommand: false,
+  description: "Multi-purpose ROTMG Raiding Bot",
+  owner: "Theurul",
+  prefix: botPrefix,
+  defaultCommandOptions: {
+    caseInsensitive: true,
+    guildOnly: true,
+    permissionMessage:
+      "You don't have the permissions to execute that command.",
+    requirements: {
+      custom: function (msg) {
+        if (!CONFIG.SystemConfig.servers[msg.guildID]) {
+          bot.createMessage(
+            msg.channel.id,
+            "The bot has not been configurated in this server yet. Type .instructions to get started."
+          );
+          return false;
+        } else
+          return msg.member.roles.some((role, index) =>
+            CONFIG.SystemConfig.servers[msg.guildID].staffroles.includes(role)
+          );
+      },
+    },
+  },
+};
 
 const bot = new Eris.CommandClient(botToken, clientOptions, commandOptions);
 
@@ -69,20 +73,30 @@ exports.STDNitroPrefix = `^`;
 
 exports.defaultCredits = 5;
 
-exports.permissionModeratorOnly = function(msg) {
-    if (!msg.guildID) return false;
-    else if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
-    else if (!(CONFIG.SystemConfig.servers[msg.guildID].modroles.some(id => msg.member.roles.includes(id)))) return false;
-    else return true;
-}
+exports.permissionModeratorOnly = function (msg) {
+  if (!msg.guildID) return false;
+  else if (!CONFIG.SystemConfig.servers[msg.guildID]) return false;
+  else if (
+    !CONFIG.SystemConfig.servers[msg.guildID].modroles.some((id) =>
+      msg.member.roles.includes(id)
+    )
+  )
+    return false;
+  else return true;
+};
 
-exports.permissionTheurulOnly = function(msg) {
-    return (msg.author.id == "942320785287184464");
-}
+exports.permissionTheurulOnly = function (msg) {
+  return msg.author.id == "942320785287184464";
+};
 
-exports.developerIDs = ["942320785287184464", "206087747276898304", "425393975155752973", "313351237632262155", "184471481026084864"];
+exports.developerIDs = [
+  "942320785287184464",
+  "206087747276898304",
+  "425393975155752973",
+  "313351237632262155",
+  "184471481026084864",
+];
 
-exports.developerPermissions = function(msg) {
-    return exports.developerIDs.includes(msg.author.id);
-}
-
+exports.developerPermissions = function (msg) {
+  return exports.developerIDs.includes(msg.author.id);
+};

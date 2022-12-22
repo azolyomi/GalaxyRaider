@@ -306,6 +306,7 @@ function showConfigRunPointValues(msg, args) {
             **Shatters**: \`${CONFIG.SystemConfig.servers[msg.guildID].runpoints.shatters} points\`
             **Nest**: \`${CONFIG.SystemConfig.servers[msg.guildID].runpoints.nest} points\`
             **Fungal**: \`${CONFIG.SystemConfig.servers[msg.guildID].runpoints.fungal} points\`
+            **Steamworks**: \`${CONFIG.SystemConfig.servers[msg.guildID].runpoints.steamworks} points\`
             **O3**: \`${CONFIG.SystemConfig.servers[msg.guildID].runpoints.o3} points\`
             **Misc**: \`${CONFIG.SystemConfig.servers[msg.guildID].runpoints.misc} points\`
             `,
@@ -393,6 +394,9 @@ function showConfigPing(msg, args) {
                 return `<@&${roleid}>`
             }).join(", ")}]
             Fungal Ping: [${server.pings.fungal.map((roleid, index) => {
+                return `<@&${roleid}>`
+            }).join(", ")}]
+            Steamworks Ping: [${server.pings.steamworks.map((roleid, index) => {
                 return `<@&${roleid}>`
             }).join(", ")}]
             Oryx 3 Ping: [${server.pings.oryx3.map((roleid, index) => {

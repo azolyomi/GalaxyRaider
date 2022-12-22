@@ -31,6 +31,7 @@ async function fetchStaffStats(msg, args) {
                     Shatters Led: \`${foundEntry.shatters}\`
                     Nests Led: \`${foundEntry.nest}\`
                     Fungals Led: \`${foundEntry.fungal}\`
+                    Steamworks Led: \`${foundEntry.steamworks}\`
                     O3s Led: \`${foundEntry.o3}\`
                     Miscellaneous Led: \`${foundEntry.misc}\`
 

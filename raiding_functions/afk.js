@@ -179,7 +179,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                 else if ((dungeonType.includes("misc")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.misc.includes(item)))) {
                     return "You must have a \`Misc Leading Role\` configured with the bot to start this afk check.";
                 }
-                else if ((dungeonType.includes("nest") || dungeonType.includes("fungal") || dungeonType.includes("cult")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.exaltation.includes(item)))) {
+                else if ((dungeonType.includes("nest") || dungeonType.includes("fungal") || dungeonType.includes("cult") || dungeonType.includes("steamworks")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.exaltation.includes(item)))) {
                     return "You must have an \`Exaltation Leading Role\` configured with the bot to start this afk check.";
                 }
                 else if (dungeonType.includes("highreqs") && (message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.denyhighreqs.includes(item)))) {
@@ -199,7 +199,7 @@ async function startAfk(message, args, CHANNELOBJECT) {
                 else if ((dungeonType.includes("misc")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetmisc.includes(item)))) {
                     return "You must have a \`Veteran Misc Leading Role\` configured with the bot to start this afk check.";
                 }
-                else if ((dungeonType.includes("nest") || dungeonType.includes("fungal") || dungeonType.includes("cult")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetexaltation.includes(item)))) {
+                else if ((dungeonType.includes("nest") || dungeonType.includes("fungal") || dungeonType.includes("cult") || dungeonType.includes("steamworks")) && !(message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.vetexaltation.includes(item)))) {
                     return "You must have an \`Veteran Exaltation Leading Role\` configured with the bot to start this afk check.";
                 }
                 else if (dungeonType.includes("highreqs") && (message.member.roles.some(item => CONFIG.SystemConfig.servers[message.guildID].afkaccess.denyhighreqs.includes(item)))) {
@@ -369,6 +369,11 @@ async function startAfk(message, args, CHANNELOBJECT) {
         }
         else if (dungeonType.includes("fungal")) {
             CONFIG.SystemConfig.servers[message.guildID].pings.fungal.forEach(id => {
+                pings.push(`<@&${id}>`);
+            })
+        }
+        else if (dungeonType.includes("steamworks")) {
+            CONFIG.SystemConfig.servers[message.guildID].pings.steamworks.forEach(id => {
                 pings.push(`<@&${id}>`);
             })
         }

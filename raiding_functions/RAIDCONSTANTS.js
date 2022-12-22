@@ -1,6 +1,5 @@
 const CONSTANTS = require("../config/constants");
 
-
 //MINIBOSSES
 exports.gemsbokEmoji = "<:Gemsbok:845378614471426078>";
 exports.gemsbokReaction = "Gemsbok:845378614471426078";
@@ -10,7 +9,6 @@ exports.leucoryxEmoji = "<:Leucoryx:845378653999333429>";
 exports.leucoryxReaction = "Leucoryx:845378653999333429";
 exports.dammahEmoji = "<:Dammah:845378670347681883>";
 exports.dammahReaction = "Dammah:845378670347681883";
-
 
 exports.optionthreeEmoji = "<:optionthree:846109723039367179>";
 exports.optiontwoEmoji = "<:optiontwo:846109707013849168>";
@@ -56,7 +54,7 @@ exports.shieldruneReaction = shieldruneReaction;
 let shatterskeyEmoji = `<:shatterskey:820007644164915251>`;
 let shatterskeyReaction = `shatterskey:820007644164915251`;
 exports.shatterskeyEmoji = shatterskeyEmoji;
-exports.shatterskeyReaction = shatterskeyReaction
+exports.shatterskeyReaction = shatterskeyReaction;
 let shatterportalEmoji = `<:shatterportal:820007630944731197>`;
 let shatterportalReaction = `shatterportal:820007630944731197`;
 let sanctuaryportalEmoji = `<:sanctuaryportal:820007616561283163>`;
@@ -92,7 +90,7 @@ let lhkeyReaction = `lhkey:820007462685900891`;
 exports.lhkeyEmoji = lhkeyEmoji;
 exports.lhkeyReaction = lhkeyReaction;
 let legendarykeyEmoji = `<:legendarykey:820007455278235709>`;
-let legendarykeyReaction = `legendarykey:820007455278235709`
+let legendarykeyReaction = `legendarykey:820007455278235709`;
 let knightEmoji = `<:knight:820007447518773268>`;
 let knightReaction = `knight:820007447518773268`;
 let incEmoji = `<:inc:820007439478816799>`;
@@ -116,12 +114,17 @@ let curseReaction = `curse:879058419724718101`;
 let exposedEmoji = `<:exposed:879058450015981598>`;
 let exposedReaction = `exposed:879058450015981598`;
 
-let brainEmoji = `<:brain:820007352786092062>`
+let brainEmoji = `<:brain:820007352786092062>`;
 let brainReaction = `brain:820007352786092062`;
 let boosterEmoji = `<:booster:820007339460657162>`;
 let boosterReaction = `booster:820007339460657162`;
 let aetherEmoji = `<:aether:820007323972010024>`;
 let aetherReaction = `aether:820007323972010024`;
+
+let steamworksEmoji = `<:steamworks:1055536735787950153>`;
+let steamworksReaction = `steamworks:1055536735787950153`;
+let steamworksKeyEmoji = `<:steamworkskey:1055536857519239239>`;
+let steamworksKeyReaction = `steamworkskey:1055536857519239239`;
 
 exports.pencil = `📝`;
 exports.trashCan = `🗑️`;
@@ -134,6 +137,8 @@ exports.nestPortalEmoji = nestportalEmoji;
 exports.fungalPortalEmoji = fungalportalEmoji;
 exports.sanctuaryPortalEmoji = sanctuaryportalEmoji;
 exports.legendarykeyEmoji = legendarykeyEmoji;
+exports.steamworksKeyEmoji = steamworksKeyEmoji;
+exports.steamworksEmoji = steamworksEmoji;
 
 exports.whitebagReaction = whitebagReaction;
 exports.voidReaction = voidReaction;
@@ -143,13 +148,14 @@ exports.nestPortalReaction = nestportalReaction;
 exports.fungalPortalReaction = fungalportalReaction;
 exports.sanctuaryPortalReaction = sanctuaryportalReaction;
 exports.legendarykeyReaction = legendarykeyReaction;
+exports.steamworksKeyReaction = steamworksKeyReaction;
+exports.steamworksReaction = steamworksReaction;
 
 exports.boosterReaction = boosterReaction;
 exports.checkReaction = checkReaction;
 exports.redXReaction = redXReaction;
 exports.redXEmoji = redXEmoji;
 exports.checkEmoji = checkEmoji;
-
 
 exports.prefix = `.`;
 exports.afkCheckLength = 600000; // 10m
@@ -160,24 +166,27 @@ exports.hcTimeoutLength = 3600000;
 exports.hcLengthString = `1 Hour`;
 exports.helpCommandTimeout = 180000;
 
-exports.acceptableRunTypes = 
-[`void`,
-`void-highreqs`, 
-`fullskip`, 
-`fullclear`,
-`fullclear-highreqs`, 
-`cult`, 
-`cult-highreqs`,
-`shatters`, 
-`shatters-highreqs`,
-`nest`, 
-`nest-highreqs`,
-`fungal`, 
-`fungal-highreqs`,
-`o3`, 
-`o3-highreqs`, 
-`misc`,
-`misc-highreqs`];
+exports.acceptableRunTypes = [
+  `void`,
+  `void-highreqs`,
+  `fullskip`,
+  `fullclear`,
+  `fullclear-highreqs`,
+  `cult`,
+  `cult-highreqs`,
+  `shatters`,
+  `shatters-highreqs`,
+  `nest`,
+  `nest-highreqs`,
+  `fungal`,
+  `fungal-highreqs`,
+  `steamworks`,
+  `steamworks-highreqs`,
+  `o3`,
+  `o3-highreqs`,
+  `misc`,
+  `misc-highreqs`,
+];
 
 // exports.runPing = [
 //     `<@&${ROLEINFO.Roles.VoidPing}>`,
@@ -199,247 +208,569 @@ exports.acceptableRunTypes =
 //     `<@&${ROLEINFO.Roles.MiscPing}>`,
 // ];
 
-exports.runTypeChannelCap = 
-[50, // Void
-25, // Void-Highreqs
-50, //Fullskip
-50, // Fullclear
-25, // Fullclear highreqs
-50, // cult
-25, // cult highreqs
-50, // shatters
-25, // shatters-highreqs
-50, //nest
-25, // nest-highreqs
-50, //fungal
-25, // fungal-highreqs
-75, //o3
-25, //o3-highreqs
-25, // misc
-15 // misc-highreqs
+exports.runTypeChannelCap = [
+  50, // Void
+  25, // Void-Highreqs
+  50, //Fullskip
+  50, // Fullclear
+  25, // Fullclear highreqs
+  50, // cult
+  25, // cult highreqs
+  50, // shatters
+  25, // shatters-highreqs
+  50, //nest
+  25, // nest-highreqs
+  50, //fungal
+  25, // fungal-highreqs
+  50, // steamworks
+  25, // steamworks-highreqs
+  75, //o3
+  25, //o3-highreqs
+  25, // misc
+  15, // misc-highreqs
 ];
 
-exports.runTypeEmoji = 
-[voidEmoji, //void
-voidEmoji, //void-highreqs
-voidEmoji, //fullskip
-losthallsEmoji, //fullclear
-losthallsEmoji, // fullclear-highreqs
-malusEmoji, 
-malusEmoji, // cult-highreqs
-shatterportalEmoji, 
-shatterportalEmoji, //shatters-highreqs
-nestportalEmoji, 
-nestportalEmoji, //nest-highreqs
-fungalportalEmoji, 
-fungalportalEmoji, // fungal-highreqs
-sanctuaryportalEmoji, 
-sanctuaryportalEmoji, //o3-highreqs
-whitebagEmoji,
-whitebagEmoji // misc-highreqs
+exports.runTypeEmoji = [
+  voidEmoji, //void
+  voidEmoji, //void-highreqs
+  voidEmoji, //fullskip
+  losthallsEmoji, //fullclear
+  losthallsEmoji, // fullclear-highreqs
+  malusEmoji,
+  malusEmoji, // cult-highreqs
+  shatterportalEmoji,
+  shatterportalEmoji, //shatters-highreqs
+  nestportalEmoji,
+  nestportalEmoji, //nest-highreqs
+  fungalportalEmoji,
+  fungalportalEmoji, // fungal-highreqs
+  steamworksEmoji,
+  steamworksEmoji, // steamworks-highreqs
+  sanctuaryportalEmoji,
+  sanctuaryportalEmoji, //o3-highreqs
+  whitebagEmoji,
+  whitebagEmoji, // misc-highreqs
 ];
 
-exports.runTypeTitleText = 
-[
-`Void`, 
-`High Reqs Void`,
-`Fullskip Void`, 
-`Fullclear Halls`, 
-`High Reqs Fullclear Halls`,
-`Cult`, 
-`High Reqs Cult`,
-`Shatters`, 
-`High Reqs Shatters`,
-`Nest`, 
-`High Reqs Nest`,
-`Fungal Cavern`, 
-`High Reqs Fungal Cavern`,
-`Oryx 3`, 
-`High Reqs Oryx 3`, 
-`Misc. Dungeons`,
-`High Reqs Misc. Dungeons`,
+exports.runTypeTitleText = [
+  `Void`,
+  `High Reqs Void`,
+  `Fullskip Void`,
+  `Fullclear Halls`,
+  `High Reqs Fullclear Halls`,
+  `Cult`,
+  `High Reqs Cult`,
+  `Shatters`,
+  `High Reqs Shatters`,
+  `Nest`,
+  `High Reqs Nest`,
+  `Fungal Cavern`,
+  `High Reqs Fungal Cavern`,
+  `Kogbold Steamworks`,
+  `High Reqs Kogbold Steamworks`,
+  `Oryx 3`,
+  `High Reqs Oryx 3`,
+  `Misc. Dungeons`,
+  `High Reqs Misc. Dungeons`,
 ];
 
-exports.runTypeColor = 
-[
-`9650933`,
-`9650933`, //void-highreqs 
-`11551477`, 
-`15329005`, 
-`15329005`, // fullclear highreqs
-`10027008`, 
-`10027008`, // cult highreqs
-`6710886`, 
-`6710886`, // shatts highreqs
-`16738824`, 
-`16738824`, // nest highreqs
-`2261721`, 
-`2261721`, // fungal highreqs
-`16711935`, 
-`16711935`, 
-`0`,
-`0` // misc-highreqs
+exports.runTypeColor = [
+  `9650933`,
+  `9650933`, //void-highreqs
+  `11551477`,
+  `15329005`,
+  `15329005`, // fullclear highreqs
+  `10027008`,
+  `10027008`, // cult highreqs
+  `6710886`,
+  `6710886`, // shatts highreqs
+  `16738824`,
+  `16738824`, // nest highreqs
+  `2261721`,
+  `2261721`, // fungal highreqs
+  `4731180`,
+  `4731180`, // steamworks highreqs
+  `16711935`,
+  `16711935`,
+  `0`,
+  `0`, // misc-highreqs
 ];
 
-// exports.runTypeImageURL = 
+// exports.runTypeImageURL =
 // [
-// `https://cdn.discordapp.com/attachments/762679138346860585/815661758391123998/Useful_Swapouts.png`, 
+// `https://cdn.discordapp.com/attachments/762679138346860585/815661758391123998/Useful_Swapouts.png`,
 // `https://cdn.discordapp.com/attachments/762679138346860585/815661758084677702/CultVoid.png`, // high-reqs void
 // `https://cdn.discordapp.com/attachments/762679138346860585/815661757754245190/Fullskip_Void.png`, //fullskip
-// `https://cdn.discordapp.com/attachments/762679138346860585/815661758391123998/Useful_Swapouts.png`, 
+// `https://cdn.discordapp.com/attachments/762679138346860585/815661758391123998/Useful_Swapouts.png`,
 // `https://cdn.discordapp.com/attachments/762679138346860585/815661758084677702/CultVoid.png`,//fullclear highreqs
-// `https://cdn.discordapp.com/attachments/762679138346860585/815661758391123998/Useful_Swapouts.png`, 
+// `https://cdn.discordapp.com/attachments/762679138346860585/815661758391123998/Useful_Swapouts.png`,
 // `https://cdn.discordapp.com/attachments/762679138346860585/815661758084677702/CultVoid.png`, //cult highreqs
-// `https://cdn.discordapp.com/attachments/762679138346860585/815661758391123998/Useful_Swapouts.png`, 
+// `https://cdn.discordapp.com/attachments/762679138346860585/815661758391123998/Useful_Swapouts.png`,
 // `https://cdn.discordapp.com/attachments/762679138346860585/815661759016599562/Exaltations.png`, //shats highreqs
-// `https://cdn.discordapp.com/attachments/762679138346860585/815661758391123998/Useful_Swapouts.png`, 
+// `https://cdn.discordapp.com/attachments/762679138346860585/815661758391123998/Useful_Swapouts.png`,
 // `https://cdn.discordapp.com/attachments/762679138346860585/815661759016599562/Exaltations.png`, //nest highreqs
 // `https://cdn.discordapp.com/attachments/762679138346860585/815661758391123998/Useful_Swapouts.png`,
-// `https://cdn.discordapp.com/attachments/762679138346860585/815661759016599562/Exaltations.png`, //fungal highreqs 
-// `https://cdn.discordapp.com/attachments/762062029107625987/778496626695733268/O3_Reqs.png`, 
+// `https://cdn.discordapp.com/attachments/762679138346860585/815661759016599562/Exaltations.png`, //fungal highreqs
+// `https://cdn.discordapp.com/attachments/762062029107625987/778496626695733268/O3_Reqs.png`,
 // `https://cdn.discordapp.com/attachments/762679138346860585/815661758680137728/O3.png`,  // o3 highreqs
 // `https://cdn.discordapp.com/attachments/762679138346860585/815661758391123998/Useful_Swapouts.png`,
 // `https://cdn.discordapp.com/attachments/762679138346860585/815661759016599562/Exaltations.png` // misc highreqs
 // ];
 
 exports.MainReactionListForRunTypes = [
-    [losthallsReaction, lhkeyReaction, vialReaction, warriorReaction, paladinReaction, knightReaction, ogmurReaction, msealReaction, fungalTomeReaction, boosterReaction, redXReaction],
-    [losthallsReaction, lhkeyReaction, vialReaction, warriorReaction, paladinReaction, knightReaction, ogmurReaction, msealReaction, fungalTomeReaction, boosterReaction, redXReaction],//void highreqs
-    [losthallsReaction, lhkeyReaction, vialReaction, warriorReaction, paladinReaction, knightReaction, mysticReaction, ogmurReaction, msealReaction, brainReaction, boosterReaction, redXReaction],
-    [losthallsReaction, lhkeyReaction, vialReaction, mushroomspellReaction, wizardReaction, fungalTomeReaction, boosterReaction, redXReaction],
-    [losthallsReaction, lhkeyReaction, vialReaction, mushroomspellReaction, wizardReaction, fungalTomeReaction, boosterReaction, redXReaction], // fullclear highreqs
-    [losthallsReaction, lhkeyReaction, warriorReaction, paladinReaction, knightReaction, rusherReaction, boosterReaction, redXReaction],
-    [losthallsReaction, lhkeyReaction, warriorReaction, paladinReaction, knightReaction, rusherReaction, boosterReaction, redXReaction], // cult highreqs
-    [shatterportalReaction, shatterskeyReaction, warriorReaction, paladinReaction, slowReaction, curseReaction, exposedReaction, ogmurReaction, tricksterReaction, fungalTomeReaction, dazeReaction, rusherReaction, boosterReaction, redXReaction],
-    [shatterportalReaction, shatterskeyReaction, warriorReaction, paladinReaction, slowReaction, curseReaction, exposedReaction, ogmurReaction, tricksterReaction, fungalTomeReaction, dazeReaction, rusherReaction, boosterReaction, redXReaction], // shatts highreqs
-    [nestportalReaction, nestkeyReaction, warriorReaction, paladinReaction, knightReaction, slowReaction, aetherReaction, dazeReaction, ogmurReaction, boosterReaction, redXReaction],
-    [nestportalReaction, nestkeyReaction, warriorReaction, paladinReaction, knightReaction, slowReaction, aetherReaction, dazeReaction, ogmurReaction, boosterReaction, redXReaction], // nest highreqs
-    [fungalportalReaction, fungalkeyReaction, warriorReaction, paladinReaction, knightReaction, slowReaction, mysticReaction, boosterReaction, redXReaction],
-    [fungalportalReaction, fungalkeyReaction, warriorReaction, paladinReaction, knightReaction, slowReaction, mysticReaction, boosterReaction, redXReaction], // fungal highreqs
-    [sanctuaryportalReaction, incReaction, shieldruneReaction, swordruneReaction, helmruneReaction, warriorReaction, paladinReaction, wizardReaction, tricksterReaction, boosterReaction, redXReaction],
-    [sanctuaryportalReaction, incReaction, shieldruneReaction, swordruneReaction, helmruneReaction, warriorReaction, paladinReaction, wizardReaction, tricksterReaction, boosterReaction, redXReaction], // Jejudo's
-    [legendarykeyReaction, boosterReaction, redXReaction],
-    [legendarykeyReaction, boosterReaction, redXReaction],// misc highreqs
-
-]
+  [
+    losthallsReaction,
+    lhkeyReaction,
+    vialReaction,
+    warriorReaction,
+    paladinReaction,
+    knightReaction,
+    ogmurReaction,
+    msealReaction,
+    fungalTomeReaction,
+    boosterReaction,
+    redXReaction,
+  ],
+  [
+    losthallsReaction,
+    lhkeyReaction,
+    vialReaction,
+    warriorReaction,
+    paladinReaction,
+    knightReaction,
+    ogmurReaction,
+    msealReaction,
+    fungalTomeReaction,
+    boosterReaction,
+    redXReaction,
+  ], //void highreqs
+  [
+    losthallsReaction,
+    lhkeyReaction,
+    vialReaction,
+    warriorReaction,
+    paladinReaction,
+    knightReaction,
+    mysticReaction,
+    ogmurReaction,
+    msealReaction,
+    brainReaction,
+    boosterReaction,
+    redXReaction,
+  ],
+  [
+    losthallsReaction,
+    lhkeyReaction,
+    vialReaction,
+    mushroomspellReaction,
+    wizardReaction,
+    fungalTomeReaction,
+    boosterReaction,
+    redXReaction,
+  ],
+  [
+    losthallsReaction,
+    lhkeyReaction,
+    vialReaction,
+    mushroomspellReaction,
+    wizardReaction,
+    fungalTomeReaction,
+    boosterReaction,
+    redXReaction,
+  ], // fullclear highreqs
+  [
+    losthallsReaction,
+    lhkeyReaction,
+    warriorReaction,
+    paladinReaction,
+    knightReaction,
+    rusherReaction,
+    boosterReaction,
+    redXReaction,
+  ],
+  [
+    losthallsReaction,
+    lhkeyReaction,
+    warriorReaction,
+    paladinReaction,
+    knightReaction,
+    rusherReaction,
+    boosterReaction,
+    redXReaction,
+  ], // cult highreqs
+  [
+    shatterportalReaction,
+    shatterskeyReaction,
+    warriorReaction,
+    paladinReaction,
+    slowReaction,
+    curseReaction,
+    exposedReaction,
+    ogmurReaction,
+    tricksterReaction,
+    fungalTomeReaction,
+    dazeReaction,
+    rusherReaction,
+    boosterReaction,
+    redXReaction,
+  ],
+  [
+    shatterportalReaction,
+    shatterskeyReaction,
+    warriorReaction,
+    paladinReaction,
+    slowReaction,
+    curseReaction,
+    exposedReaction,
+    ogmurReaction,
+    tricksterReaction,
+    fungalTomeReaction,
+    dazeReaction,
+    rusherReaction,
+    boosterReaction,
+    redXReaction,
+  ], // shatts highreqs
+  [
+    nestportalReaction,
+    nestkeyReaction,
+    warriorReaction,
+    paladinReaction,
+    knightReaction,
+    slowReaction,
+    aetherReaction,
+    dazeReaction,
+    ogmurReaction,
+    boosterReaction,
+    redXReaction,
+  ],
+  [
+    nestportalReaction,
+    nestkeyReaction,
+    warriorReaction,
+    paladinReaction,
+    knightReaction,
+    slowReaction,
+    aetherReaction,
+    dazeReaction,
+    ogmurReaction,
+    boosterReaction,
+    redXReaction,
+  ], // nest highreqs
+  [
+    fungalportalReaction,
+    fungalkeyReaction,
+    warriorReaction,
+    paladinReaction,
+    knightReaction,
+    slowReaction,
+    mysticReaction,
+    boosterReaction,
+    redXReaction,
+  ],
+  [
+    fungalportalReaction,
+    fungalkeyReaction,
+    warriorReaction,
+    paladinReaction,
+    knightReaction,
+    slowReaction,
+    mysticReaction,
+    boosterReaction,
+    redXReaction,
+  ], // fungal highreqs
+  [
+    steamworksReaction,
+    steamworksKeyReaction,
+    msealReaction,
+    fungalTomeReaction,
+    warriorReaction,
+    wizardReaction,
+    paladinReaction,
+    boosterReaction,
+    redXReaction,
+  ],
+  [
+    steamworksReaction,
+    steamworksKeyReaction,
+    msealReaction,
+    fungalTomeReaction,
+    warriorReaction,
+    wizardReaction,
+    paladinReaction,
+    boosterReaction,
+    redXReaction,
+  ], // steamworks highreqs
+  [
+    sanctuaryportalReaction,
+    incReaction,
+    shieldruneReaction,
+    swordruneReaction,
+    helmruneReaction,
+    warriorReaction,
+    paladinReaction,
+    wizardReaction,
+    tricksterReaction,
+    boosterReaction,
+    redXReaction,
+  ],
+  [
+    sanctuaryportalReaction,
+    incReaction,
+    shieldruneReaction,
+    swordruneReaction,
+    helmruneReaction,
+    warriorReaction,
+    paladinReaction,
+    wizardReaction,
+    tricksterReaction,
+    boosterReaction,
+    redXReaction,
+  ], // Jejudo's
+  [legendarykeyReaction, boosterReaction, redXReaction],
+  [legendarykeyReaction, boosterReaction, redXReaction], // misc highreqs
+];
 exports.EarlyReactionlistForRunTypes = [
-    [lhkeyReaction, vialReaction, fungalTomeReaction, boosterReaction],
-    [lhkeyReaction, vialReaction, fungalTomeReaction, boosterReaction], // void highreqs
-    [lhkeyReaction, vialReaction, brainReaction, mysticReaction, knightReaction, boosterReaction],
-    [lhkeyReaction, vialReaction, fungalTomeReaction, mushroomspellReaction, boosterReaction],
-    [lhkeyReaction, vialReaction, fungalTomeReaction, mushroomspellReaction, boosterReaction], // fullclear highreqs
-    [lhkeyReaction, rusherReaction, boosterReaction],
-    [lhkeyReaction, rusherReaction, boosterReaction], // cult highreqs
-    [shatterskeyReaction, slowReaction, ogmurReaction, tricksterReaction, fungalTomeReaction, dazeReaction, rusherReaction, boosterReaction],
-    [shatterskeyReaction, slowReaction, ogmurReaction, tricksterReaction, fungalTomeReaction, dazeReaction, rusherReaction, boosterReaction], // shatters highreqs
-    [nestkeyReaction, slowReaction, aetherReaction, dazeReaction, ogmurReaction, boosterReaction],
-    [nestkeyReaction, slowReaction, aetherReaction, dazeReaction, ogmurReaction, boosterReaction], // nest highreqs
-    [fungalkeyReaction, slowReaction, mysticReaction, boosterReaction],
-    [fungalkeyReaction, slowReaction, mysticReaction, boosterReaction], // fungal highreqs
-    [shieldruneReaction, swordruneReaction, helmruneReaction, incReaction, boosterReaction], // O3
-    [shieldruneReaction, swordruneReaction, helmruneReaction, incReaction, boosterReaction], // High Reqs O3
-    [legendarykeyReaction, boosterReaction], 
-    [legendarykeyReaction, boosterReaction], //misc highreqs
-
-]
+  [lhkeyReaction, vialReaction, fungalTomeReaction, boosterReaction],
+  [lhkeyReaction, vialReaction, fungalTomeReaction, boosterReaction], // void highreqs
+  [
+    lhkeyReaction,
+    vialReaction,
+    brainReaction,
+    mysticReaction,
+    knightReaction,
+    boosterReaction,
+  ],
+  [
+    lhkeyReaction,
+    vialReaction,
+    fungalTomeReaction,
+    mushroomspellReaction,
+    boosterReaction,
+  ],
+  [
+    lhkeyReaction,
+    vialReaction,
+    fungalTomeReaction,
+    mushroomspellReaction,
+    boosterReaction,
+  ], // fullclear highreqs
+  [lhkeyReaction, rusherReaction, boosterReaction],
+  [lhkeyReaction, rusherReaction, boosterReaction], // cult highreqs
+  [
+    shatterskeyReaction,
+    slowReaction,
+    ogmurReaction,
+    tricksterReaction,
+    fungalTomeReaction,
+    dazeReaction,
+    rusherReaction,
+    boosterReaction,
+  ],
+  [
+    shatterskeyReaction,
+    slowReaction,
+    ogmurReaction,
+    tricksterReaction,
+    fungalTomeReaction,
+    dazeReaction,
+    rusherReaction,
+    boosterReaction,
+  ], // shatters highreqs
+  [
+    nestkeyReaction,
+    slowReaction,
+    aetherReaction,
+    dazeReaction,
+    ogmurReaction,
+    boosterReaction,
+  ],
+  [
+    nestkeyReaction,
+    slowReaction,
+    aetherReaction,
+    dazeReaction,
+    ogmurReaction,
+    boosterReaction,
+  ], // nest highreqs
+  [fungalkeyReaction, slowReaction, mysticReaction, boosterReaction],
+  [fungalkeyReaction, slowReaction, mysticReaction, boosterReaction], // fungal highreqs
+  [steamworksKeyReaction, msealReaction, fungalTomeReaction, boosterReaction],
+  [steamworksKeyReaction, msealReaction, fungalTomeReaction, boosterReaction],
+  [
+    shieldruneReaction,
+    swordruneReaction,
+    helmruneReaction,
+    incReaction,
+    boosterReaction,
+  ], // O3
+  [
+    shieldruneReaction,
+    swordruneReaction,
+    helmruneReaction,
+    incReaction,
+    boosterReaction,
+  ], // High Reqs O3
+  [legendarykeyReaction, boosterReaction],
+  [legendarykeyReaction, boosterReaction], //misc highreqs
+];
 exports.AFKCheckDescriptionsForRunTypes = [
-    `React with the ${lhkeyEmoji} if you are willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${fungalTomeEmoji} if you will bring a fungal tome to the run.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
-    `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${lhkeyEmoji} if you are willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${fungalTomeEmoji} if you will bring a fungal tome to the run.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // void-highreqs
-    `React with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with ${brainEmoji}  if you\'re bringing a trickster\nReact with ${mysticEmoji}  if you\'re bringing a mystic.\nReact with ${knightEmoji}  if you\'re bringing a knight.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you\'re bringing to the run.\n`,
-    `React with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard\nReact with the ${fungalTomeEmoji} if you will bring a fungal tome to the run.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
-    `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard\nReact with the ${fungalTomeEmoji} if you will bring a fungal tome to the run.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // fullclear highreqs
-    `React with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji}  if you're willing to rush.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
-    `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji}  if you're willing to rush.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, //cult highreqs
-    `React with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you can bring a slow ability.\nReact with the ${ogmurEmoji} if you can bring an ogmur.\nReact with the ${tricksterEmoji} if you can bring a trickster.\nReact with the ${fungalTomeEmoji} if you can bring a fungal tome.\nReact with the ${dazeEmoji} if you can bring a daze ability.\nReact with the ${rusherEmoji} if you can rush for the run.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
-    `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you can bring a slow ability.\nReact with the ${ogmurEmoji} if you can bring an ogmur.\nReact with the ${tricksterEmoji} if you can bring a trickster.\nReact with the ${fungalTomeEmoji} if you can bring a fungal tome.\nReact with the ${dazeEmoji} if you can bring a daze ability.\nReact with the ${rusherEmoji} if you can rush for the run.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // shatts highreqs
-    `React with the ${nestkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${aetherEmoji}  if you're bringing an aether orb\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
-    `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${nestkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${aetherEmoji}  if you're bringing an aether orb\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // nest highreqs
-    `React with the ${fungalkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you're bringing a slow.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
-    `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${fungalkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you're bringing a slow.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // fungal highreqs
-    `React with the ${incEmoji} if you have an inc you can pop for us.\nReact with the ${shieldruneEmoji} if you have a shield rune you can pop for us.\nReact with the ${swordruneEmoji} if you have a sword rune you can pop for us.\nReact with the ${helmruneEmoji} if you have a helmet rune you can pop for us.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
-    `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${incEmoji} if you have an inc you can pop for us.\nReact with the ${shieldruneEmoji} if you have a shield rune you can pop for us.\nReact with the ${swordruneEmoji} if you have a sword rune you can pop for us.\nReact with the ${helmruneEmoji} if you have a helmet rune you can pop for us.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // o3 highreqs
-    `React with the ${legendarykeyEmoji} if you're willing to pop a key for the run.\nReact with the ${boosterEmoji} if you have it for early location.`,
-    `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${legendarykeyEmoji} if you're willing to pop a key for the run.\nReact with the ${boosterEmoji} if you have it for early location.`, // misc highreqs
-]
+  `React with the ${lhkeyEmoji} if you are willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${fungalTomeEmoji} if you will bring a fungal tome to the run.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
+  `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${lhkeyEmoji} if you are willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${fungalTomeEmoji} if you will bring a fungal tome to the run.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // void-highreqs
+  `React with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with ${brainEmoji}  if you\'re bringing a trickster\nReact with ${mysticEmoji}  if you\'re bringing a mystic.\nReact with ${knightEmoji}  if you\'re bringing a knight.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you\'re bringing to the run.\n`,
+  `React with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard\nReact with the ${fungalTomeEmoji} if you will bring a fungal tome to the run.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
+  `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard\nReact with the ${fungalTomeEmoji} if you will bring a fungal tome to the run.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // fullclear highreqs
+  `React with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji}  if you're willing to rush.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
+  `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji}  if you're willing to rush.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, //cult highreqs
+  `React with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you can bring a slow ability.\nReact with the ${ogmurEmoji} if you can bring an ogmur.\nReact with the ${tricksterEmoji} if you can bring a trickster.\nReact with the ${fungalTomeEmoji} if you can bring a fungal tome.\nReact with the ${dazeEmoji} if you can bring a daze ability.\nReact with the ${rusherEmoji} if you can rush for the run.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
+  `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you can bring a slow ability.\nReact with the ${ogmurEmoji} if you can bring an ogmur.\nReact with the ${tricksterEmoji} if you can bring a trickster.\nReact with the ${fungalTomeEmoji} if you can bring a fungal tome.\nReact with the ${dazeEmoji} if you can bring a daze ability.\nReact with the ${rusherEmoji} if you can rush for the run.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // shatts highreqs
+  `React with the ${nestkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${aetherEmoji}  if you're bringing an aether orb\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
+  `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${nestkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${aetherEmoji}  if you're bringing an aether orb\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // nest highreqs
+  `React with the ${fungalkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you're bringing a slow.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
+  `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${fungalkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you're bringing a slow.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // fungal highreqs
+  `React with the ${steamworksKeyEmoji} if you're willing to pop a key for the run.\nReact with the ${msealEmoji} if you're bringing a marble seal.\nReact with the ${fungalTomeEmoji} if you're bringing a fungal tome.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
+  `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${steamworksKeyEmoji} if you're willing to pop a key for the run.\nReact with the ${msealEmoji} if you're bringing a marble seal.\nReact with the ${fungalTomeEmoji} if you're bringing a fungal tome.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // steamworks highreqs
+  `React with the ${incEmoji} if you have an inc you can pop for us.\nReact with the ${shieldruneEmoji} if you have a shield rune you can pop for us.\nReact with the ${swordruneEmoji} if you have a sword rune you can pop for us.\nReact with the ${helmruneEmoji} if you have a helmet rune you can pop for us.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
+  `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${incEmoji} if you have an inc you can pop for us.\nReact with the ${shieldruneEmoji} if you have a shield rune you can pop for us.\nReact with the ${swordruneEmoji} if you have a sword rune you can pop for us.\nReact with the ${helmruneEmoji} if you have a helmet rune you can pop for us.\nReact with the ${boosterEmoji} if you have it for early location.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // o3 highreqs
+  `React with the ${legendarykeyEmoji} if you're willing to pop a key for the run.\nReact with the ${boosterEmoji} if you have it for early location.`,
+  `_This is a **high requirements run**. Please meet the requested requirements or risk getting parsed/suspended._\n\nReact with the ${legendarykeyEmoji} if you're willing to pop a key for the run.\nReact with the ${boosterEmoji} if you have it for early location.`, // misc highreqs
+];
 
 exports.HCReactionlistForRunTypes = [
-    [losthallsReaction, lhkeyReaction, vialReaction],
-    [losthallsReaction, lhkeyReaction, vialReaction], // void highreqs
-    [losthallsReaction, lhkeyReaction, vialReaction, brainReaction, mysticReaction, knightReaction],
-    [losthallsReaction, lhkeyReaction, vialReaction, mushroomspellReaction],
-    [losthallsReaction, lhkeyReaction, vialReaction, mushroomspellReaction], // fullclear highreqs
-    [losthallsReaction, lhkeyReaction, rusherReaction],
-    [losthallsReaction, lhkeyReaction, rusherReaction], // cult highreqs
-    [shatterportalReaction, shatterskeyReaction, slowReaction, ogmurReaction, tricksterReaction, fungalTomeReaction, dazeReaction, rusherReaction],
-    [shatterportalReaction, shatterskeyReaction, slowReaction, ogmurReaction, tricksterReaction, fungalTomeReaction, dazeReaction, rusherReaction], // shatts highreqs
-    [nestportalReaction, nestkeyReaction, slowReaction, aetherReaction, dazeReaction, ogmurReaction],
-    [nestportalReaction, nestkeyReaction, slowReaction, aetherReaction, dazeReaction, ogmurReaction], // nest highreqs
-    [fungalportalReaction, fungalkeyReaction, slowReaction, mysticReaction],
-    [fungalportalReaction, fungalkeyReaction, slowReaction, mysticReaction], // fungal highreqs
-    [sanctuaryportalReaction, shieldruneReaction, swordruneReaction, helmruneReaction, incReaction], // O3
-    [sanctuaryportalReaction, shieldruneReaction, swordruneReaction, helmruneReaction, incReaction], // High Reqs O3
-    [whitebagReaction, legendarykeyReaction],
-    [whitebagReaction, legendarykeyReaction], // misc highreqs
-
-]
+  [losthallsReaction, lhkeyReaction, vialReaction],
+  [losthallsReaction, lhkeyReaction, vialReaction], // void highreqs
+  [
+    losthallsReaction,
+    lhkeyReaction,
+    vialReaction,
+    brainReaction,
+    mysticReaction,
+    knightReaction,
+  ],
+  [losthallsReaction, lhkeyReaction, vialReaction, mushroomspellReaction],
+  [losthallsReaction, lhkeyReaction, vialReaction, mushroomspellReaction], // fullclear highreqs
+  [losthallsReaction, lhkeyReaction, rusherReaction],
+  [losthallsReaction, lhkeyReaction, rusherReaction], // cult highreqs
+  [
+    shatterportalReaction,
+    shatterskeyReaction,
+    slowReaction,
+    ogmurReaction,
+    tricksterReaction,
+    fungalTomeReaction,
+    dazeReaction,
+    rusherReaction,
+  ],
+  [
+    shatterportalReaction,
+    shatterskeyReaction,
+    slowReaction,
+    ogmurReaction,
+    tricksterReaction,
+    fungalTomeReaction,
+    dazeReaction,
+    rusherReaction,
+  ], // shatts highreqs
+  [
+    nestportalReaction,
+    nestkeyReaction,
+    slowReaction,
+    aetherReaction,
+    dazeReaction,
+    ogmurReaction,
+  ],
+  [
+    nestportalReaction,
+    nestkeyReaction,
+    slowReaction,
+    aetherReaction,
+    dazeReaction,
+    ogmurReaction,
+  ], // nest highreqs
+  [fungalportalReaction, fungalkeyReaction, slowReaction, mysticReaction],
+  [fungalportalReaction, fungalkeyReaction, slowReaction, mysticReaction], // fungal highreqs
+  [steamworksKeyReaction, msealReaction, fungalTomeReaction],
+  [steamworksKeyReaction, msealReaction, fungalTomeReaction], // steamworks highreqs
+  [
+    sanctuaryportalReaction,
+    shieldruneReaction,
+    swordruneReaction,
+    helmruneReaction,
+    incReaction,
+  ], // O3
+  [
+    sanctuaryportalReaction,
+    shieldruneReaction,
+    swordruneReaction,
+    helmruneReaction,
+    incReaction,
+  ], // High Reqs O3
+  [whitebagReaction, legendarykeyReaction],
+  [whitebagReaction, legendarykeyReaction], // misc highreqs
+];
 exports.HCDescriptionsForRunTypes = [
-    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you are willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.`, // Void
-    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you are willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.`, // Highreqs Void
-    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with ${brainEmoji}  if you\'re bringing a trickster\nReact with ${mysticEmoji}  if you\'re bringing a mystic.\nReact with ${knightEmoji}  if you\'re bringing a knight.`, // Fullskip
-    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard.`, // Fullclear
-    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard.`, // Fullclear Highreqs
-    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji}  if you're willing to rush.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Cult
-    `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji}  if you're willing to rush.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Cult Highreqs
-    `React with the ${shatterportalEmoji} if you're planning to join the run.\nReact with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you can bring a slow ability.\nReact with the ${ogmurEmoji} if you can bring an ogmur.\nReact with the ${tricksterEmoji} if you can bring a trickster.\nReact with the ${fungalTomeEmoji} if you can bring a fungal tome.\nReact with the ${dazeEmoji} if you can bring a daze ability.\nReact with the ${rusherEmoji} if you can rush in the run.`, // Shatters
-    `React with the ${shatterportalEmoji} if you're planning to join the run.\nReact with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you can bring a slow ability.\nReact with the ${ogmurEmoji} if you can bring an ogmur.\nReact with the ${tricksterEmoji} if you can bring a trickster.\nReact with the ${fungalTomeEmoji} if you can bring a fungal tome.\nReact with the ${dazeEmoji} if you can bring a daze ability.\nReact with the ${rusherEmoji} if you can rush in the run.`, // Shatters Highreqs
-    `React with the ${nestportalEmoji} if you're planning to join the run.\nReact with the ${nestkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${aetherEmoji}  if you're bringing an aether orb\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Nest
-    `React with the ${nestportalEmoji} if you're planning to join the run.\nReact with the ${nestkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${aetherEmoji}  if you're bringing an aether orb\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Nest Highreqs
-    `React with the ${fungalportalEmoji} if you're planning to join the run.\nReact with the ${fungalkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you're bringing a slow.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Fungal
-    `React with the ${fungalportalEmoji} if you're planning to join the run.\nReact with the ${fungalkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you're bringing a slow.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Fungal Highreqs
-    `React with the ${sanctuaryportalEmoji} if you're planning to join the run.\nReact with the ${shieldruneEmoji} if you have a shield rune you can pop for us.\nReact with the ${swordruneEmoji} if you have a sword rune you can pop for us.\nReact with the ${helmruneEmoji} if you have a helmet rune you can pop for us.\nReact with the ${incEmoji} if you have an inc you can pop for us.`, // O3
-    `React with the ${sanctuaryportalEmoji} if you're planning to join the run.\nReact with the ${shieldruneEmoji} if you have a shield rune you can pop for us.\nReact with the ${swordruneEmoji} if you have a sword rune you can pop for us.\nReact with the ${helmruneEmoji} if you have a helmet rune you can pop for us.\nReact with the ${incEmoji} if you have an inc you can pop for us.`, // O3-highreqs
-    `React with the ${whitebagEmoji} if you'd like to join the run.\nReact with the ${legendarykeyEmoji} if you're willing to pop a key for the run.`, // Misc
-    `React with the ${whitebagEmoji} if you'd like to join the run.\nReact with the ${legendarykeyEmoji} if you're willing to pop a key for the run.`, // Misc Highreqs
-]
+  `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you are willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.`, // Void
+  `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you are willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.`, // Highreqs Void
+  `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with ${brainEmoji}  if you\'re bringing a trickster\nReact with ${mysticEmoji}  if you\'re bringing a mystic.\nReact with ${knightEmoji}  if you\'re bringing a knight.`, // Fullskip
+  `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard.`, // Fullclear
+  `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${vialEmoji}  if you can bring and pop the vial.\nReact with the ${mushroomspellEmoji} if you're bringing a mushroom spell wizard.`, // Fullclear Highreqs
+  `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji}  if you're willing to rush.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Cult
+  `React with the ${losthallsEmoji} if you're planning to join the run.\nReact with the ${lhkeyEmoji} if you're willing to pop a key for the run.\nReact with ${rusherEmoji}  if you're willing to rush.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Cult Highreqs
+  `React with the ${shatterportalEmoji} if you're planning to join the run.\nReact with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you can bring a slow ability.\nReact with the ${ogmurEmoji} if you can bring an ogmur.\nReact with the ${tricksterEmoji} if you can bring a trickster.\nReact with the ${fungalTomeEmoji} if you can bring a fungal tome.\nReact with the ${dazeEmoji} if you can bring a daze ability.\nReact with the ${rusherEmoji} if you can rush in the run.`, // Shatters
+  `React with the ${shatterportalEmoji} if you're planning to join the run.\nReact with the ${shatterskeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you can bring a slow ability.\nReact with the ${ogmurEmoji} if you can bring an ogmur.\nReact with the ${tricksterEmoji} if you can bring a trickster.\nReact with the ${fungalTomeEmoji} if you can bring a fungal tome.\nReact with the ${dazeEmoji} if you can bring a daze ability.\nReact with the ${rusherEmoji} if you can rush in the run.`, // Shatters Highreqs
+  `React with the ${nestportalEmoji} if you're planning to join the run.\nReact with the ${nestkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${aetherEmoji}  if you're bringing an aether orb\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Nest
+  `React with the ${nestportalEmoji} if you're planning to join the run.\nReact with the ${nestkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${aetherEmoji}  if you're bringing an aether orb\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Nest Highreqs
+  `React with the ${fungalportalEmoji} if you're planning to join the run.\nReact with the ${fungalkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you're bringing a slow.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Fungal
+  `React with the ${fungalportalEmoji} if you're planning to join the run.\nReact with the ${fungalkeyEmoji} if you're willing to pop a key for the run.\nReact with the ${slowEmoji} if you're bringing a slow.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Fungal Highreqs
+  `React with the ${steamworksKeyEmoji} if you're willing to pop a key for the run.\nReact with the ${msealEmoji} if you're bringing a marble seal.\nReact with the ${fungalTomeEmoji} if you're bringing a fungal tome.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`,
+  `React with the ${steamworksKeyEmoji} if you're willing to pop a key for the run.\nReact with the ${msealEmoji} if you're bringing a marble seal.\nReact with the ${fungalTomeEmoji} if you're bringing a fungal tome.\nReact to the emojis below to indicate what class and gear you're bringing to the run.`, // Steamworks Highreqs
+  `React with the ${sanctuaryportalEmoji} if you're planning to join the run.\nReact with the ${shieldruneEmoji} if you have a shield rune you can pop for us.\nReact with the ${swordruneEmoji} if you have a sword rune you can pop for us.\nReact with the ${helmruneEmoji} if you have a helmet rune you can pop for us.\nReact with the ${incEmoji} if you have an inc you can pop for us.`, // O3
+  `React with the ${sanctuaryportalEmoji} if you're planning to join the run.\nReact with the ${shieldruneEmoji} if you have a shield rune you can pop for us.\nReact with the ${swordruneEmoji} if you have a sword rune you can pop for us.\nReact with the ${helmruneEmoji} if you have a helmet rune you can pop for us.\nReact with the ${incEmoji} if you have an inc you can pop for us.`, // O3-highreqs
+  `React with the ${whitebagEmoji} if you'd like to join the run.\nReact with the ${legendarykeyEmoji} if you're willing to pop a key for the run.`, // Misc
+  `React with the ${whitebagEmoji} if you'd like to join the run.\nReact with the ${legendarykeyEmoji} if you're willing to pop a key for the run.`, // Misc Highreqs
+];
 exports.EarlyReactionNumberForRunTypes = [
-    [2, 3, 2, 5], // Void
-    [2, 3, 2, 5], // Void Highreqs
-    [2, 3, 2, 2, 5], // Fullskip
-    [2, 3, 4, 2, 5],
-    [2, 3, 4, 2, 5], // Fullclear Highreq
-    [2, 4, 5],
-    [2, 4, 5], // Cult Highreqs
-    [2, 2, 2, 3, 2, 1, 3, 5], 
-    [2, 2, 2, 3, 2, 1, 3, 5], // Shatts highreqs
-    [2, 2, 2, 1, 1, 5], 
-    [2, 2, 2, 1, 1, 5], //Nest Highreqs
-    [2, 2, 1, 5],
-    [2, 2, 1, 5], // Fungal Highreqs
-    [2, 2, 2, 1, 5],
-    [2, 2, 2, 1, 5], // o3 highreqs
-    [2, 5],
-    [2, 5], // Misc Highreqs
-]
+  [2, 3, 2, 5], // Void
+  [2, 3, 2, 5], // Void Highreqs
+  [2, 3, 2, 2, 5], // Fullskip
+  [2, 3, 4, 2, 5],
+  [2, 3, 4, 2, 5], // Fullclear Highreq
+  [2, 4, 5],
+  [2, 4, 5], // Cult Highreqs
+  [2, 2, 2, 3, 2, 1, 3, 5],
+  [2, 2, 2, 3, 2, 1, 3, 5], // Shatts highreqs
+  [2, 2, 2, 1, 1, 5],
+  [2, 2, 2, 1, 1, 5], //Nest Highreqs
+  [2, 2, 1, 5],
+  [2, 2, 1, 5], // Fungal Highreqs
+  [2, 2, 2, 5], // steamworks
+  [2, 2, 2, 5], // steamworks Highreqs
+  [2, 2, 2, 1, 5],
+  [2, 2, 2, 1, 5], // o3 highreqs
+  [2, 5],
+  [2, 5], // Misc Highreqs
+];
 
 exports.HeadcountReactionNumberForRunTypes = [
-    [null, 2, 3], // Void
-    [null, 2, 3], // Void Highreqs
-    [null, 2, 3, 3, 3, 2], // Fullskip
-    [null, 2, 3, 4],
-    [null, 2, 3, 4], // Fullclear Highreqs
-    [null, 2, 4],
-    [null, 2, 4], // Cult Highreqs
-    [null, 2, 2, 2, 3, 2, 1, 3],
-    [null, 2, 2, 2, 3, 2, 1, 3], // Shatts highreqs
-    [null, 2, 2, 2, 1, 1], 
-    [null, 2, 2, 2, 1, 1], //Nest highreqs
-    [null, 2, 2, 1],
-    [null, 2, 2, 1], // Fungal highreqs
-    [null, 2, 2, 2, 1],
-    [null, 2, 2, 2, 1], // O3 highreqs
-    [null, 3],
-    [null, 3], // misc highreqs
-]
+  [null, 2, 3], // Void
+  [null, 2, 3], // Void Highreqs
+  [null, 2, 3, 3, 3, 2], // Fullskip
+  [null, 2, 3, 4],
+  [null, 2, 3, 4], // Fullclear Highreqs
+  [null, 2, 4],
+  [null, 2, 4], // Cult Highreqs
+  [null, 2, 2, 2, 3, 2, 1, 3],
+  [null, 2, 2, 2, 3, 2, 1, 3], // Shatts highreqs
+  [null, 2, 2, 2, 1, 1],
+  [null, 2, 2, 2, 1, 1], //Nest highreqs
+  [null, 2, 2, 1],
+  [null, 2, 2, 1], // Fungal highreqs
+  [null, 2, 2, 2], // steamworks
+  [null, 2, 2, 2], // steamworks highreqs
+  [null, 2, 2, 2, 1],
+  [null, 2, 2, 2, 1], // O3 highreqs
+  [null, 3],
+  [null, 3], // misc highreqs
+];
 
 exports.redXReaction = redXReaction;
 exports.redXEmoji = redXEmoji;
